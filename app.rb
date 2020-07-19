@@ -44,7 +44,6 @@ class Application
       [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:i])]
     ]
     
-    current_room
   end
   
   def current_room
@@ -83,7 +82,7 @@ class Application
     when "north","east","south","west" then go(input)
     when "use"  then @user.use
     else
-      current_room.handle_command(cmdstr)
+      current_room.handle_command(input)
     end
     
   end
@@ -136,7 +135,6 @@ class Application
     puts current_room.description
     puts "There are exits in the #{Utility.english_list(current_room.lay)}"
     puts current_room.enc
-  
     puts current_room.inv
     user_input
   end

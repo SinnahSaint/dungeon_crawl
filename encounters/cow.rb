@@ -1,12 +1,13 @@
 class Cow
   #this is fire details, needs to be changed later
   def initialize
-    @raging = true
+    @has_milk = true
   end
   
   def handle_command(cmdstr)
-    if cmdstr == "douse fire"
-      @raging = false
+    if cmdstr == "milk cow"
+      @has_milk = false
+      # give player milk
       return true
     else
       return false
@@ -14,10 +15,10 @@ class Cow
   end
   
   def description
-    if @raging
-      "OMG the tables on fire"
+    if @has_milk
+      "Cow looks really uncomfortable."
     else
-      "The table used to be on fire, phew."
+      "Cow is happily without milk."
     end
   end
   
