@@ -128,34 +128,24 @@ class Application
     if @user.location[0] >= 3 
       leave
     end
-    puts "Current room is #{current_room.des}"
+    puts "Current room is #{current_room.description}."
   end
 
 
   def look
-    puts current_room.des
+    puts current_room.description
     puts "There are exits in the #{Utility.english_list(current_room.lay)}"
     puts current_room.enc
+  
     puts current_room.inv
     user_input
   end
 
-  def debug
-    puts "user location is  #{@user.location}"
-    puts "room layout is  #{current_room.lay}"
-    puts "user-back is  #{@user.back}"
-  end
 
   def user_input
     while true
-      debug
       puts "What's next?"
       command = gets.chomp.downcase
-  
-      # this will filter "?" and "i" but then send to the room which will check for direction
-      # if not direction or inventory grab room will send to encounter
-      # encounter will compare to known commands and if all this turns up nothing
-      # user will be called an idiot and returned to input
       
       case command
       when "?"      then help

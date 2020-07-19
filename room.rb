@@ -8,22 +8,26 @@ class Room
     @inv = temp.inv.dup
   end
   
-  def des
-    @temp.des
+  def description
+    @temp.description
   end
   
   def enc
-    @enc.des
+    @enc.description
   end
 
+  def swap_inv
+    ""
+  end
   
   #need to fix this function
   def handle_command(cmdstr)
-    if NSEW?
-      return doNSEW
+    if cmdstr == "use"
+      swap_inv
     else
       return @enc.handle_command(cmdstr)
     end
   end
   
 end
+
