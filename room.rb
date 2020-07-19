@@ -13,7 +13,7 @@ class Room
   end
   
   def enc
-    @enc.txt
+    @enc.des
   end
 
   

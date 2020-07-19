@@ -1,6 +1,7 @@
 require_relative "./player"
 require_relative "./template"
 require_relative "./room"
+require_relative "./utility"
 Dir["./encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
@@ -43,8 +44,13 @@ class Application
       [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])]
     ]
     
-    @room = @map[@user.location[0]][@user.location[1]]
+    current_room
   end
+  
+  def current_room
+   @map[@user.location[0]][@user.location[1]]
+   end
+    
   
   def start_up
     look
@@ -77,7 +83,7 @@ class Application
     when "north","east","south","west" then go(input)
     when "use"  then @user.use
     else
-      @room.handle_command(cmdstr)
+      current_room.handle_command(cmdstr)
     end
     
   end
@@ -93,7 +99,7 @@ class Application
      
     case nesw
     when @user.back then change_room(nesw)
-    when *@room.lay  then change_room(nesw)
+    when *current_room.lay  then change_room(nesw)
     else
       puts "That's a wall dummy."
     end
@@ -122,21 +128,21 @@ class Application
     if @user.location[0] >= 3 
       leave
     end
-    
+    puts "Current room is #{current_room.des}"
   end
 
 
   def look
-    puts @room.des
-    puts @room.lay
-    puts @room.enc
-    puts @room.inv
+    puts current_room.des
+    puts "There are exits in the #{Utility.english_list(current_room.lay)}"
+    puts current_room.enc
+    puts current_room.inv
     user_input
   end
 
   def debug
     puts "user location is  #{@user.location}"
-    puts "room layout is  #{@room.lay}"
+    puts "room layout is  #{current_room.lay}"
     puts "user-back is  #{@user.back}"
   end
 
