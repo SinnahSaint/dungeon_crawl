@@ -37,9 +37,10 @@ class Application
       n: Template.new(description: "literally boring nothing room"),
     }
 
-    @map = [[Room.new(@lay[:es], @temp[:f]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:w], @temp[:a])],
-            [Room.new(@lay[:ns], @temp[:n]), Room.new(@lay[:n], @temp[:g]),   Room.new(@lay[:s], @temp[:c])],
-            [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])]
+    @map = [
+      [Room.new(@lay[:es], @temp[:f]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:w], @temp[:a])],
+      [Room.new(@lay[:ns], @temp[:n]), Room.new(@lay[:n], @temp[:g]),   Room.new(@lay[:s], @temp[:c])],
+      [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])]
     ]
     
   end
@@ -68,6 +69,9 @@ class Application
   def description
     puts "Dank spooky room."
     #this will be comming from the room
+    
+    #   ...   @room.description(@user.location)   ???
+    
   end
 
   def directions
@@ -87,9 +91,16 @@ class Application
 
   def go(nsew)
     if nsew == @user.back
-      leave
+      @user.location[0] += 1
     else
       puts "That's a wall dummy."
+    end
+    
+    if @user.location[0] >= 3
+      puts "User location is: #{@user.location}"
+      leave
+    else
+      puts "still dungeon"
     end
   
   end
