@@ -1,12 +1,49 @@
 require_relative "./player"
+require_relative "./template"
+require_relative "./room"
+Dir["./encounters/*.rb"].each do |file_name|
+  require_relative file_name
+end
+
+
 
 class Application
   
   def initialize
     @user = Player.new
-    # layouts
-    # encouinters
-    # map
+    @lay = {
+      n: %w[north],
+      ne: %w[north east],
+      ns: %w[north south],
+      nw: %w[north west],
+      nes: %w[north east south],
+      new: %w[north east west],
+      nesw: %w[north east south west],
+      e: %w[east],
+      es: %w[east south],
+      ew: %w[east west],
+      esw: %w[east south west],
+      s: %w[south],
+      sw: %w[south west],
+      w: %w[west]
+    }
+
+    @temp = {
+      a: Template.new(encounter: ->{Avalanche.new}, inventory:["sturdy pole", "shiny pebble"], description: "room full of rubble"),
+      c: Template.new(encounter: ->{Cow.new}, description: "mostly empty room with straw on the floor"),
+      i: Template.new(encounter: ->{Ice.new}, description: "this room is really cold for no good reason"),
+      j: Template.new(encounter: ->{Jester.new}, description: "a throne room with no one on the throne"),
+      f: Template.new(encounter: ->{Fire.new}, description: "kitchen with a nice table"),
+      g: Template.new(inventory:["gold"], description: "A lovely room filled with gold"),
+      n: Template.new(description: "literally boring nothing room"),
+    }
+
+    @map = [
+      [Room.new(@lay[:es], @temp[:f]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:w], @temp[:a])],
+      [Room.new(@lay[:ns], @temp[:n]), Room.new(@lay[:n], @temp[:g]),   Room.new(@lay[:s], @temp[:c])],
+      [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])],
+    ]
+    
   end
   
   def start_up
