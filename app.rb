@@ -83,33 +83,33 @@ class Application
   end
 
 
-
-
   def go(nesw)
-    
-  
+
     ### check against back
-    ### if not back check room.enc for block
+    #        ### if not back check room.enc for block
     ### if not block check against room.lay doors
     ### if allowed adjust location based on direction
-    ### if not allowed, wall error
-    
-    
-    if nesw == @user.back
-      @user.location[0] += 1 
+    ### if not allowed, wall error   
+     
+    case nesw
+    when @user.back then change_room(nesw)
+    when @room.lay  then change_room(nesw)
     else
       puts "That's a wall dummy."
     end
+  end
+  
+  
+  def change_room(nesw)
     
     case nesw
     when "north"  then  
-    when "east"   then
-    when "south"  then
-    when "west"   then
+    when "east"   then  puts "almost there"
+    when "south"  then  @user.location[0] += 1 
+    when "west"   then  puts "almost"
     else
-      @room.handle_command(cmdstr)
+      puts "can't move."
     end
-    
     
     if @user.location[0] >= 3
       puts "User location is: #{@user.location}"
