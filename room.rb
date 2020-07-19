@@ -1,33 +1,29 @@
 class Room
-  attr_reader :lay, :inv
+  attr_reader :lay, :inventory
   
   def initialize(lay, temp)
     @lay = lay
     @temp = temp
     @enc = temp.build_encounter
-    @inv = temp.inv.dup
+    @inventory = temp.inventory.dup
   end
   
   def description
     @temp.description
   end
   
+  def remove_item(item)
+    @inventory.delete(item)
+  end
+  
   def enc
     @enc.description
   end
 
-  def swap_inv
+  def take()
     ""
   end
   
-  #need to fix this function
-  def handle_command(cmdstr)
-    if cmdstr == "use"
-      swap_inv
-    else
-      return @enc.handle_command(cmdstr)
-    end
-  end
   
 end
 

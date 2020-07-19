@@ -7,4 +7,12 @@ class Player
     @location = [2,1]      
   end
   
+  def has_item?(item)
+    @inventory.include?(item)
+  end
+  
+  def remove_item(item)
+    @inventory.delete(item)
+  end
+  
 end

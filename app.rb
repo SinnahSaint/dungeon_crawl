@@ -9,7 +9,7 @@ end
 class Application
   
   def initialize
-    @user = Player.new
+    @avatar = Player.new
     @lay = {
       n: %w[north],
       e: %w[east],
@@ -47,7 +47,7 @@ class Application
   end
   
   def current_room
-   @map[@user.location[0]][@user.location[1]]
+   @map[@avatar.location[0]][@avatar.location[1]]
    end
     
   
@@ -58,7 +58,7 @@ class Application
   
   def inventory
     puts "Your inventory includes:"
-    @user.inventory.each { |n| puts " * #{n}" }
+    @avatar.inventory.each { |n| puts " * #{n}" }
   end
 
 
@@ -72,22 +72,6 @@ class Application
     exit(0)
   end
 
-
-
-
-
-  def handle_command(input)
-    
-    case input
-    when "north","east","south","west" then go(input)
-    when "use"  then @user.use
-    else
-      current_room.handle_command(input)
-    end
-    
-  end
-
-
   def go(nesw)
 
     ### check against back
@@ -97,7 +81,7 @@ class Application
     ### if not allowed, wall error   
      
     case nesw
-    when @user.back then change_room(nesw)
+    when @avatar.back then change_room(nesw)
     when *current_room.lay  then change_room(nesw)
     else
       puts "That's a wall dummy."
@@ -106,28 +90,27 @@ class Application
   
   
   def change_room(nesw)
-    
     case nesw
     when "north"  
-      @user.location[0] -= 1
-      @user.back = "south"
+      @avatar.location[0] -= 1
+      @avatar.back = "south"
     when "east"   
-      @user.location[1] += 1
-      @user.back = "west"
+      @avatar.location[1] += 1
+      @avatar.back = "west"
     when "south"  
-      @user.location[0] += 1
-      @user.back = "north"
+      @avatar.location[0] += 1
+      @avatar.back = "north"
     when "west"  
-      @user.location[1] -= 1
-      @user.back = "east"
+      @avatar.location[1] -= 1
+      @avatar.back = "east"
     else
       puts "can't move."
     end
     
-    if @user.location[0] >= 3 
+    if @avatar.location[0] >= 3 
       leave
     end
-    puts "Current room is #{current_room.description}."
+    puts "#{current_room.description}"
   end
 
 
@@ -135,9 +118,61 @@ class Application
     puts current_room.description
     puts "There are exits in the #{Utility.english_list(current_room.lay)}"
     puts current_room.enc
-    puts current_room.inv
+    puts current_room.inventory
     user_input
   end
+
+
+  def move_item(item,from,to)
+    if from.inventory.include?(item)
+    from.remove_item(item)
+    to.inventory << item
+    end
+  end
+
+  #need to fix this function
+  def handle_command(cmdstr)
+    first, second = cmdstr.split(" ")
+    case first
+    when "use"
+      unless @avatar.has_item?(second)
+        puts "Whoops! No #{second} in inventory."
+        return
+      end
+                  
+      if current_room.enc.handle_command(cmdstr)
+        @avatar.remove_item(second)
+      end
+      
+    when "take"
+      if move_item(second, current_room, @avatar)
+        puts "You pick up the #{second}."
+      else
+        puts "Whoops! No #{second} here."
+      end
+    when "drop"
+      if move_item(second, @avatar, current_room)
+        puts "You drop the #{second}."
+      else
+        puts "Whoops! No #{second} in inventory."
+      end
+    else
+      current_room.enc.handle_command(cmdstr)
+    end
+    
+    
+    #use - check avatar.inventory, if true pass to enc, if true remove from avatar.inventory
+    #                      , if true pass to enc, if false, return error
+    #                      , if false return error
+    
+    #take - check current_room.inventory, if true remove & add to avatar.inventory
+    #                             , if false return error
+
+    
+  end
+
+
+
 
 
   def user_input
@@ -149,11 +184,12 @@ class Application
       when "?"      then help
       when "i"      then inventory
       when "look"   then look
-      else 
-        handle_command(command)
-      end 
-    
+      when "quit"   then break
+      when "north","east","south","west" then go(command)
+      else handle_command(command)
+      end
     end
+    puts "You die in the maze! Bye, Felicia!"
   end
   
 end

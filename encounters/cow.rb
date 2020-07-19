@@ -10,6 +10,7 @@ class Cow
       # give player milk
       return true
     else
+      puts "Bessy looks at you oddly."
       return false
     end
   end

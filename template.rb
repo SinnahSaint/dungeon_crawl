@@ -1,11 +1,11 @@
 # encounter builder and inventory of a specific template so rooms can build an instance
 
 class Template
-  attr_reader :inv, :description
+  attr_reader :inventory, :description
   
   def initialize(encounter: nil , inventory: [], description:)
     @enc = encounter || ->{ NoEnc.new } 
-    @inv = inventory
+    @inventory = inventory
     @description = description
   end
   
