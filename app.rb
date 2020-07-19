@@ -105,39 +105,24 @@ class Application
     case nesw
     when "north"  
       @user.location[0] -= 1
-      puts "user location is now #{@user.location}"
-      puts "room is now #{@room.lay}"
       @user.back = "south"
-      puts "user back is now #{@user.back}"
     when "east"   
       @user.location[1] += 1
-      puts "user location is now #{@user.location}"
-      puts "room is now #{@room.lay}"
       @user.back = "west"
-      puts "user back is now #{@user.back}"
     when "south"  
       @user.location[0] += 1
-      puts "user location is now #{@user.location}"
-      puts "room is now #{@room.lay}"
       @user.back = "north"
-      puts "user back is now #{@user.back}"
     when "west"  
       @user.location[1] -= 1
-      puts "user location is now #{@user.location}"
-      puts "room is now #{@room.lay}"
       @user.back = "east"
-      puts "user back is now #{@user.back}"
     else
       puts "can't move."
     end
     
-    if @user.location[0] >= 3
-      puts "User location is: #{@user.location}"
+    if @user.location[0] >= 3 
       leave
-    else
-      puts "still dungeon"
     end
-
+    
   end
 
 
@@ -149,9 +134,15 @@ class Application
     user_input
   end
 
+  def debug
+    puts "user location is  #{@user.location}"
+    puts "room layout is  #{@room.lay}"
+    puts "user-back is  #{@user.back}"
+  end
 
   def user_input
     while true
+      debug
       puts "What's next?"
       command = gets.chomp.downcase
   
