@@ -72,6 +72,11 @@ class Application
       puts "What's next?"
       command = gets.chomp.downcase
   
+      # this will filter ? and i but then send to the room which will check for direction
+      # if not direction or inventory grab room will send to encounter
+      # encounter will compare to known commands and if all this turns up nothing
+      # user will be called an idiot and returned to input
+      
       case command
       when "?"      then help
       when "i"      then inventory
