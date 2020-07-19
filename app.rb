@@ -13,19 +13,20 @@ class Application
     @user = Player.new
     @lay = {
       n: %w[north],
+      e: %w[east],
+      s: %w[south],
+      w: %w[west],
       ne: %w[north east],
       ns: %w[north south],
       nw: %w[north west],
-      nes: %w[north east south],
-      new: %w[north east west],
-      nesw: %w[north east south west],
-      e: %w[east],
       es: %w[east south],
       ew: %w[east west],
-      esw: %w[east south west],
-      s: %w[south],
       sw: %w[south west],
-      w: %w[west]
+      nes: %w[north east south],
+      new: %w[north east west],
+      nsw: %w[north south west],
+      esw: %w[east south west],
+      nesw: %w[north east south west]
     }
 
     @temp = {
