@@ -5,8 +5,6 @@ Dir["./encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
 
-
-
 class Application
   
   def initialize
@@ -30,21 +28,18 @@ class Application
     }
 
     @temp = {
-   #   a: Template.new(encounter: ->{Avalanche.new}, inventory:["sturdy pole", "shiny pebble"], description: "room full of rubble"),
-     # c: Template.new(encounter: ->{Cow.new}, description: "mostly empty room with straw on the floor"),
-     # i: Template.new(encounter: ->{Ice.new}, description: "this room is really cold for no good reason"),
-    #  j: Template.new(encounter: ->{Jester.new}, description: "a throne room with no one on the throne"),
+      a: Template.new(encounter: ->{Avalanche.new}, inventory:["sturdy pole", "shiny pebble"], description: "room full of rubble"),
+      c: Template.new(encounter: ->{Cow.new}, description: "mostly empty room with straw on the floor"),
+      i: Template.new(encounter: ->{Ice.new}, description: "this room is really cold for no good reason"),
+      j: Template.new(encounter: ->{Jester.new}, description: "a throne room with no one on the throne"),
       f: Template.new(encounter: ->{Fire.new}, description: "kitchen with a nice table"),
       g: Template.new(inventory:["gold"], description: "A lovely room filled with gold"),
       n: Template.new(description: "literally boring nothing room"),
     }
 
-    @map = [Room.new(@lay[:es], @temp[:f]), Room.new(@lay[:esw], @temp[:g]), Room.new(@lay[:e], @temp[:n])
-    #fake map to test init
-    
-      # [Room.new(@lay[:es], @temp[:f]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:w], @temp[:a])],
-  #     [Room.new(@lay[:ns], @temp[:n]), Room.new(@lay[:n], @temp[:g]),   Room.new(@lay[:s], @temp[:c])],
-  #  [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])],
+    @map = [[Room.new(@lay[:es], @temp[:f]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:w], @temp[:a])],
+            [Room.new(@lay[:ns], @temp[:n]), Room.new(@lay[:n], @temp[:g]),   Room.new(@lay[:s], @temp[:c])],
+            [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])]
     ]
     
   end
@@ -112,7 +107,7 @@ class Application
       puts "What's next?"
       command = gets.chomp.downcase
   
-      # this will filter ? and i but then send to the room which will check for direction
+      # this will filter "?" and "i" but then send to the room which will check for direction
       # if not direction or inventory grab room will send to encounter
       # encounter will compare to known commands and if all this turns up nothing
       # user will be called an idiot and returned to input
