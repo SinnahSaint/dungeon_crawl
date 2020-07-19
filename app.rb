@@ -28,11 +28,11 @@ class Application
     }
 
     @temp = {
-      a: Template.new(encounter: ->{Avalanche.new}, inventory:["sturdy pole", "shiny pebble"], description: "room full of rubble"),
+      a: Template.new(encounter: ->{Avalanche.new}, inventory:["sturdy pole", "shiny pebble"], description: "dusty room full of rubble"),
       c: Template.new(encounter: ->{Cow.new}, description: "mostly empty room with straw on the floor"),
       i: Template.new(encounter: ->{Ice.new}, description: "this room is really cold for no good reason"),
       j: Template.new(encounter: ->{Jester.new}, description: "a throne room with no one on the throne"),
-      f: Template.new(encounter: ->{Fire.new}, description: "kitchen with a nice table"),
+      f: Template.new(encounter: ->{Fire.new}, inventory: ["sharp knife"], description: "kitchen with a nice table"),
       g: Template.new(inventory:["gold"], description: "A lovely room filled with gold"),
       n: Template.new(description: "literally boring nothing room"),
     }
@@ -50,7 +50,8 @@ class Application
   end
   
   def inventory
-    puts "You have no pockets yet."
+    puts "Your inventory includes:"
+    @user.inventory.each { |n| puts " * #{n}" }
   end
 
 
