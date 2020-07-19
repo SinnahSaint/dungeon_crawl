@@ -93,7 +93,7 @@ class Application
      
     case nesw
     when @user.back then change_room(nesw)
-    when @room.lay  then change_room(nesw)
+    when *@room.lay  then change_room(nesw)
     else
       puts "That's a wall dummy."
     end
