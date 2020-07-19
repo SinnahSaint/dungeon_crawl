@@ -43,7 +43,7 @@ class Application
       [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])]
     ]
     
-    @zone = @map[@user.location[0]][@user.location[1]]
+    @room = @map[@user.location[0]][@user.location[1]]
   end
   
   def start_up
@@ -68,12 +68,48 @@ class Application
   end
 
 
-  def go(nsew)
-    if nsew == @user.back
-      @user.location[0] += 1
+
+
+
+  def handle_command(input)
+    
+    case input
+    when "north","east","south","west" then go(input)
+    when "use"  then @user.use
+    else
+      @room.handle_command(cmdstr)
+    end
+    
+  end
+
+
+
+
+  def go(nesw)
+    
+  
+    ### check against back
+    ### if not back check room.enc for block
+    ### if not block check against room.lay doors
+    ### if allowed adjust location based on direction
+    ### if not allowed, wall error
+    
+    
+    if nesw == @user.back
+      @user.location[0] += 1 
     else
       puts "That's a wall dummy."
     end
+    
+    case nesw
+    when "north"  then  
+    when "east"   then
+    when "south"  then
+    when "west"   then
+    else
+      @room.handle_command(cmdstr)
+    end
+    
     
     if @user.location[0] >= 3
       puts "User location is: #{@user.location}"
@@ -84,11 +120,18 @@ class Application
   
   end
 
+
+
+
+
+
+
+
   def look
-    puts @zone.des
-    puts @zone.lay
-    puts @zone.enc
-    puts @zone.inv
+    puts @room.des
+    puts @room.lay
+    puts @room.enc
+    puts @room.inv
     user_input
   end
 
@@ -107,10 +150,8 @@ class Application
       when "?"      then help
       when "i"      then inventory
       when "look"   then look
-      when "north","east","south","west" then go(command)
-      else
-        puts "What are you talking about?"
-        look
+      else 
+        handle_command(command)
       end 
     
     end
