@@ -43,7 +43,7 @@ class Application
       [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])]
     ]
     
-    @zone = @map[2][1]
+    @zone = @map[@user.location[0]][@user.location[1]]
   end
   
   def start_up
