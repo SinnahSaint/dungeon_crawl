@@ -43,6 +43,7 @@ class Application
       [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:a])]
     ]
     
+    @zone = @map[2][1]
   end
   
   def start_up
@@ -66,28 +67,6 @@ class Application
     exit(0)
   end
 
-  def description
-    puts "Dank spooky room."
-    #this will be comming from the room
-    
-    #   ...   @room.description(@user.location)   ???
-    
-  end
-
-  def directions
-    puts "You can only leave the way you came."
-    #this will be comming from the room
-  end
-
-  def encounter
-    puts "There's nothing interesting here."
-    #this will be comming from the room
-  end
-
-  def room_inventory
-    puts "Seriously, not even dust."
-    #this will be comming form the room too
-  end
 
   def go(nsew)
     if nsew == @user.back
@@ -106,10 +85,10 @@ class Application
   end
 
   def look
-    description
-    directions
-    encounter
-    room_inventory
+    puts @zone.des
+    puts @zone.lay
+    puts @zone.enc
+    puts @zone.inv
     user_input
   end
 

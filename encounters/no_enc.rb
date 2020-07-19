@@ -4,7 +4,7 @@ class NoEnc
   def handle_command(cmdstr)
     return false
   end
-  def description
-    ""
+  def txt
+    "empty room"
   end
 end

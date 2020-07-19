@@ -1,4 +1,5 @@
 class Room
+  attr_reader :lay, :inv
   
   def initialize(lay, temp)
     @lay = lay
@@ -7,9 +8,14 @@ class Room
     @inv = temp.inv.dup
   end
   
-  def description
+  def des
     @temp.des
   end
+  
+  def enc
+    @enc.txt
+  end
+
   
   #need to fix this function
   def handle_command(cmdstr)
