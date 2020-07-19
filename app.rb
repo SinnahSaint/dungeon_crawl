@@ -30,10 +30,10 @@ class Application
     }
 
     @temp = {
-      a: Template.new(encounter: ->{Avalanche.new}, inventory:["sturdy pole", "shiny pebble"], description: "room full of rubble"),
-      c: Template.new(encounter: ->{Cow.new}, description: "mostly empty room with straw on the floor"),
-      i: Template.new(encounter: ->{Ice.new}, description: "this room is really cold for no good reason"),
-      j: Template.new(encounter: ->{Jester.new}, description: "a throne room with no one on the throne"),
+   #   a: Template.new(encounter: ->{Avalanche.new}, inventory:["sturdy pole", "shiny pebble"], description: "room full of rubble"),
+     # c: Template.new(encounter: ->{Cow.new}, description: "mostly empty room with straw on the floor"),
+     # i: Template.new(encounter: ->{Ice.new}, description: "this room is really cold for no good reason"),
+    #  j: Template.new(encounter: ->{Jester.new}, description: "a throne room with no one on the throne"),
       f: Template.new(encounter: ->{Fire.new}, description: "kitchen with a nice table"),
       g: Template.new(inventory:["gold"], description: "A lovely room filled with gold"),
       n: Template.new(description: "literally boring nothing room"),
