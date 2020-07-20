@@ -29,13 +29,13 @@ class Application
     }
 
     @temp = {
-      a: Template.new(encounter: ->{Avalanche.new}, inventory:["pole", "pebble"], description: "dusty room full of rubble"),
-      c: Template.new(encounter: ->{Cow.new}, description: "mostly empty room with straw on the floor"),
-      i: Template.new(encounter: ->{Ice.new}, description: "this room is really cold for no good reason"),
-      j: Template.new(encounter: ->{Jester.new}, description: "a throne room with no one on the throne"),
-      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "kitchen with a nice table"),
-      g: Template.new(inventory:["gold"], description: "A lovely room filled with gold"),
-      n: Template.new(description: "literally boring nothing room"),
+      a: Template.new(encounter: ->{Avalanche.new}, inventory:["pole", "pebble"], description: "A dusty room full of rubble."),
+      c: Template.new(encounter: ->{Cow.new}, description: "A mostly empty room with straw on the floor."),
+      i: Template.new(encounter: ->{Ice.new}, description: "This room is really cold for no good reason."),
+      j: Template.new(encounter: ->{Jester.new}, description: "A throne room, with no one on the throne."),
+      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table."),
+      g: Template.new(inventory:["gold"], description: "A lovely room filled with gold."),
+      n: Template.new(description: "A literally boring nothing room."),
     }
 
     @map = [
@@ -72,6 +72,7 @@ class Application
     puts "-------------"
     puts "* The goal is to find the gold, and get out of the dungeon safely, carrying as many things as you can find."
     puts "* Entering 'i' will get you to your inventory."
+    puts "* Entering 'look' will tell you about the room you're in."
     puts "* Enter a cardinal direction & you will try to move that way."
     puts "* Key words like 'use' and 'take' will let you interact with items."
     puts "* Encounters in the dungeon may want an item to let you pass, or they may want you to do something else."
@@ -128,9 +129,15 @@ class Application
 
   def look
     puts current_room.description
-    puts "There are exits to the #{Utility.english_list(current_room.lay)}"
     puts current_room.enc.state
-    puts current_room.inventory
+    
+    unless current_room.inventory.empty?
+      puts "In this room you can see: #{Utility.english_list(current_room.inventory)}"
+    else
+      puts "You don't see any interesting items here."
+    end
+    
+    puts "There are exits to the #{Utility.english_list(current_room.lay)}"
   end
 
   def move_item(item,from,to)
@@ -183,7 +190,7 @@ class Application
       when "?"      then help
       when "i"      then inventory
       when "look"   then look
-      when "quit"   then break
+      when "quit", "exit"   then break
       when "north","east","south","west" then go(command)
       else handle_command(command)
       end

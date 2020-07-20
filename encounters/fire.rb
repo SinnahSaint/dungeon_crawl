@@ -16,7 +16,7 @@ class Fire
   
   def state
     if @blocking
-      "OMG the tables on fire"
+      "OMG the table's on fire"
     else
       "The table used to be on fire, phew."
     end
