@@ -110,18 +110,17 @@ class Application
     if @avatar.location[0] >= 3 
       leave
     end
-    puts "#{current_room.description}"
+    
+    look
   end
 
 
   def look
     puts current_room.description
     puts "There are exits in the #{Utility.english_list(current_room.lay)}"
-    puts current_room.enc
+    puts current_room.enc.state
     puts current_room.inventory
-    user_input
   end
-
 
   def move_item(item,from,to)
     if from.inventory.include?(item)
@@ -130,7 +129,6 @@ class Application
     end
   end
 
-  #need to fix this function
   def handle_command(cmdstr)
     first, second = cmdstr.split(" ")
     case first
@@ -150,25 +148,18 @@ class Application
       else
         puts "Whoops! No #{second} here."
       end
+      
     when "drop"
       if move_item(second, @avatar, current_room)
         puts "You drop the #{second}."
       else
         puts "Whoops! No #{second} in inventory."
       end
+      
     else
       current_room.enc.handle_command(cmdstr)
     end
-    
-    
-    #use - check avatar.inventory, if true pass to enc, if true remove from avatar.inventory
-    #                      , if true pass to enc, if false, return error
-    #                      , if false return error
-    
-    #take - check current_room.inventory, if true remove & add to avatar.inventory
-    #                             , if false return error
 
-    
   end
 
 

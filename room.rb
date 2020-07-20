@@ -1,5 +1,5 @@
 class Room
-  attr_reader :lay, :inventory
+  attr_reader :lay, :inventory, :enc
   
   def initialize(lay, temp)
     @lay = lay
@@ -15,14 +15,8 @@ class Room
   def remove_item(item)
     @inventory.delete(item)
   end
-  
-  def enc
-    @enc.description
-  end
 
-  def take()
-    ""
-  end
+
   
   
 end

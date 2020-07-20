@@ -15,7 +15,7 @@ class Cow
     end
   end
   
-  def description
+  def state
     if @has_milk
       "Cow looks really uncomfortable."
     else

@@ -13,7 +13,7 @@ class Killer
     end
   end
   
-  def description
+  def state
     if @raging
       "OMG the tables on fire"
     else

@@ -14,7 +14,7 @@ class Avalanche
     end
   end
   
-  def description
+  def state
     if @heldup
       "There's a huge pile of rocks with a pole stuck in it."
     else
