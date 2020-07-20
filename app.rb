@@ -57,8 +57,12 @@ class Application
   end
   
   def inventory
-    puts "Your inventory includes:"
-    @avatar.inventory.each { |n| puts " * #{n}" }
+    unless @avatar.inventory.empty?
+      puts "Your inventory includes:"
+      @avatar.inventory.each { |n| puts " * #{n}" }
+    else
+      puts "You're not carrying anything."
+    end
   end
 
 
