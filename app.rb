@@ -72,18 +72,16 @@ class Application
     exit(0)
   end
 
-  def go(nesw)
-
-    ### check against back
-    #        ### if not back check room.enc for block
-    ### if not block check against room.lay doors
-    ### if allowed adjust location based on direction
-    ### if not allowed, wall error   
-     
+  def go(nesw)         
     case nesw
-    when @avatar.back then change_room(nesw)
-    when current_room.enc.blocking then puts "You'll have to deal with this or go back."
-    when *current_room.lay  then change_room(nesw)
+    when @avatar.back 
+      change_room(nesw)
+    when *current_room.lay
+      if current_room.enc.blocking 
+        puts "You'll have to deal with this or go back."
+      else
+        change_room(nesw)
+      end
     else
       puts "That's a wall dummy."
     end

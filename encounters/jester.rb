@@ -9,6 +9,7 @@ class Jester
   def handle_command(cmdstr)
     if cmdstr == "tell joke"
       @joke = true
+      puts "Pleased with your wit, the jester wanders away."
       return true
     else
       return false
@@ -17,7 +18,7 @@ class Jester
   
   def state
     if @joke
-      "Pleased with your wit, the jester has wandered away."
+      ""
     else
       "The jester peaks around the throne asking for a joke."
     end
