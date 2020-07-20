@@ -1,7 +1,9 @@
 class Avalanche
+  attr_reader :blocking
   
   def initialize
     @heldup = true
+    @blocking = false
   end
   
   def handle_command(cmdstr)

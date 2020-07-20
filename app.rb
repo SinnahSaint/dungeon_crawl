@@ -29,11 +29,11 @@ class Application
     }
 
     @temp = {
-      a: Template.new(encounter: ->{Avalanche.new}, inventory:["sturdy pole", "shiny pebble"], description: "dusty room full of rubble"),
+      a: Template.new(encounter: ->{Avalanche.new}, inventory:["pole", "pebble"], description: "dusty room full of rubble"),
       c: Template.new(encounter: ->{Cow.new}, description: "mostly empty room with straw on the floor"),
       i: Template.new(encounter: ->{Ice.new}, description: "this room is really cold for no good reason"),
       j: Template.new(encounter: ->{Jester.new}, description: "a throne room with no one on the throne"),
-      f: Template.new(encounter: ->{Fire.new}, inventory: ["sharp knife"], description: "kitchen with a nice table"),
+      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "kitchen with a nice table"),
       g: Template.new(inventory:["gold"], description: "A lovely room filled with gold"),
       n: Template.new(description: "literally boring nothing room"),
     }
@@ -82,6 +82,7 @@ class Application
      
     case nesw
     when @avatar.back then change_room(nesw)
+    when current_room.enc.blocking then puts "You'll have to deal with this or go back."
     when *current_room.lay  then change_room(nesw)
     else
       puts "That's a wall dummy."
@@ -114,10 +115,9 @@ class Application
     look
   end
 
-
   def look
     puts current_room.description
-    puts "There are exits in the #{Utility.english_list(current_room.lay)}"
+    puts "There are exits to the #{Utility.english_list(current_room.lay)}"
     puts current_room.enc.state
     puts current_room.inventory
   end
@@ -161,10 +161,6 @@ class Application
     end
 
   end
-
-
-
-
 
   def user_input
     while true

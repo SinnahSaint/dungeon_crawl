@@ -1,12 +1,23 @@
 class Killer
-  #this is fire details, needs to be changed later
+  attr_reader :blocking
+
   def initialize
-    @raging = true
+    @blocking = true
+    @dead = false
+    @friend = false
   end
   
   def handle_command(cmdstr)
-    if cmdstr == "douse fire"
-      @raging = false
+    if cmdstr == "use knife"
+      @blocking = false
+      @dead = true
+      return true
+    elsif cmdstr == "tell joke"
+      puts "You died of being a smartass."
+      exit(0)
+    elsif cmdstr == "use milk"
+      @blocking = false
+      @friend = true
       return true
     else
       return false
@@ -14,10 +25,12 @@ class Killer
   end
   
   def state
-    if @raging
-      "OMG the tables on fire"
+    if @dead
+      "OMG you actually killed him!"
+    elsif @friend
+      "Johny really appreciated the snack."
     else
-      "The table used to be on fire, phew."
+      "This tough guy doesn't look like the type who laughs."
     end
   end
   

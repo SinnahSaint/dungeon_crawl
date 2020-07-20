@@ -1,12 +1,14 @@
 class Jester
-  #this is fire details, needs to be changed later
+    attr_reader :blocking
+  
   def initialize
-    @raging = true
+    @blocking = false
+    @joke = false
   end
   
   def handle_command(cmdstr)
-    if cmdstr == "douse fire"
-      @raging = false
+    if cmdstr == "tell joke"
+      @joke = true
       return true
     else
       return false
@@ -14,10 +16,10 @@ class Jester
   end
   
   def state
-    if @raging
-      "OMG the tables on fire"
+    if @joke
+      "Pleased with your wit, the jester has wandered away."
     else
-      "The table used to be on fire, phew."
+      "The jester peaks around the throne asking for a joke."
     end
   end
   

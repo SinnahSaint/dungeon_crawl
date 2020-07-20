@@ -1,24 +1,16 @@
 class Ice
-  #this is fire details, needs to be changed later
+    attr_reader :blocking
+  
   def initialize
-    @raging = true
+    @blocking = false
   end
   
   def handle_command(cmdstr)
-    if cmdstr == "douse fire"
-      @raging = false
-      return true
-    else
-      return false
-    end
+    return false
   end
   
   def state
-    if @raging
-      "OMG the tables on fire"
-    else
-      "The table used to be on fire, phew."
-    end
+    "The floor is super slippery in here."
   end
   
 end

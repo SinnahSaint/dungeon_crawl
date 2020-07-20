@@ -1,7 +1,9 @@
 class Cow
-  #this is fire details, needs to be changed later
+  attr_reader :blocking
+
   def initialize
     @has_milk = true
+    @blocking = false
   end
   
   def handle_command(cmdstr)

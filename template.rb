@@ -1,5 +1,3 @@
-# encounter builder and inventory of a specific template so rooms can build an instance
-
 class Template
   attr_reader :inventory, :description
   
