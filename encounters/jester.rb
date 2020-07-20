@@ -6,7 +6,7 @@ class Jester
     @joke = false
   end
   
-  def handle_command(cmdstr)
+  def handle_command(cmdstr, avatar)
     if cmdstr == "tell joke"
       @joke = true
       puts "Pleased with your wit, the jester wanders away."

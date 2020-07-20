@@ -184,7 +184,7 @@ class Application
       end
       
     else
-      current_room.enc.handle_command(cmdstr)
+      current_room.enc.handle_command(cmdstr, @avatar)
     end
 
   end

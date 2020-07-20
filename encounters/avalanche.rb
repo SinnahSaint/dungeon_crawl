@@ -6,12 +6,13 @@ class Avalanche
     @blocking = false
   end
   
-  def handle_command(cmdstr)
+  def handle_command(cmdstr, avatar)
     
     if cmdstr == "yodel"
       @heldup = false
       @blocking = true
       puts "Rocks fall; You almost die."
+      return true
     else
       return false
     end

@@ -1,21 +1,27 @@
+
 class Cow
-  attr_reader :blocking
+  attr_reader :blocking, :inventory
 
   def initialize
     @has_milk = true
     @blocking = false
   end
   
-  def handle_command(cmdstr)
-    if cmdstr == "milk cow"
+  def remove_item(item)
+    @inventory.delete(item)
+  end
+  
+  def handle_command(cmdstr, avatar)
+    if cmdstr == "milk cow" || cmdstr == "milk"
       @has_milk = false
-      # give player milk
+      avatar.inventory << "milk"
       return true
     else
       puts "Bessy looks at you oddly."
       return false
     end
   end
+  
   
   def state
     if @has_milk

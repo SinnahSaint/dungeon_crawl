@@ -7,7 +7,7 @@ class Killer
     @friend = false
   end
   
-  def handle_command(cmdstr)
+  def handle_command(cmdstr, avatar)
     if cmdstr == "use knife" || cmdstr == "stab man" || cmdstr == "kill man"
       @blocking = false
       @dead = true

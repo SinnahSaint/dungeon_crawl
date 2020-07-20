@@ -5,7 +5,7 @@ class Fire
     @blocking = true
   end
   
-  def handle_command(cmdstr)
+  def handle_command(cmdstr, avatar)
     if cmdstr == "douse fire"
       @blocking = false
       return true

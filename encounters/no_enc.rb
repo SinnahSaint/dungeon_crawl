@@ -4,9 +4,11 @@ class NoEnc
   def initialize
     @blocking = false
   end
-  def handle_command(cmdstr)
+  
+  def handle_command(cmdstr, avatar)
     return false
   end
+  
   def state
     ""
   end
