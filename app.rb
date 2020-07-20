@@ -50,11 +50,7 @@ class Application
    @map[@avatar.location[0]][@avatar.location[1]]
    end
     
-  
-  def start_up
-    look
-    user_input 
-  end
+
   
   def inventory
     unless @avatar.inventory.empty?
@@ -179,8 +175,9 @@ class Application
     end
 
   end
-
+  
   def user_input
+    look
     while true
       puts "- " * 20
       puts "What's next?"
@@ -201,4 +198,4 @@ class Application
 end
 
 
-Application.new.start_up
+Application.new.user_input
