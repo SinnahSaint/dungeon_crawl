@@ -158,7 +158,7 @@ class Application
     when "use"
       unless @avatar.has_item?(second)
         puts "Whoops! No #{second} in inventory."
-        return
+        return false
       end
                   
       if current_room.enc.handle_command(cmdstr)
@@ -168,15 +168,19 @@ class Application
     when "take"
       if move_item(second, current_room, @avatar)
         puts "You pick up the #{second}."
+        return true
       else
         puts "Whoops! No #{second} here."
+        return false
       end
       
     when "drop"
       if move_item(second, @avatar, current_room)
         puts "You drop the #{second}."
+        return true
       else
         puts "Whoops! No #{second} in inventory."
+        return false
       end
       
     else
@@ -200,7 +204,9 @@ class Application
       when "quit", "exit"   then break
       when "north", "east", "south", "west", "n", "e", "s", "w" then go(command)
       else 
-        unless handle_command(command)
+        if handle_command(command)
+          look
+        else
           puts "Trying to #{command} won't work here."
         end
       end
