@@ -25,9 +25,9 @@ class Cow
   
   def state
     if @has_milk
-      "Cow looks really uncomfortable."
+      "There is a cow standing by a milking stool. She looks really uncomfortable."
     else
-      "Cow is happily without milk."
+      "The cow is happy."
     end
   end
   

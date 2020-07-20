@@ -11,13 +11,15 @@ class Killer
     if cmdstr == "use knife" || cmdstr == "stab man" || cmdstr == "kill man"
       @blocking = false
       @dead = true
+      avatar.remove_item(knife)
       return true
     elsif cmdstr == "tell joke"
-      puts "You died of being a smartass."
+      puts "You pissed him off and died of being a smartass."
       exit(0)
     elsif cmdstr == "use milk" || cmdstr == "give milk"
       @blocking = false
       @friend = true
+      avatar.remove_item(milk)
       return true
     else
       return false

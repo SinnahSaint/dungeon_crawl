@@ -6,8 +6,9 @@ class Fire
   end
   
   def handle_command(cmdstr, avatar)
-    if cmdstr == "douse fire"
+    if cmdstr == "douse fire" || cmdstr == "use milk"
       @blocking = false
+      avatar.remove_item(milk)
       return true
     else
       return false
@@ -16,9 +17,9 @@ class Fire
   
   def state
     if @blocking
-      "OMG the table's on fire"
+      "OMG the table's on fire!"
     else
-      "The table used to be on fire, phew."
+      "The table is singed where it used to be on fire."
     end
   end
 end
