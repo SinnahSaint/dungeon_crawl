@@ -162,6 +162,7 @@ class Application
 
   def user_input
     while true
+      puts "- " * 20
       puts "What's next?"
       command = gets.chomp.downcase
       
