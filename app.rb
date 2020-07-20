@@ -184,6 +184,7 @@ class Application
       command = gets.chomp.downcase
       
       case command
+      when "debug"  then Utility.debug(current_room, @avatar)
       when "?"      then help
       when "i"      then inventory
       when "look"   then look

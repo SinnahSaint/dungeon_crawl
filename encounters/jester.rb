@@ -20,7 +20,7 @@ class Jester
     if @joke
       ""
     else
-      "The jester peaks around the throne asking for a joke."
+      "The jester peeks around the throne asking for a joke."
     end
   end
   
