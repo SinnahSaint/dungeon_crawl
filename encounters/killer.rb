@@ -8,14 +8,14 @@ class Killer
   end
   
   def handle_command(cmdstr)
-    if cmdstr == "use knife"
+    if cmdstr == "use knife" || cmdstr == "stab man" || cmdstr == "kill man"
       @blocking = false
       @dead = true
       return true
     elsif cmdstr == "tell joke"
       puts "You died of being a smartass."
       exit(0)
-    elsif cmdstr == "use milk"
+    elsif cmdstr == "use milk" || cmdstr == "give milk"
       @blocking = false
       @friend = true
       return true
@@ -26,11 +26,11 @@ class Killer
   
   def state
     if @dead
-      "OMG you actually killed him!"
+      "Tommy lies dead on the floor. I can't beleve you actually killed him!"
     elsif @friend
-      "Johny really appreciated the snack."
+      "Tommy waves at you from the table. He really appreciated the milk."
     else
-      "This tough guy doesn't look like the type who laughs."
+      "In the room you see a man in leather armour. His sword is at his side. This guy doesn't look like the type who laughs easily. He looks at you and asks if you have something for him."
     end
   end
   
