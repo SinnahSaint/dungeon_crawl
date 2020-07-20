@@ -83,11 +83,13 @@ class Application
   end
 
   def go(direction)
+    
     case direction
     when "n"  then nesw = "north"
     when "e"  then nesw = "east"
     when "s"  then nesw = "south"
-    else  nesw = "west"
+    when "w"  then nesw = "west"
+    else  nesw = direction
     end
         
     case nesw
