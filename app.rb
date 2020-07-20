@@ -67,7 +67,16 @@ class Application
 
 
   def help
-    puts "There's no help yet."
+    # want to make this a lil more complex later by giving encounter specific hints
+    puts "Help & Hints"
+    puts "-------------"
+    puts "* The goal is to find the gold, and get out of the dungeon safely, carrying as many things as you can find."
+    puts "* Entering 'i' will get you to your inventory."
+    puts "* Enter a cardinal direction & you will try to move that way."
+    puts "* Key words like 'use' and 'take' will let you interact with items."
+    puts "* Encounters in the dungeon may want an item to let you pass, or they may want you to do something else."
+    puts "* Good luck and have fun! Entering '?' will get you back to this help text."
+    puts "------------"
   end
 
   def leave
