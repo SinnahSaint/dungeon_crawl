@@ -8,6 +8,6 @@ class NoEnc
     return false
   end
   def state
-    "empty room"
+    ""
   end
 end

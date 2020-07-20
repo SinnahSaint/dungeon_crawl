@@ -133,7 +133,7 @@ class Application
   end
 
   def look
-    puts current_room.description
+    print current_room.description
     puts current_room.enc.state
     
     unless current_room.inventory.empty?

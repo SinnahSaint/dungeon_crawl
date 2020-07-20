@@ -17,9 +17,7 @@ class Jester
   end
   
   def state
-    if @joke
-      ""
-    else
+    unless @joke
       "The jester peeks around the throne asking for a joke."
     end
   end
