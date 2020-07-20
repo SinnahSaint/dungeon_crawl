@@ -190,7 +190,10 @@ class Application
 
   end
   
-  def user_input
+  def run
+    puts "You've finnally made it throught the woods and to the hidden dungeon. 
+    Taking a deep breath you step inside. 
+    The entrance is surprisingly boring."
     look
     while true
       puts "- " * 20
@@ -218,4 +221,4 @@ class Application
 end
 
 
-Application.new.user_input
+Application.new.run
