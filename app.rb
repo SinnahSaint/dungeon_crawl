@@ -82,7 +82,14 @@ class Application
     exit(0)
   end
 
-  def go(nesw)         
+  def go(direction)
+    case direction
+    when "n"  then nesw = "north"
+    when "e"  then nesw = "east"
+    when "s"  then nesw = "south"
+    else  nesw = "west"
+    end
+        
     case nesw
     when @avatar.back 
       change_room(nesw)
@@ -189,8 +196,8 @@ class Application
       when "i"      then inventory
       when "look"   then look
       when "quit", "exit"   then break
-      when "north","east","south","west" then go(command)
       else handle_command(command)
+      when "north", "east", "south", "west", "n", "e", "s", "w" then go(command)
       end
     end
     puts "You die in the maze! Bye, Felicia!"
