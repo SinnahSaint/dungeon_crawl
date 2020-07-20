@@ -196,8 +196,11 @@ class Application
       when "i"      then inventory
       when "look"   then look
       when "quit", "exit"   then break
-      else handle_command(command)
       when "north", "east", "south", "west", "n", "e", "s", "w" then go(command)
+      else 
+        unless handle_command(command)
+          puts "Trying to #{command} won't work here."
+        end
       end
     end
     puts "You die in the maze! Bye, Felicia!"

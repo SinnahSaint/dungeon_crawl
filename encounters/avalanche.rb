@@ -7,10 +7,11 @@ class Avalanche
   end
   
   def handle_command(cmdstr)
-    if cmdstr == "take pole"
+    
+    if cmdstr == "yodel"
       @heldup = false
-      @Application.player.inventory += ["pole"]
-      return true
+      @blocking = true
+      puts "Rocks fall; You almost die."
     else
       return false
     end
@@ -18,7 +19,7 @@ class Avalanche
   
   def state
     if @heldup
-      "There's a huge pile of rocks with a pole stuck in it."
+      "There's a huge pile of rocks. It kind of reminds you of the Alpine Mountains."
     else
       "The rocks have fallen and there is no path here."
     end
