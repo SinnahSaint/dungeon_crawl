@@ -4,7 +4,7 @@ class Player
   def initialize
     @inventory = %w[lint penny hope]
     @back = ""
-    @location = [3,1]      
+    @location = []      
   end
   
   def has_item?(item)

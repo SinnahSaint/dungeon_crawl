@@ -45,6 +45,7 @@ class Application
       [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:i])]
     ]
     
+    @map_start = ["2,1", "south", @avatar]
   end
   
   def intro
@@ -203,7 +204,7 @@ class Application
   
   def run
     puts intro
-    change_room("north")
+    Utility.teleport(*@map_start)
     while true
       puts "- " * 20
       print "What's next? > "
