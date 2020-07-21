@@ -12,4 +12,5 @@ class NoEnc
   def state
     ""
   end
+  
 end

@@ -22,4 +22,5 @@ class Fire
       "The table is singed where it used to be on fire."
     end
   end
+  
 end

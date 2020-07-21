@@ -1,22 +1,21 @@
 module Utility
 
-
   def english_list(array)
     case array.size
-    when 0 then ""
-    when 1 then array.first.to_s
-    when 2 then array.join(" and ")
-    else 
-      last = array.last
-      most = array.slice(0, array.size - 1)
-      "#{most.join(", ")}, and #{last}"
+      when 0 then ""
+      when 1 then array.first.to_s
+      when 2 then array.join(" and ")
+      else 
+        last = array.last
+        most = array.slice(0, array.size - 1)
+        "#{most.join(", ")}, and #{last}"
     end
   end
-  
 
   def teleport(input, avatar)
     avatar.location = input.split(",").map { |str| str.to_i }
   end
+  
   def debug (current_room, avatar)
     puts "- " * 20
     puts "- " * 20
@@ -34,5 +33,5 @@ module Utility
     puts "- " * 20
   end
   
-  module_function :english_list, :debug
+  module_function :english_list, :debug, :teleport
 end

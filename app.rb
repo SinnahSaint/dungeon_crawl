@@ -47,12 +47,31 @@ class Application
     
   end
   
+  def intro
+    <<~HERE
+    
+    
+    
+    Welcome to Dungeon Crawl!
+    #{"- " * 20}
+    
+    Be kind to this poor dumb oldschool game. One or two words is all you need. 
+    You will never need to type something like "Tickle the clown with a feather."
+    That would look more like "use feather" or "tickle clown".
+    #{"- " * 20}
+    You can move with N,S,E,W or use ? for help.
+    #{"- " * 20}
+    
+    You've finally made it throught the woods and to the hidden dungeon. 
+    Taking a deep breath you step north inside. 
+    The entrance is surprisingly boring.
+    HERE
+  end
+
   def current_room
    @map[@avatar.location[0]][@avatar.location[1]]
    end
-    
-
-  
+ 
   def inventory
     unless @avatar.inventory.empty?
       puts "Your inventory includes:"
@@ -61,7 +80,6 @@ class Application
       puts "You're not carrying anything."
     end
   end
-
 
   def help
     # want to make this a lil more complex later by giving encounter specific hints
@@ -84,65 +102,57 @@ class Application
   end
 
   def go(direction)
-    
     case direction
-    when "n"  then nesw = "north"
-    when "e"  then nesw = "east"
-    when "s"  then nesw = "south"
-    when "w"  then nesw = "west"
-    else  nesw = direction
-    end
-        
+      when "n"  then nesw = "north"
+      when "e"  then nesw = "east"
+      when "s"  then nesw = "south"
+      when "w"  then nesw = "west"
+      else  nesw = direction
+    end   
     case nesw
-    when @avatar.back 
-      change_room(nesw)
-    when *current_room.lay
-      if current_room.enc.blocking 
-        puts "You'll have to deal with this or go back."
+      when @avatar.back then change_room(nesw)
+      when *current_room.lay
+        if current_room.enc.blocking 
+          puts "You'll have to deal with this or go back."
+        else
+          change_room(nesw)
+        end
       else
-        change_room(nesw)
-      end
-    else
-      puts "That's a wall dummy."
+        puts "That's a wall dummy."
     end
   end
   
-  
   def change_room(nesw)
     case nesw
-    when "north"  
-      @avatar.location[0] -= 1
-      @avatar.back = "south"
-    when "east"   
-      @avatar.location[1] += 1
-      @avatar.back = "west"
-    when "south"  
-      @avatar.location[0] += 1
-      @avatar.back = "north"
-    when "west"  
-      @avatar.location[1] -= 1
-      @avatar.back = "east"
-    else
-      puts "can't move."
+      when "north"  
+        @avatar.location[0] -= 1
+        @avatar.back = "south"
+      when "east"   
+        @avatar.location[1] += 1
+        @avatar.back = "west"
+      when "south"  
+        @avatar.location[0] += 1
+        @avatar.back = "north"
+      when "west"  
+        @avatar.location[1] -= 1
+        @avatar.back = "east"
+      else
+        puts "can't move."
     end
-    
     if @avatar.location[0] >= 3 
       leave
     end
-    
     look
   end
 
   def look
     print current_room.description
-    puts current_room.enc.state
-    
+    puts current_room.enc.state  
     unless current_room.inventory.empty?
       puts "In this room you can see: #{Utility.english_list(current_room.inventory)}"
     else
       puts "You don't see any interesting items here."
-    end
-    
+    end  
     puts "There are exits to the #{Utility.english_list(current_room.lay)}"
   end
 
@@ -154,69 +164,42 @@ class Application
   end
 
   def handle_command(cmdstr)
-    first, second = cmdstr.split(" ")
+    first, second = cmdstr.split(" ")  
     case first
-    when "use"
-      unless @avatar.has_item?(second)
-        puts "Whoops! No #{second} in inventory."
-        return false
-      end
-                  
-      if current_room.enc.handle_command(cmdstr, @avatar)
-        @avatar.remove_item(second)
-        return true
-      end
-      
-    when "take"
-      if move_item(second, current_room, @avatar)
-        puts "You pick up the #{second}."
-        return true
-      else
-        puts "Whoops! No #{second} here."
-        return false
-      end
-      
-    when "drop"
-      if move_item(second, @avatar, current_room)
-        puts "You drop the #{second}."
+      when "debug"
+        Utility.debug(current_room, @avatar)
         return true
       when "teleport"
         Utility.teleport(second, @avatar)
+      when "use"
+        unless @avatar.has_item?(second)
+          puts "Whoops! No #{second} in inventory."
+          return false
+        end        
+        if current_room.enc.handle_command(cmdstr, @avatar)
+          @avatar.remove_item(second)
+          return true
+        end 
+      when "take"
+        if move_item(second, current_room, @avatar)
+          puts "You pick up the #{second}."
+          return true
+        else
+          puts "Whoops! No #{second} here."
+          return false
+        end 
+      when "drop"
+        if move_item(second, @avatar, current_room)
+          puts "You drop the #{second}."
+          return true
+        else
+          puts "Whoops! No #{second} in inventory."
+          return false
+        end
       else
-        puts "Whoops! No #{second} in inventory."
-        return false
-      end
-      
-    else
-      current_room.enc.handle_command(cmdstr, @avatar)
+        current_room.enc.handle_command(cmdstr, @avatar)
     end
-
   end
-  
-  
-  def intro
-    <<~HERE
-    
-    
-    
-    Welcome to Dungeon Crawl!
-    #{"- " * 20}
-    
-    Be kind to this poor dumb oldschool game. One or two words is all you need. 
-    You will never need to type something like "Tickle the clown with a feather."
-    That would look more like "use feather" or "tickle clown".
-    #{"- " * 20}
-    You can move with N,S,E,W or use ? for help.
-    #{"- " * 20}
-    
-    You've finally made it throught the woods and to the hidden dungeon. 
-    Taking a deep breath you step north inside. 
-    The entrance is surprisingly boring.
-    HERE
-  end
-  
-  
-  
   
   def run
     puts intro
@@ -226,8 +209,7 @@ class Application
       print "What's next? > "
       command = gets.chomp.downcase
       
-      case command
-      when "debug"                  then Utility.debug(current_room, @avatar)
+      case command        
       when "?"                      then help
       when "i", "inv", "inventory"  then inventory
       when "look", "look room"      then look
@@ -240,11 +222,11 @@ class Application
           puts "Trying to #{command} won't work here."
         end
       end
+      
     end
     puts "You die in the maze! Bye, Felicia!"
   end
   
 end
-
 
 Application.new.run

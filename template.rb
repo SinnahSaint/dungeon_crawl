@@ -6,8 +6,7 @@ class Template
     @inventory = inventory
     @description = description
   end
-  
-  # i'll return a built Encounter (like Cow or Assassin)
+
   def build_encounter
     @enc.call
   end

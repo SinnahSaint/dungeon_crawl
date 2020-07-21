@@ -15,9 +15,5 @@ class Room
   def remove_item(item)
     @inventory.delete(item)
   end
-
-
-  
   
 end
-

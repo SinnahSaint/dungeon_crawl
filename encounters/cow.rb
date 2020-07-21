@@ -1,4 +1,3 @@
-
 class Cow
   attr_reader :blocking, :inventory
 
@@ -21,7 +20,6 @@ class Cow
       return false
     end
   end
-  
   
   def state
     if @has_milk
