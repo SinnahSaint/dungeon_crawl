@@ -16,6 +16,9 @@ class Killer
     elsif cmdstr == "tell joke"
       puts "You pissed him off and died of being a smartass."
       exit(0)
+    elsif cmdstr == "use penny" || cmdstr == "give penny"
+      puts "He's insulted that you tried to bribe him."
+      return true
     elsif cmdstr == "use milk" || cmdstr == "give milk"
       @blocking = false
       @friend = true
@@ -32,7 +35,7 @@ class Killer
   
   def state
     if @dead
-      "Tommy lies dead on the floor. I can't beleve you actually killed him!"
+      "The man lies dead on the floor. I can't beleve you actually killed him!"
     elsif @friend
       "Tommy waves at you from the table. He really appreciated the milk."
     else
