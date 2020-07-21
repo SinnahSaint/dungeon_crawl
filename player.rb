@@ -16,4 +16,16 @@ class Player
     @inventory.delete(index)
   end
   
+  def leave(condition, msg)
+    # merge of win and die
+    if condition == "win"
+      puts "You Win! #{msg}" 
+      check_inventory
+      exit(0)
+    else
+      puts msg + "\n Game Over!"
+      exit(0)
+    end
+  end
+  
 end

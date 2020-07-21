@@ -88,19 +88,13 @@ class Application
    @map[@avatar.location[0]][@avatar.location[1]]
    end
  
-  def inventory
+  def check_inventory
     unless @avatar.inventory.empty?
       puts "Your inventory includes:"
       @avatar.inventory.each { |n| puts " * #{n}" }
     else
       puts "You're not carrying anything."
     end
-  end
-
-  def leave
-    puts "You manage to leave alive. Huzzah!"
-    inventory
-    exit(0)
   end
 
   def go(direction)
@@ -142,7 +136,7 @@ class Application
         puts "can't move."
     end
     if @avatar.location[0] >= 3 
-      leave
+      @vatar.leave("win", "You manage to leave alive. Huzzah!")
     end
     look
   end
@@ -223,7 +217,7 @@ class Application
       case command        
       when "?", "help"              then puts help
       when "hint"                   then puts current_room.enc.hint
-      when "i", "inv", "inventory"  then inventory
+      when "i", "inv", "inventory"  then check_inventory
       when "look", "look room"      then look
       when "quit", "exit"           then break
       when "north", "east", "south", "west", "n", "e", "s", "w" then go(command)
@@ -236,7 +230,7 @@ class Application
       end
       
     end
-    puts "You die in the maze! Bye, Felicia!"
+    @avatar.leave("die", "You die in the maze! Bye, Felicia!")
   end
   
 end
