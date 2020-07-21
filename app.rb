@@ -29,14 +29,14 @@ class Application
     }
 
     @temp = {
-      a: Template.new(encounter: ->{Avalanche.new}, inventory:["gemstone"], description: "A dusty room full of rubble."),
-      c: Template.new(encounter: ->{Cow.new}, description: "A mostly empty room with straw on the floor."),
-      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table."),
-      i: Template.new(encounter: ->{Ice.new}, description: "This room is really cold for no good reason."),
-      j: Template.new(encounter: ->{Jester.new}, description: "A throne room, with no one on the throne."),
-      k: Template.new(encounter: ->{Killer.new}, description: "This room looks like you walked into a bandit's home office."),
-      g: Template.new(inventory:["gold"], description: "A lovely room filled with gold."),
-      n: Template.new(description: "A literally boring nothing room."),
+      a: Template.new(encounter: ->{Avalanche.new}, inventory:["gemstone"], description: "A dusty room full of rubble. "),
+      c: Template.new(encounter: ->{Cow.new}, description: "A mostly empty room with straw on the floor. "),
+      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table. "),
+      i: Template.new(encounter: ->{Ice.new}, description: "This room is really cold for no good reason. "),
+      j: Template.new(encounter: ->{Jester.new}, description: "A throne room, with no one on the throne. "),
+      k: Template.new(encounter: ->{Killer.new}, description: "This room looks like you walked into a bandit's home office. "),
+      g: Template.new(inventory:["gold"], description: "A lovely room filled with gold. "),
+      n: Template.new(description: "A literally boring nothing room. "),
     }
 
     @map = [
@@ -68,19 +68,6 @@ class Application
     HERE
   end
 
-  def current_room
-   @map[@avatar.location[0]][@avatar.location[1]]
-   end
- 
-  def inventory
-    unless @avatar.inventory.empty?
-      puts "Your inventory includes:"
-      @avatar.inventory.each { |n| puts " * #{n}" }
-    else
-      puts "You're not carrying anything."
-    end
-  end
-
   def help
     <<~HERE
     Help & Hints
@@ -95,6 +82,19 @@ class Application
     * Good luck and have fun! Entering '?' will get you back to this help text.
     ------------
     HERE
+  end
+
+  def current_room
+   @map[@avatar.location[0]][@avatar.location[1]]
+   end
+ 
+  def inventory
+    unless @avatar.inventory.empty?
+      puts "Your inventory includes:"
+      @avatar.inventory.each { |n| puts " * #{n}" }
+    else
+      puts "You're not carrying anything."
+    end
   end
 
   def leave
@@ -175,7 +175,7 @@ class Application
     first, second, third = cmdstr.split(" ")  
     case first
       when "debug"
-        Utility.debug(current_room, @avatar)
+        puts Utility.debug(current_room, @avatar)
         return true
       when "teleport"
         Utility.teleport(second, third, @avatar)
@@ -205,7 +205,9 @@ class Application
           return false
         end
       else
-        current_room.enc.handle_command(cmdstr, @avatar)
+       tf, msg = current_room.enc.handle_command(cmdstr, @avatar)
+        puts msg
+        return tf
     end
   end
   

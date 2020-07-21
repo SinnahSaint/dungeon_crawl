@@ -9,9 +9,8 @@ class Jester
   def handle_command(cmdstr, avatar)
     if cmdstr == "tell joke"
       @joke = true
-      puts "Pleased with your wit, the jester wanders away."
       avatar.inventory << "laughter" 
-      return true
+      return [true, "Pleased with your wit, the jester wanders away."]
     else
       return false
     end

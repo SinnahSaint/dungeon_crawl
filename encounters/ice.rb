@@ -9,7 +9,6 @@ class Ice
     if cmdstr == "run" || cmdstr == "hurry"
       puts "You slip and fall cracking your head open. I told you it was slippery."
       exit(0)
-    else
     end
     return false
   end

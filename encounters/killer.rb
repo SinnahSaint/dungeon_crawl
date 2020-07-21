@@ -12,18 +12,17 @@ class Killer
       @blocking = false
       @dead = true
       avatar.remove_item("knife")
-      return true
+      return [true, "He was not expecting that. The battle is short."]
     elsif cmdstr == "tell joke"
       puts "You pissed him off and died of being a smartass."
       exit(0)
-    elsif cmdstr == "use penny" || cmdstr == "give penny"
-      puts "He's insulted that you tried to bribe him."
-      return true
+    elsif cmdstr == "use penny" || cmdstr == "give penny" 
+      return [true, "He's insulted that you tried to bribe him."]
     elsif cmdstr == "use milk" || cmdstr == "give milk"
       @blocking = false
       @friend = true
       avatar.remove_item("milk")
-      return true
+      return [true, "Just what he was looking for. You've made a friend."]
     else
       return false
     end

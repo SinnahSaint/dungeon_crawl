@@ -13,18 +13,15 @@ class Cow
 
   def milk_bessy(avatar)
     if @has_milk && !@milked
-      puts "You get some milk."
       @milked = true
       avatar.inventory << "milk"
-      return true
+      return [true, "You get some milk."]
     elsif @has_milk && @milked
-      puts "You get the rest of the milk."
       @has_milk = false
       avatar.inventory << "milk"
-      return true
+      return [true, "You get the rest of the milk."]
     else
-      puts "Bessy is not going to let you near her again today."
-      return true
+      return [true, "Bessy is not going to let you near her again today."]
     end
   end
   
@@ -32,8 +29,7 @@ class Cow
     if cmdstr == "milk cow" || cmdstr == "milk"
       milk_bessy(avatar)
     else
-      puts "Bessy looks at you oddly."
-      return false 
+      return [false, "Bessy looks at you oddly."] 
     end
   end
   
