@@ -14,6 +14,9 @@ module Utility
   end
   
 
+  def teleport(input, avatar)
+    avatar.location = input.split(",").map { |str| str.to_i }
+  end
   def debug (current_room, avatar)
     puts "- " * 20
     puts "- " * 20

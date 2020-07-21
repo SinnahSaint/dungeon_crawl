@@ -180,6 +180,8 @@ class Application
       if move_item(second, @avatar, current_room)
         puts "You drop the #{second}."
         return true
+      when "teleport"
+        Utility.teleport(second, @avatar)
       else
         puts "Whoops! No #{second} in inventory."
         return false
