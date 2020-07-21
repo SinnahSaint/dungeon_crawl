@@ -10,7 +10,7 @@ class Avalanche
       @blocking = true
       return [true, "Rocks fall; You almost die. That was almost too daring."]
     else
-      return false
+      return [false, ""]
     end
   end
   

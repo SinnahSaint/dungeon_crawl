@@ -23,7 +23,7 @@ class Killer
       avatar.remove_item("milk")
       return [true, "That's just what he was looking for. You've made a friend."]
     else
-      return false
+      return [false, ""]
     end
   end
   

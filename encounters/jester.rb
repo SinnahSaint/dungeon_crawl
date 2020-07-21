@@ -12,7 +12,7 @@ class Jester
       avatar.inventory << "laughter" 
       return [true, "Pleased with your wit, the jester wanders away."]
     else
-      return false
+      return [false, ""]
     end
   end
   

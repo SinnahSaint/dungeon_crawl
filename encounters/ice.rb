@@ -9,7 +9,7 @@ class Ice
     if cmdstr == "run" || cmdstr == "hurry"
       avatar.leave("die", "You slip and fall cracking your head open. I told you it was slippery.")
     end
-    return false
+    return [false, ""]
   end
   
   def hint
