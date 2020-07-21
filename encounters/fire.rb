@@ -8,7 +8,7 @@ class Fire
   def handle_command(cmdstr, avatar)
     if cmdstr == "douse fire" || cmdstr == "use milk"
       @blocking = false
-      avatar.remove_item(milk)
+      avatar.remove_item("milk")
       return true
     else
       return false

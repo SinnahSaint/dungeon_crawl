@@ -162,8 +162,9 @@ class Application
         return false
       end
                   
-      if current_room.enc.handle_command(cmdstr)
+      if current_room.enc.handle_command(cmdstr, @avatar)
         @avatar.remove_item(second)
+        return true
       end
       
     when "take"
@@ -190,22 +191,45 @@ class Application
 
   end
   
+  
+  def intro
+    <<~HERE
+    
+    
+    
+    Welcome to Dungeon Crawl!
+    #{"- " * 20}
+    
+    Be kind to this poor dumb oldschool game. One or two words is all you need. 
+    You will never need to type something like "Tickle the clown with a feather."
+    That would look more like "use feather" or "tickle clown".
+    #{"- " * 20}
+    You can move with N,S,E,W or use ? for help.
+    #{"- " * 20}
+    
+    You've finally made it throught the woods and to the hidden dungeon. 
+    Taking a deep breath you step north inside. 
+    The entrance is surprisingly boring.
+    HERE
+  end
+  
+  
+  
+  
   def run
-    puts "You've finnally made it throught the woods and to the hidden dungeon. 
-    Taking a deep breath you step inside. 
-    The entrance is surprisingly boring."
-    look
+    puts intro
+    change_room("north")
     while true
       puts "- " * 20
-      puts "What's next?"
+      print "What's next? > "
       command = gets.chomp.downcase
       
       case command
-      when "debug"  then Utility.debug(current_room, @avatar)
-      when "?"      then help
-      when "i"      then inventory
-      when "look"   then look
-      when "quit", "exit"   then break
+      when "debug"                  then Utility.debug(current_room, @avatar)
+      when "?"                      then help
+      when "i", "inv", "inventory"  then inventory
+      when "look", "look room"      then look
+      when "quit", "exit"           then break
       when "north", "east", "south", "west", "n", "e", "s", "w" then go(command)
       else 
         if handle_command(command)

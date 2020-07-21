@@ -10,7 +10,7 @@ class Jester
     if cmdstr == "tell joke"
       @joke = true
       puts "Pleased with your wit, the jester wanders away."
-      avatar.inventory << laughter 
+      avatar.inventory << "laughter" 
       return true
     else
       return false

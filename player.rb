@@ -3,8 +3,8 @@ class Player
   
   def initialize
     @inventory = %w[lint penny hope]
-    @back = "south"
-    @location = [2,1]      
+    @back = ""
+    @location = [3,1]      
   end
   
   def has_item?(item)
@@ -12,7 +12,8 @@ class Player
   end
   
   def remove_item(item)
-    @inventory.delete(item)
+    index = @inventory.index(item)
+    @inventory.delete(index)
   end
   
 end
