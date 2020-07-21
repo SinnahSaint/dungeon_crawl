@@ -31,10 +31,10 @@ class Application
     @temp = {
       a: Template.new(encounter: ->{Avalanche.new}, inventory:["gemstone"], description: "A dusty room full of rubble."),
       c: Template.new(encounter: ->{Cow.new}, description: "A mostly empty room with straw on the floor."),
+      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table."),
       i: Template.new(encounter: ->{Ice.new}, description: "This room is really cold for no good reason."),
       j: Template.new(encounter: ->{Jester.new}, description: "A throne room, with no one on the throne."),
       k: Template.new(encounter: ->{Killer.new}, description: "This room looks like you walked into a bandit's home office."),
-      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table."),
       g: Template.new(inventory:["gold"], description: "A lovely room filled with gold."),
       n: Template.new(description: "A literally boring nothing room."),
     }
@@ -64,8 +64,7 @@ class Application
     #{"- " * 20}
     
     You've finally made it throught the woods and to the hidden dungeon. 
-    Taking a deep breath you step north inside. 
-    The entrance is surprisingly boring.
+    Taking a deep breath you step inside. 
     HERE
   end
 
@@ -154,7 +153,13 @@ class Application
     else
       puts "You don't see any interesting items here."
     end  
-    puts "There are exits to the #{Utility.english_list(current_room.lay)}"
+   
+    doors = current_room.lay - @avatar.back.split(" ")
+    unless doors.empty?
+    puts "There are exits to the #{Utility.english_list(doors)}, or #{@avatar.back}, back the way you came."
+    else
+    puts "The only exit is to the #{@avatar.back}, back the way you came."
+    end
   end
 
   def move_item(item,from,to)
@@ -205,6 +210,7 @@ class Application
   def run
     puts intro
     Utility.teleport(*@map_start)
+    look
     while true
       puts "- " * 20
       print "What's next? > "
