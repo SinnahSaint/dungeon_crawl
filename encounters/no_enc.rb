@@ -10,7 +10,7 @@ class NoEnc
   end
   
   def hint
-    puts "No seriously. There's no encounter here."
+    "No seriously. There's no encounter here."
   end
   
   def state

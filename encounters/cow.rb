@@ -38,7 +38,7 @@ class Cow
   end
   
   def hint
-    puts "Cows produce a LOT of milk each day."
+    "Cows produce a LOT of milk each day."
   end
   
   def state

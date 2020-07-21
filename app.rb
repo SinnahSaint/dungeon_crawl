@@ -220,7 +220,7 @@ class Application
       
       case command        
       when "?", "help"              then puts help
-      when "hint"                   then current_room.enc.hint
+      when "hint"                   then puts current_room.enc.hint
       when "i", "inv", "inventory"  then inventory
       when "look", "look room"      then look
       when "quit", "exit"           then break

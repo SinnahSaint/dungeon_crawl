@@ -15,7 +15,7 @@ class Ice
   end
   
   def hint
-    puts "If you try to hurry, you might slip on ice."
+    "If you try to hurry, you might slip on ice."
   end
   
   def state

@@ -30,7 +30,7 @@ class Killer
   end
   
   def hint
-    puts "Friend or foe? That's up to you."
+    "Friend or foe? That's up to you."
   end
   
   def state

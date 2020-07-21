@@ -16,7 +16,7 @@ class Fire
   end
   
   def hint
-    puts "Liquids are often used to put out fires."
+    "Liquids are often used to put out fires."
   end
   
   def state

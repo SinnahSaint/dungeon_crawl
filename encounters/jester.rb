@@ -18,7 +18,7 @@ class Jester
   end
   
   def hint
-    puts "Just give him what he wants."
+    "Just give him what he wants."
   end
   
   def state

@@ -16,7 +16,7 @@ class Avalanche
   end
   
   def hint
-    puts "If you're daring, a yodel might do something."
+   "If you're daring, a yodel might do something."
   end
   
   def state
