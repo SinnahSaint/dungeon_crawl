@@ -12,8 +12,9 @@ module Utility
     end
   end
 
-  def teleport(input, avatar)
+  def teleport(input, back, avatar)
     avatar.location = input.split(",").map { |str| str.to_i }
+    avatar.back = back
   end
   
   def debug (current_room, avatar)

@@ -164,13 +164,13 @@ class Application
   end
 
   def handle_command(cmdstr)
-    first, second = cmdstr.split(" ")  
+    first, second, third = cmdstr.split(" ")  
     case first
       when "debug"
         Utility.debug(current_room, @avatar)
         return true
       when "teleport"
-        Utility.teleport(second, @avatar)
+        Utility.teleport(second, third, @avatar)
       when "use"
         unless @avatar.has_item?(second)
           puts "Whoops! No #{second} in inventory."
