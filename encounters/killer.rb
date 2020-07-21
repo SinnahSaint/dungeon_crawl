@@ -26,6 +26,10 @@ class Killer
     end
   end
   
+  def hint
+    puts "Friend or foe? That's up to you."
+  end
+  
   def state
     if @dead
       "Tommy lies dead on the floor. I can't beleve you actually killed him!"

@@ -9,6 +9,10 @@ class NoEnc
     return false
   end
   
+  def hint
+    puts "No seriously. There's no encounter here."
+  end
+  
   def state
     ""
   end

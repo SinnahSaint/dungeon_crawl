@@ -8,11 +8,15 @@ class Avalanche
   def handle_command(cmdstr, avatar)
     if cmdstr == "yodel"
       @blocking = true
-      puts "Rocks fall; You almost die."
+      puts "Rocks fall; You almost die. That was almost too daring."
       return true
     else
       return false
     end
+  end
+  
+  def hint
+    puts "If you're daring, a yodel might do something."
   end
   
   def state

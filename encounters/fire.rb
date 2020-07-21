@@ -15,6 +15,10 @@ class Fire
     end
   end
   
+  def hint
+    puts "Liquids are often used to put out fires."
+  end
+  
   def state
     if @blocking
       "OMG the table's on fire!"

@@ -14,8 +14,12 @@ class Ice
     return false
   end
   
+  def hint
+    puts "If you try to hurry, you might slip on ice."
+  end
+  
   def state
-    "The floor is super slippery in here. Maybe don't hurry."
+    "The floor is super slippery in here."
   end
   
 end

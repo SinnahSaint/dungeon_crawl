@@ -17,9 +17,13 @@ class Jester
     end
   end
   
+  def hint
+    puts "Just give him what he wants."
+  end
+  
   def state
     unless @joke
-      "The jester peeks around the throne asking for a joke."
+      "The jester peeks around the throne asking you to tell a joke."
     end
   end
   

@@ -19,6 +19,9 @@ class Cow
       puts "Bessy looks at you oddly."
       return false
     end
+  
+  def hint
+    puts "Cows produce a LOT of milk each day."
   end
   
   def state

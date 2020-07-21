@@ -82,17 +82,19 @@ class Application
   end
 
   def help
-    # want to make this a lil more complex later by giving encounter specific hints
-    puts "Help & Hints"
-    puts "-------------"
-    puts "* The goal is to find the gold, and get out of the dungeon safely, carrying as many things as you can find."
-    puts "* Entering 'i' will get you to your inventory."
-    puts "* Entering 'look' will tell you about the room you're in."
-    puts "* Enter a cardinal direction & you will try to move that way."
-    puts "* Key words like 'use' and 'take' will let you interact with items."
-    puts "* Encounters in the dungeon may want an item to let you pass, or they may want you to do something else."
-    puts "* Good luck and have fun! Entering '?' will get you back to this help text."
-    puts "------------"
+    <<~HERE
+    Help & Hints
+    -------------
+    * The goal is to find the gold, and get out of the dungeon safely, carrying as many things as you can find.
+    * Entering 'i' will get you to your inventory.
+    * Entering 'look' will tell you about the room you're in.
+    * Enter a cardinal direction & you will try to move that way.
+    * Key words like 'use' and 'take' will let you interact with items.
+    * Encounters in the dungeon may want an item to let you pass, or they may want you to do something else.
+    * If you get really stuck type hint and you will get a hint specific to the encounter you're facing.
+    * Good luck and have fun! Entering '?' will get you back to this help text.
+    ------------
+    HERE
   end
 
   def leave
@@ -217,7 +219,8 @@ class Application
       command = gets.chomp.downcase
       
       case command        
-      when "?"                      then help
+      when "?", "help"              then puts help
+      when "hint"                   then current_room.enc.hint
       when "i", "inv", "inventory"  then inventory
       when "look", "look room"      then look
       when "quit", "exit"           then break
