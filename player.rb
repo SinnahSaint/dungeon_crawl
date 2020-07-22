@@ -13,7 +13,7 @@ class Player
   
   def remove_item(item)
     index = @inventory.index(item)
-    @inventory.delete(index)
+    @inventory.delete_at(index)
   end
   
   def leave(condition, msg)
