@@ -109,7 +109,7 @@ class Application
         puts "can't move."
     end
     if @avatar.location[0] >= 3 
-      @avatar.leave("win", "You manage to leave alive. Huzzah!")
+      @avatar.leave("win", check_inventory.last)
     end
     look
   end
@@ -158,7 +158,7 @@ class Application
         when "look", "look room"
           [true, look]
         when "quit", "exit"
-          [true, @avatar.leave("die", "You die in the maze! Bye, Felicia!", @avatar)]  
+          [true, @avatar.leave("die", "You die in the maze! Bye, Felicia!")]  
         when "take"
           if move_item(second, current_room, @avatar)
             [true, "You pick up the #{second}. "]
