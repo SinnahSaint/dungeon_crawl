@@ -57,7 +57,8 @@ class Application
   end
 
   def current_room
-   @map[@avatar.location[0]][@avatar.location[1]]
+    y, x = @avatar.location
+    @map[y][x]
   end
  
   def check_inventory
