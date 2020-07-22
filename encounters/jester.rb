@@ -10,9 +10,9 @@ class Jester
     if cmdstr == "tell joke"
       @joke = true
       avatar.inventory << "laughter" 
-      return [true, "Pleased with your wit, the jester wanders away."]
+      [true, "Pleased with your wit, the jester wanders away."]
     else
-      return [false, ""]
+      [false, ""]
     end
   end
   

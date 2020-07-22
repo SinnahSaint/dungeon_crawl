@@ -15,13 +15,13 @@ class Cow
     if @has_milk && !@milked
       @milked = true
       avatar.inventory << "milk"
-      return [true, "You get some milk."]
+      [true, "You get some milk."]
     elsif @has_milk && @milked
       @has_milk = false
       avatar.inventory << "milk"
-      return [true, "You get the rest of the milk."]
+      [true, "You get the rest of the milk."]
     else
-      return [true, "Bessy is not going to let you near her again today."]
+      [true, "Bessy is not going to let you near her again today."]
     end
   end
   
@@ -29,7 +29,7 @@ class Cow
     if cmdstr == "milk cow" || cmdstr == "milk"
       milk_bessy(avatar)
     else
-      return [false, "Bessy looks at you oddly."] 
+      [false, "Bessy looks at you oddly."] 
     end
   end
   
@@ -39,7 +39,7 @@ class Cow
   
   def state
     if @has_milk 
-      "There is a cow standing by a milking stool. She looks really uncomfortable."
+      "There is a cow in a milking stand. She looks really uncomfortable."
     else
       "The cow is happy."
     end

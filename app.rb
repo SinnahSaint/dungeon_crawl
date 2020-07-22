@@ -139,70 +139,69 @@ class Application
 
   def handle_command(cmdstr)
     first, second, third = cmdstr.split(" ")  
-    case first
-      when "debug"
-        puts Utility.debug(current_room, @avatar)
-        return true
-      when "teleport"
-        Utility.teleport(second, third, @avatar)
-      when "use"
-        unless @avatar.has_item?(second)
-          puts "Whoops! No #{second} in inventory."
-          return false
-        end        
-        if current_room.enc.handle_command(cmdstr, @avatar)
-          @avatar.remove_item(second)
-          return true
-        end 
-      when "take"
-        if move_item(second, current_room, @avatar)
-          puts "You pick up the #{second}."
-          return true
+    
+      tf, msg = (
+        case first
+        when "debug"
+          [true, Utility.debug(current_room, @avatar)]
+        when "teleport"
+          [true, Utility.teleport(second, third, @avatar)]
+        when "north", "east", "south", "west", "n", "e", "s", "w" 
+          [true, go(first)] 
+        when "?", "help"              
+          [true, text_block("help")]
+        when "hint"
+          [true, current_room.enc.hint]
+        when "i", "inv", "inventory"
+          [true, check_inventory]
+        when "look", "look room"
+          [true, look]
+        when "quit", "exit"
+          [true, @avatar.leave("die", "You die in the maze! Bye, Felicia!", @avatar)]  
+        when "take"
+          if move_item(second, current_room, @avatar)
+            [true, "You pick up the #{second}. "]
+          else
+            [false, "Whoops! No #{second} here. "]
+          end 
+        when "drop"
+          if move_item(second, @avatar, current_room)
+            [true, "You drop the #{second}. "]
+          else
+            [false, "Whoops! No #{second} in inventory. "]
+          end
+        when "use"
+          if @avatar.has_item?(second)
+            current_room.enc.handle_command(cmdstr, @avatar)
+          else
+            [false, "Whoops! No #{second} in inventory. "]
+          end
         else
-          puts "Whoops! No #{second} here."
-          return false
-        end 
-      when "drop"
-        if move_item(second, @avatar, current_room)
-          puts "You drop the #{second}."
-          return true
-        else
-          puts "Whoops! No #{second} in inventory."
-          return false
+          current_room.enc.handle_command(cmdstr, @avatar)
         end
-      else
-       tf, msg = current_room.enc.handle_command(cmdstr, @avatar)
-        puts msg
-        return tf
-    end
+        )
+    puts msg
+    tf
   end
   
   def run
     puts text_block("intro")
     Utility.teleport(*@map_start)
     look
-    while true
+    
+    loop  do
       puts "- " * 20
       print "What's next? > "
       command = gets.chomp.downcase
-      
-      case command        
-      when "?", "help"              then puts text_block("help")
-      when "hint"                   then puts current_room.enc.hint
-      when "i", "inv", "inventory"  then check_inventory
-      when "look", "look room"      then look
-      when "quit", "exit"           then break
-      when "north", "east", "south", "west", "n", "e", "s", "w" then go(command)
-      else 
-        if handle_command(command)
+  
+        if command.empty?
+          puts "Type in what you want to do. Try ? if you're stuck."
+        elsif handle_command(command)
           look
         else
           puts "Trying to #{command} won't work here."
         end
-      end
-      
-    end
-    @avatar.leave("die", "You die in the maze! Bye, Felicia!")
+    end  
   end
   
 end

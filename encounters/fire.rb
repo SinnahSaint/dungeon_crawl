@@ -9,9 +9,9 @@ class Fire
     if cmdstr == "douse fire" || cmdstr == "use milk"
       @blocking = false
       avatar.remove_item("milk")
-      return [true, "The fire dies down."]
+      [true, "The fire dies down."]
     else
-      return [false, ""]
+      [false, ""]
     end
   end
   
