@@ -63,10 +63,10 @@ class Application
  
   def check_inventory
     unless @avatar.inventory.empty?
-      puts "Your inventory includes:"
-      @avatar.inventory.each { |n| puts " * #{n}" }
+      lines = @avatar.inventory.map { |item| " * #{item}" }.join("\n")
+      [true, "Your inventory includes: \n#{lines} "]
     else
-      puts "You're not carrying anything."
+      [false, "You're not carrying anything."]
     end
   end
 
@@ -154,7 +154,7 @@ class Application
         when "hint"
           [true, current_room.enc.hint]
         when "i", "inv", "inventory"
-          [true, check_inventory]
+          check_inventory
         when "look", "look room"
           [true, look]
         when "quit", "exit"
