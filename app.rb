@@ -48,45 +48,17 @@ class Application
     @map_start = ["2,1", "south", @avatar]
   end
   
-  def intro
-    <<~HERE
+  def text_block(file_name)
+    file = "./text_blocks/" + file_name.to_s + ".txt"
     
-    
-    
-    Welcome to Dungeon Crawl!
-    #{"- " * 20}
-    
-    Be kind to this poor dumb oldschool game. One or two words is all you need. 
-    You will never need to type something like "Tickle the clown with a feather."
-    That would look more like "use feather" or "tickle clown".
-    #{"- " * 20}
-    You can move with N,S,E,W or use ? for help.
-    #{"- " * 20}
-    
-    You've finally made it throught the woods and to the hidden dungeon. 
-    Taking a deep breath you step inside. 
-    HERE
-  end
-
-  def help
-    <<~HERE
-    Help & Hints
-    -------------
-    * The goal is to find the gold, and get out of the dungeon safely, carrying as many things as you can find.
-    * Entering 'i' will get you to your inventory.
-    * Entering 'look' will tell you about the room you're in.
-    * Enter a cardinal direction & you will try to move that way.
-    * Key words like 'use' and 'take' will let you interact with items.
-    * Encounters in the dungeon may want an item to let you pass, or they may want you to do something else.
-    * If you get really stuck type hint and you will get a hint specific to the encounter you're facing.
-    * Good luck and have fun! Entering '?' will get you back to this help text.
-    ------------
-    HERE
+    File.open(file) do |text|
+     text.read
+    end
   end
 
   def current_room
    @map[@avatar.location[0]][@avatar.location[1]]
-   end
+  end
  
   def check_inventory
     unless @avatar.inventory.empty?
@@ -136,7 +108,7 @@ class Application
         puts "can't move."
     end
     if @avatar.location[0] >= 3 
-      @vatar.leave("win", "You manage to leave alive. Huzzah!")
+      @avatar.leave("win", "You manage to leave alive. Huzzah!")
     end
     look
   end
@@ -206,7 +178,7 @@ class Application
   end
   
   def run
-    puts intro
+    puts text_block("intro")
     Utility.teleport(*@map_start)
     look
     while true
@@ -215,7 +187,7 @@ class Application
       command = gets.chomp.downcase
       
       case command        
-      when "?", "help"              then puts help
+      when "?", "help"              then puts text_block("help")
       when "hint"                   then puts current_room.enc.hint
       when "i", "inv", "inventory"  then check_inventory
       when "look", "look room"      then look
