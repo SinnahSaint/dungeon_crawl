@@ -19,8 +19,12 @@ class Player
   def leave(condition, msg)
     # merge of win and die
     if condition == "win"
-      puts "You Win! #{msg}" 
-      check_inventory
+      puts "You Win!\n#{msg}\nHere's your loot:" 
+      
+      # it's not  @inventory.each or @avatar.inventory.each or self.inventory.each
+      # it's definitely not inventory.each
+      # passing in @avatar to avatar doesn't make avatar.inventory.each work
+      avatar.inventory.each { |n| puts " * #{n}" }
       exit(0)
     else
       puts msg + "\n Game Over!"
