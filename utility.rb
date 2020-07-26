@@ -11,12 +11,6 @@ module Utility
         "#{most.join(", ")}, and #{last}"
     end
   end
-
-  def teleport(input, back, avatar)
-    avatar.location = input.split(",").map { |str| str.to_i }
-    avatar.back = back
-    " ** Bamph! ** "
-  end
   
   def debug (current_room, avatar)
     <<~HERE
@@ -37,5 +31,5 @@ module Utility
     HERE
   end
   
-  module_function :english_list, :debug, :teleport
+  module_function :english_list, :debug
 end

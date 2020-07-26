@@ -45,7 +45,7 @@ class Application
       [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:i])]
     ]
     
-    @map_start = ["2,1", "south", @avatar]
+    @map_start = [2, 1, "south"]
   end
   
   def text_block(file_name)
@@ -70,48 +70,38 @@ class Application
     end
   end
 
-  def go(direction)
-    case direction
-      when "n"  then nesw = "north"
-      when "e"  then nesw = "east"
-      when "s"  then nesw = "south"
-      when "w"  then nesw = "west"
-      else  nesw = direction
-    end   
+  def attempt_to_walk(nesw)
     case nesw
-      when @avatar.back then change_room(nesw)
+      when @avatar.back then walk(nesw)
       when *current_room.lay
         if current_room.enc.blocking 
           puts "You'll have to deal with this or go back."
         else
-          change_room(nesw)
+          walk(nesw)
         end
       else
         puts "That's a wall dummy."
     end
   end
   
-  def change_room(nesw)
+  def walk(nesw)
     case nesw
-      when "north"  
-        @avatar.location[0] -= 1
-        @avatar.back = "south"
-      when "east"   
-        @avatar.location[1] += 1
-        @avatar.back = "west"
-      when "south"  
-        @avatar.location[0] += 1
-        @avatar.back = "north"
-      when "west"  
-        @avatar.location[1] -= 1
-        @avatar.back = "east"
-      else
-        puts "can't move."
+      when "north" then move_avatar(@avatar.location[0] - 1, @avatar.location[1],     "south")
+      when "east"  then move_avatar(@avatar.location[0],     @avatar.location[1] + 1, "west")
+      when "south" then move_avatar(@avatar.location[0] + 1, @avatar.location[1],     "north")
+      when "west"  then move_avatar(@avatar.location[0],     @avatar.location[1] - 1, "east")
+      else puts "can't move."
     end
+  end
+  
+  def move_avatar(new_y, new_x, back)
+    @avatar.location[0] = new_y
+    @avatar.location[1] = new_x
+    @avatar.back = back
+    
     if @avatar.location[0] >= 3 
       @avatar.leave("win", check_inventory.last)
     end
-    look
   end
 
   def look
@@ -139,16 +129,23 @@ class Application
   end
 
   def handle_command(cmdstr)
-    first, second, third = cmdstr.split(" ")  
+    first, second, third, fourth = cmdstr.split(" ")  
     
       tf, msg = (
         case first
         when "debug"
           [true, Utility.debug(current_room, @avatar)]
         when "teleport"
-          [true, Utility.teleport(second, third, @avatar)]
-        when "north", "east", "south", "west", "n", "e", "s", "w" 
-          [true, go(first)] 
+          move_avatar(second.to_i, third.to_i, fourth )
+          [true, "BANFF"]
+        when "north", "n"
+          [true, attempt_to_walk("north")] 
+        when "east", "e"
+          [true, attempt_to_walk("east")] 
+        when "south", "s"
+          [true, attempt_to_walk("south")] 
+        when "west", "w" 
+          [true, attempt_to_walk("west")] 
         when "?", "help"              
           [true, text_block("help")]
         when "hint"
@@ -187,7 +184,7 @@ class Application
   
   def run
     puts text_block("intro")
-    Utility.teleport(*@map_start)
+    move_avatar(*@map_start)
     look
     
     loop  do
