@@ -168,12 +168,6 @@ class Application
           else
             [false, "Whoops! No #{second} in inventory. "]
           end
-        when "use"
-          if @avatar.has_item?(second)
-            current_room.enc.handle_command(cmdstr, @avatar)
-          else
-            [false, "Whoops! No #{second} in inventory. "]
-          end
         else
           current_room.enc.handle_command(cmdstr, @avatar)
         end
@@ -197,7 +191,7 @@ class Application
         elsif handle_command(command)
           look
         else
-          puts "Trying to #{command} won't work here."
+          puts "Trying to #{command} won't work right now."
         end
     end  
   end

@@ -7,9 +7,13 @@ class Fire
   
   def handle_command(cmdstr, avatar)
     if cmdstr == "douse fire" || cmdstr == "use milk"
-      @blocking = false
-      avatar.remove_item("milk")
-      [true, "The fire dies down."]
+      if avatar.has_item?("milk")
+        @blocking = false
+        avatar.remove_item("milk")
+        [true, "The fire dies down."]
+      else
+        [false, "Whoops! No milk in inventory. "]
+      end  
     else
       [false, ""]
     end

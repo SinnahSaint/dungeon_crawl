@@ -7,21 +7,35 @@ class Killer
     @friend = false
   end
   
+  
   def handle_command(cmdstr, avatar)
-    if cmdstr == "use knife" || cmdstr == "stab man" || cmdstr == "kill man"
-      @blocking = false
-      @dead = true
-      avatar.remove_item("knife")
-      [true, "He was not expecting that. The battle is short."]
-    elsif cmdstr == "tell joke"
+    case cmdstr
+    when "use knife", "stab man",  "kill man"
+      if avatar.has_item?("knife")
+        @blocking = false
+        @dead = true
+        avatar.remove_item("knife")
+        [true, "He was not expecting that. The battle is short."]
+      else
+        [false, "Whoops! No knife in inventory. "]
+      end   
+    when "tell joke"
       avatar.leave("die", "You pissed him off and died of being a smartass.")
-    elsif cmdstr == "use penny" || cmdstr == "give penny" 
-      [true, "He's insulted that you tried to bribe him."]
-    elsif cmdstr == "use milk" || cmdstr == "give milk"
-      @blocking = false
-      @friend = true
-      avatar.remove_item("milk")
-      [true, "That's just what he was looking for. You've made a friend."]
+    when "use penny", "give penny" 
+      if avatar.has_item?("penny")
+        [true, "He's insulted that you tried to bribe him."]
+      else
+        [false, "Whoops! No penny in inventory. "]
+      end  
+    when "use milk", "give milk"
+      if avatar.has_item?("milk")
+        @blocking = false
+        @friend = true
+        avatar.remove_item("milk")
+        [true, "That's just what he was looking for. You've made a friend."]
+      else
+        [false, "Whoops! No milk in inventory. "]
+      end  
     else
       [false, ""]
     end
