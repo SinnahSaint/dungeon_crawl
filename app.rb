@@ -131,53 +131,55 @@ class Application
   def handle_command(cmdstr)
     first, second, third, fourth = cmdstr.split(" ")  
     
-      tf, msg = (
-        case first
-        when "debug"
-          [true, Utility.debug(current_room, @avatar)]
-        when "teleport"
-          move_avatar(second.to_i, third.to_i, fourth )
-          [true, "BANFF"]
-        when "north", "n"
-          [true, attempt_to_walk("north")] 
-        when "east", "e"
-          [true, attempt_to_walk("east")] 
-        when "south", "s"
-          [true, attempt_to_walk("south")] 
-        when "west", "w" 
-          [true, attempt_to_walk("west")] 
-        when "?", "help"              
-          [true, text_block("help")]
-        when "hint"
-          [true, current_room.enc.hint]
-        when "i", "inv", "inventory"
-          check_inventory
-        when "look", "look room"
-          [true, look]
-        when "quit", "exit"
-          [true, @avatar.leave("die", "You die in the maze! Bye, Felicia!")]  
-        when "take"
-          if move_item(second, current_room, @avatar)
-            [true, "You pick up the #{second}. "]
-          else
-            [false, "Whoops! No #{second} here. "]
-          end 
-        when "drop"
-          if move_item(second, @avatar, current_room)
-            [true, "You drop the #{second}. "]
-          else
-            [false, "Whoops! No #{second} in inventory. "]
-          end
+    msg = (
+      case first
+      when "debug"
+        Utility.debug(current_room, @avatar)
+      when "teleport"
+        move_avatar(second.to_i, third.to_i, fourth )
+        "BANFF"
+      when "north", "n"
+        attempt_to_walk("north")
+      when "east", "e"
+        attempt_to_walk("east")
+      when "south", "s"
+        attempt_to_walk("south")
+      when "west", "w" 
+        attempt_to_walk("west")
+      when "?", "help"              
+        text_block(:help)
+      when "hint"
+        current_room.enc.hint
+      when "i", "inv", "inventory"
+        check_inventory
+      when "look", "look room"
+        look
+      when "quit", "exit"
+        @avatar.leave("die", "You die in the maze! Bye, Felicia!")
+      when "take"
+        if move_item(second, current_room, @avatar)
+          "You pick up the #{second}. "
         else
-          current_room.enc.handle_command(cmdstr, @avatar)
+          "Whoops! No #{second} here. "
+        end 
+      when "drop"
+        if move_item(second, @avatar, current_room)
+          "You drop the #{second}. "
+        else
+          "Whoops! No #{second} in inventory. "
         end
-        )
+      else
+        if current_room.enc.handle_command(cmdstr, @avatar)
+        else "Trying to #{command} won't work right now."
+        end
+      end
+    )
+    
     puts msg
-    tf
   end
   
   def run
-    puts text_block("intro")
+    puts text_block(:intro)
     move_avatar(*@map_start)
     look
     
@@ -188,10 +190,9 @@ class Application
   
         if command.empty?
           puts "Type in what you want to do. Try ? if you're stuck."
-        elsif handle_command(command)
+        else 
+          handle_command(command)
           look
-        else
-          puts "Trying to #{command} won't work right now."
         end
     end  
   end

@@ -15,29 +15,29 @@ class Killer
         @blocking = false
         @dead = true
         avatar.remove_item("knife")
-        [true, "He was not expecting that. The battle is short."]
+        "He was not expecting that. The battle is short."
       else
-        [false, "Whoops! No knife in inventory. "]
+        "Whoops! No knife in inventory. "
       end   
     when "tell joke"
       avatar.leave("die", "You pissed him off and died of being a smartass.")
     when "use penny", "give penny" 
       if avatar.has_item?("penny")
-        [true, "He's insulted that you tried to bribe him."]
+        "He's insulted that you tried to bribe him."
       else
-        [false, "Whoops! No penny in inventory. "]
+        "Whoops! No penny in inventory. "
       end  
     when "use milk", "give milk"
       if avatar.has_item?("milk")
         @blocking = false
         @friend = true
         avatar.remove_item("milk")
-        [true, "That's just what he was looking for. You've made a friend."]
+        "That's just what he was looking for. You've made a friend."
       else
-        [false, "Whoops! No milk in inventory. "]
+        "Whoops! No milk in inventory. "
       end  
     else
-      [false, ""]
+      ""
     end
   end
   

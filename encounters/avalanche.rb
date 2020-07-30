@@ -8,9 +8,9 @@ class Avalanche
   def handle_command(cmdstr, avatar)
     if cmdstr == "yodel"
       @blocking = true
-      [true, "Rocks fall; You almost die. That was almost too daring."]
+      "Rocks fall; You almost die. That was too daring."
     else
-      [false, ""]
+      ""
     end
   end
   

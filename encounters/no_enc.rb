@@ -6,7 +6,7 @@ class NoEnc
   end
   
   def handle_command(cmdstr, avatar)
-    [false, ""]
+    ""
   end
   
   def hint

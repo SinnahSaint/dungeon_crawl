@@ -10,12 +10,12 @@ class Fire
       if avatar.has_item?("milk")
         @blocking = false
         avatar.remove_item("milk")
-        [true, "The fire dies down."]
+        "The fire dies down."
       else
-        [false, "Whoops! No milk in inventory. "]
+        "Whoops! No milk in inventory. "
       end  
     else
-      [false, ""]
+      ""
     end
   end
   

@@ -10,9 +10,9 @@ class Jester
     if cmdstr == "tell joke"
       @joke = true
       avatar.inventory << "laughter" 
-      [true, "Pleased with your wit, the jester wanders away."]
+      "Pleased with your wit, the jester wanders away."
     else
-      [false, ""]
+      ""
     end
   end
   
