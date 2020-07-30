@@ -12,7 +12,7 @@ module Utility
     end
   end
   
-  def debug (current_room, avatar)
+  def debug(current_room, avatar)
     <<~HERE
     #{"- " * 20}
     #{"- " * 20}
