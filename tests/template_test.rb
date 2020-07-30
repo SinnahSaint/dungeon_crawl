@@ -7,7 +7,7 @@ class TemplateTest < Test::Unit::TestCase
   # def teardown
   # end
 
-  def test_fail
-    assert(false, 'Assertion was false.')
+  def test_
+    omit("there's no tests here")
   end
 end
