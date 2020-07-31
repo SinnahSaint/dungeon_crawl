@@ -9,4 +9,4 @@ I'm trying to write it simply for now but with an eye to multiple maps, encounte
 
 I'm happy to say the basic 3x3 dungeon is up and running. More features and a bigger map will be added as I go, but the core game is there.
 
-To play, just run the app.rb file.
+To play, just run the run.rb file.
