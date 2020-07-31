@@ -64,9 +64,9 @@ class Application
   def check_inventory
     unless @avatar.inventory.empty?
       lines = @avatar.inventory.map { |item| " * #{item}" }.join("\n")
-      [true, "Your inventory includes: \n#{lines} "]
+      "Your inventory includes: \n#{lines} "
     else
-      [false, "You're not carrying anything."]
+      "You're not carrying anything."
     end
   end
 
@@ -75,12 +75,12 @@ class Application
       when @avatar.back then walk(nesw)
       when *current_room.lay
         if current_room.enc.blocking 
-          puts "You'll have to deal with this or go back."
+          "You'll have to deal with this or go back."
         else
           walk(nesw)
         end
       else
-        puts "That's a wall dummy."
+        "That's a wall dummy."
     end
   end
   
@@ -100,7 +100,9 @@ class Application
     @avatar.back = back
     
     if @avatar.location[0] >= 3 
-      @avatar.leave("win", check_inventory.last)
+      @avatar.leave("win", check_inventory)
+    else
+      "You walk to the next room."
     end
   end
 
