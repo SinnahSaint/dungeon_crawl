@@ -1,6 +1,8 @@
 require 'test/unit'
 require 'ostruct'
-require_relative '../encounters/no_enc.rb'
+Dir["../encounters/*.rb"].each do |file_name|
+  require_relative file_name
+end
 
 class EncounterTest < Test::Unit::TestCase
   # def setup

@@ -1,15 +1,8 @@
-class Cow
-  attr_reader :blocking, :inventory
+class Cow < NoEnc
 
   def initialize
     @milked = false
     @has_milk = true
-    @blocking = false
-    @inventory = []
-  end
-  
-  def remove_item(item)
-    @inventory.delete(item)
   end
 
   def handle_command(cmdstr, avatar)

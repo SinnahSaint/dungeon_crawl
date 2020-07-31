@@ -1,15 +1,9 @@
-class Fire
-    attr_reader :blocking
-  
+class Fire < NoEnc
+
   def initialize
     @blocking = true
-    @inventory = []
   end
-  
-  def remove_item(item)
-    @inventory.delete(item)
-  end
-  
+
   def handle_command(cmdstr, avatar)
     if cmdstr == "douse fire" || cmdstr == "use milk"
       if avatar.has_item?("milk")

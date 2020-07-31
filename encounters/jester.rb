@@ -1,16 +1,9 @@
-class Jester
-    attr_reader :blocking
-  
+class Jester < NoEnc
+
   def initialize
-    @blocking = false
-    @inventory = []
     @joke = false
   end
-  
-  def remove_item(item)
-    @inventory.delete(item)
-  end
-  
+
   def handle_command(cmdstr, avatar)
     if cmdstr == "tell joke"
       @joke = true

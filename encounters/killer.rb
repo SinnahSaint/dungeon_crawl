@@ -1,15 +1,9 @@
-class Killer
-  attr_reader :blocking
-
+class Killer < NoEnc
+  
   def initialize
     @blocking = true
-    @inventory = []
     @dead = false
     @friend = false
-  end
-  
-  def remove_item(item)
-    @inventory.delete(item)
   end
   
   def handle_command(cmdstr, avatar)

@@ -1,14 +1,4 @@
-class Avalanche
-  attr_reader :blocking
-  
-  def initialize
-    @blocking = false
-    @inventory = []
-  end
-  
-  def remove_item(item)
-    @inventory.delete(item)
-  end
+class Avalanche < NoEnc
   
   def handle_command(cmdstr, avatar)
     if cmdstr == "yodel"
