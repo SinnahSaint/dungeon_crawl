@@ -171,14 +171,22 @@ class Application
           "Whoops! No #{second} in inventory. "
         end
       else
-        if current_room.enc.handle_command(cmdstr, @avatar)
-        else "Trying to #{command} won't work right now."
-        end
+        check_with_encounter(cmdstr)
       end
     )
     
     puts msg
   end
+  
+  def check_with_encounter(cmdstr)
+   result = current_room.enc.handle_command(cmdstr, @avatar)
+   if result == false
+    result = "Trying to #{cmdstr} won't work right now."
+   end
+   result
+  end
+
+  
   
   def run
     puts text_block("intro")
@@ -194,6 +202,7 @@ class Application
           puts "Type in what you want to do. Try ? if you're stuck."
         else 
           handle_command(command)
+          puts " - - - "
           look
         end
     end  

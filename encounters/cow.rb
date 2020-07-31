@@ -31,9 +31,7 @@ class Cow
       "The cow is happy."
     end
   end
-  
-  private
-  
+    
   def milk_bessy(avatar)
     if @has_milk && !@milked
       @milked = true
