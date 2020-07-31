@@ -3,7 +3,12 @@ class Jester
   
   def initialize
     @blocking = false
+    @inventory = []
     @joke = false
+  end
+  
+  def remove_item(item)
+    @inventory.delete(item)
   end
   
   def handle_command(cmdstr, avatar)

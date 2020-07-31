@@ -3,6 +3,11 @@ class NoEnc
     
   def initialize
     @blocking = false
+    @inventory = []
+  end
+  
+  def remove_item(item)
+    @inventory.delete(item)
   end
   
   def handle_command(cmdstr, avatar)
