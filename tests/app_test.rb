@@ -1,4 +1,6 @@
 require 'test/unit'
+require 'ostruct'
+require_relative '../app.rb'
 
 class AppTest < Test::Unit::TestCase
   # def setup

@@ -1,4 +1,6 @@
 require 'test/unit'
+require 'ostruct'
+require_relative '../template.rb'
 
 class TemplateTest < Test::Unit::TestCase
   # def setup
