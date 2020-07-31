@@ -49,10 +49,10 @@ class Application
   end
   
   def text_block(file_name)
-    file = "./text_blocks/" + file_name.to_s + ".txt"
+    file = "./text_blocks/" + file_name + ".txt"
     
     File.open(file) do |text|
-     text.read
+     text.read.lines.map { |line| line.strip.center(76) }.join("\n")
     end
   end
 
@@ -107,8 +107,8 @@ class Application
   end
 
   def look
-    print current_room.description
-    puts current_room.enc.state  
+    puts current_room.description
+    puts current_room.enc.state unless current_room.enc.state == ""
     unless current_room.inventory.empty?
       puts "In this room you can see: #{Utility.english_list(current_room.inventory)}"
     else
@@ -149,7 +149,7 @@ class Application
       when "west", "w" 
         attempt_to_walk("west")
       when "?", "help"              
-        text_block(:help)
+        text_block("help")
       when "hint"
         current_room.enc.hint
       when "i", "inv", "inventory"
@@ -181,7 +181,7 @@ class Application
   end
   
   def run
-    puts text_block(:intro)
+    puts text_block("intro")
     move_avatar(*@map_start)
     look
     
