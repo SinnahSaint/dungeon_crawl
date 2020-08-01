@@ -349,7 +349,8 @@ class KillerTest < Test::Unit::TestCase
     milk = @enc.handle_command("give milk", @avatar)
     assert_equal milk.empty?, false
     assert_instance_of String, milk
-    assert @avatar.inventory.none?("milk") 
+    assert @avatar.inventory.none?("milk")
+    assert @avatar.inventory.include?("smile")
     assert_equal @enc.blocking, false
     # test for friendship in state
   end
@@ -362,10 +363,13 @@ class KillerTest < Test::Unit::TestCase
     # test for dead in state
     
     @avatar.inventory<<"knife"
+    @avatar.inventory<<"smile"
+    @avatar.inventory<<"laughter"
     stab = @enc.handle_command("kill man", @avatar)
     assert_equal stab.empty?, false
     assert_instance_of String, stab
-    assert @avatar.inventory.none?("knife")
+    assert @avatar.inventory.include?("knife")
+    assert @avatar.inventory.none?("smile")
     assert @avatar.inventory.none?("hope")
     assert @avatar.inventory.none?("laughter")  
     assert_equal @enc.blocking, false

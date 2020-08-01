@@ -21,9 +21,9 @@ class Jester < NoEnc
   
   def state
     if @joke == false
-      ""
-    else
       "The jester peeks around the throne asking you to tell a joke."
+    else
+      ""
     end
   end
   
