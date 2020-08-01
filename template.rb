@@ -1,7 +1,7 @@
 class Template
   attr_reader :inventory, :description
   
-  def initialize(encounter: nil , inventory: [], description:)
+  def initialize(encounter: nil , inventory: [], description: "")
     @enc = encounter || ->{ NoEnc.new } 
     @inventory = inventory
     @description = description
