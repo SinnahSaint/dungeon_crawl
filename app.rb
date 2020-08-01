@@ -8,8 +8,10 @@ end
 
 class Application
   
-  def initialize
-    @avatar = Player.new
+  def initialize(input=$stdin, output=$stdout)
+    @input = input
+    @output = output
+    @avatar = Player.new(self)
     @lay = {
       n: %w[north],
       e: %w[east],
@@ -46,6 +48,10 @@ class Application
     ]
     
     @map_start = [2, 1, "south"]
+  end
+  
+  def display(msg)
+    @output.puts msg
   end
   
   def text_block(file_name)
@@ -90,7 +96,7 @@ class Application
       when "east"  then move_avatar(@avatar.location[0],     @avatar.location[1] + 1, "west")
       when "south" then move_avatar(@avatar.location[0] + 1, @avatar.location[1],     "north")
       when "west"  then move_avatar(@avatar.location[0],     @avatar.location[1] - 1, "east")
-      else puts "can't move."
+      else display "can't move."
     end
   end
   
@@ -112,19 +118,19 @@ class Application
   end
 
   def look
-    puts current_room.description
-    puts current_room.enc.state unless current_room.enc.state == ""
+    display current_room.description
+    display current_room.enc.state unless current_room.enc.state == ""
     unless current_room.inventory.empty?
-      puts "In this room you can see: #{Utility.english_list(current_room.inventory)}"
+      display "In this room you can see: #{Utility.english_list(current_room.inventory)}"
     else
-      puts "You don't see any interesting items here."
+      display "You don't see any interesting items here."
     end  
    
     doors = current_room.lay - @avatar.back.split(" ")
     unless doors.empty?
-    puts "There are exits to the #{Utility.english_list(doors)}, or #{@avatar.back}, back the way you came."
+    display "There are exits to the #{Utility.english_list(doors)}, or #{@avatar.back}, back the way you came."
     else
-    puts "The only exit is to the #{@avatar.back}, back the way you came."
+    display "The only exit is to the #{@avatar.back}, back the way you came."
     end
   end
 
@@ -180,7 +186,7 @@ class Application
       end
     )
     
-    puts msg
+    display msg
   end
   
   def check_with_encounter(cmdstr)
@@ -194,20 +200,20 @@ class Application
   
   
   def run
-    puts text_block("intro")
+    display text_block("intro")
     move_avatar(*@map_start)
     look
     
     loop  do
-      puts "- " * 20
+      display "- " * 20
       print "What's next? > "
-      command = gets.chomp.downcase
+      command = @input.gets.chomp.downcase
   
         if command.empty?
-          puts "Type in what you want to do. Try ? if you're stuck."
+          display "Type in what you want to do. Try ? if you're stuck."
         else 
           handle_command(command)
-          puts " - - - "
+          display " - - - "
           look
         end
     end  
