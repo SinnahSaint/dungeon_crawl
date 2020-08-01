@@ -19,6 +19,11 @@ class RoomTest < Test::Unit::TestCase
     assert_equal @room.inventory, %w[item another]
     assert_equal @room.description, "template description"
   end
+  
+  def test_add_item
+    @room.inventory<<"more"
+    assert @room.inventory.include?("more")
+  end
 
   def test_item_delete
     @room.remove_item("item")
