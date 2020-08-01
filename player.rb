@@ -12,8 +12,10 @@ class Player
   end
   
   def remove_item(item)
-    index = @inventory.index(item)
-    @inventory.delete_at(index)
+    if has_item?(item)
+      index = @inventory.index(item)
+      @inventory.delete_at(index)
+    end
   end
   
   def leave(condition, reward)
