@@ -7,7 +7,6 @@ Dir["./encounters/*.rb"].each do |file_name|
 end
 
 class Application
-  
   def initialize(input=$stdin, output=$stdout)
     @input = input
     @output = output
@@ -184,8 +183,7 @@ class Application
       else
         check_with_encounter(cmdstr)
       end
-    )
-    
+    )   
     display msg
   end
   
@@ -196,8 +194,6 @@ class Application
    end
    result
   end
-
-  
   
   def run
     display text_block("intro")
@@ -217,6 +213,5 @@ class Application
           look
         end
     end  
-  end
-  
+  end  
 end
