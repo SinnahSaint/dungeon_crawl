@@ -6,7 +6,7 @@ Dir["./encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
 
-class Application
+class App
   def initialize(input=$stdin, output=$stdout)
     @input = input
     @output = output
