@@ -2,7 +2,7 @@ class Ice < NoEnc
 
   def handle_command(cmdstr, avatar)
     if cmdstr == "run" || cmdstr == "hurry" || cmdstr == "rush"
-      avatar.leave("die", "You slip and fall cracking your head open. I told you it was slippery.")
+      avatar.leave("You slip and fall cracking your head open. I told you it was slippery.")
     else
       false
     end

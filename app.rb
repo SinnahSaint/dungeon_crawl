@@ -100,10 +100,15 @@ class Application
     @avatar.back = back
     
     if @avatar.location[0] >= 3 
-      @avatar.leave("win", check_inventory)
+      game_over("You Win!\nYou manage to leave alive. Huzzah!\n #{check_inventory}")
     else
       "You walk to the next room."
     end
+  end
+  
+  def game_over(msg)
+    display msg 
+    exit(0)
   end
 
   def look

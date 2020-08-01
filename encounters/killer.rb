@@ -21,7 +21,7 @@ class Killer < NoEnc
         "Whoops! No knife in inventory. "
       end   
     when "tell joke"
-      avatar.leave("die", "You pissed him off and died of being a smartass.")
+      avatar.leave("You pissed him off and died of being a smartass.")
     when "use penny", "give penny" 
       if avatar.has_item?("penny")
         "He's insulted that you tried to bribe him."

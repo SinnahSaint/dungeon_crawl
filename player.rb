@@ -1,10 +1,11 @@
 class Player
   attr_accessor :back, :inventory, :location
   
-  def initialize
+  def initialize(game)
     @inventory = %w[lint penny hope]
     @back = ""
-    @location = []      
+    @location = [] 
+    @game = game    
   end
   
   def has_item?(item)
@@ -18,14 +19,8 @@ class Player
     end
   end
   
-  def leave(condition, reward)
-    if condition == "win"
-      puts "You Win!\nYou manage to leave alive. Huzzah!\n #{reward}" 
-      exit(0)
-    else
-      puts reward + "\n Game Over!"
-      exit(0)
-    end
+  def leave(msg)
+      @game.game_over(msg)
   end
   
 end

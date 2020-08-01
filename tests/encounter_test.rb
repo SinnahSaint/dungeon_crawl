@@ -145,7 +145,7 @@ end
 class FireTest < Test::Unit::TestCase
   def setup
     @enc = Fire.new
-    @avatar = Player.new
+    @avatar = Player.new(nil)
   end
 
   def test_init
@@ -205,7 +205,9 @@ end
 class IceTest < Test::Unit::TestCase  
   def setup
     @enc = Ice.new
-    @avatar = Player.new
+    @game = OpenStruct.new
+    def @game.game_over(msg); end
+    @avatar = Player.new(@game)
     def @avatar.called_leave
       @called_leave
     end
@@ -297,7 +299,9 @@ end
 class KillerTest < Test::Unit::TestCase
   def setup
     @enc = Killer.new
-    @avatar = Player.new
+    @game = OpenStruct.new
+    def @game.game_over(msg); end
+    @avatar = Player.new(@game)
     def @avatar.called_leave
       @called_leave
     end
