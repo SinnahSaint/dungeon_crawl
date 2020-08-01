@@ -5,7 +5,7 @@ class Avalanche < NoEnc
       @blocking = true
       "Rocks fall; You almost die. That was too daring."
     else
-      ""
+      false
     end
   end
   

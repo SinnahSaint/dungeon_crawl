@@ -1,5 +1,5 @@
 class NoEnc
-    attr_reader :blocking
+    attr_reader :blocking, :inventory
     
   def initialize
     @blocking = false
@@ -11,7 +11,7 @@ class NoEnc
   end
   
   def handle_command(cmdstr, avatar)
-    ""
+    false
   end
   
   def hint

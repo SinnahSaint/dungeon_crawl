@@ -1,6 +1,7 @@
 class Fire < NoEnc
 
   def initialize
+    super
     @blocking = true
   end
 
@@ -14,7 +15,7 @@ class Fire < NoEnc
         "Whoops! No milk in inventory. "
       end  
     else
-      ""
+      false
     end
   end
   

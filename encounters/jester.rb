@@ -2,6 +2,7 @@ class Jester < NoEnc
 
   def initialize
     @joke = false
+    super
   end
 
   def handle_command(cmdstr, avatar)
@@ -10,7 +11,7 @@ class Jester < NoEnc
       avatar.inventory << "laughter" 
       "Pleased with your wit, the jester wanders away."
     else
-      ""
+      false
     end
   end
   
@@ -19,7 +20,9 @@ class Jester < NoEnc
   end
   
   def state
-    unless @joke
+    if @joke == false
+      ""
+    else
       "The jester peeks around the throne asking you to tell a joke."
     end
   end

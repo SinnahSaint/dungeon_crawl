@@ -3,13 +3,14 @@ class Cow < NoEnc
   def initialize
     @milked = false
     @has_milk = true
+    super
   end
 
   def handle_command(cmdstr, avatar)
     if cmdstr == "milk cow" || cmdstr == "milk"
       milk_bessy(avatar)
     else
-      "Bessy looks at you oddly."
+      false
     end
   end
   

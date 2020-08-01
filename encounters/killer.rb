@@ -1,6 +1,7 @@
 class Killer < NoEnc
   
   def initialize
+    super
     @blocking = true
     @dead = false
     @friend = false
@@ -38,7 +39,7 @@ class Killer < NoEnc
         "Whoops! No milk in inventory. "
       end  
     else
-      ""
+      false
     end
   end
   
