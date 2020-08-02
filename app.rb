@@ -167,7 +167,7 @@ class App
       when "look", "look room"
         look
       when "quit", "exit"
-        @avatar.leave("die", "You die in the maze! Bye, Felicia!")
+        game_over("You die in the maze! Bye, Felicia!")
       when "take"
         if move_item(second, current_room, @avatar)
           "You pick up the #{second}. "
