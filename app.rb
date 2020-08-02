@@ -7,11 +7,28 @@ Dir["./encounters/*.rb"].each do |file_name|
 end
 
 class App
-  def initialize(input=$stdin, output=$stdout)
+  def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil, map_start: nil)
     @input = input
     @output = output
-    @avatar = Player.new(self)
-    @lay = {
+    @avatar = avatar || Player.new(self)
+    @map = map || choose_map
+    @map_start = map_start || [2, 1, "south"]
+    move_avatar(*@map_start, initializing: true)
+  end
+  
+  def choose_map
+    temp = {
+      a: Template.new(encounter: ->{Avalanche.new}, inventory:["gemstone"], description: "A dusty room full of rubble. "),
+      c: Template.new(encounter: ->{Cow.new}, description: "A mostly empty room with straw on the floor. "),
+      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table. "),
+      i: Template.new(encounter: ->{Ice.new}, description: "This room is really cold for no good reason. "),
+      j: Template.new(encounter: ->{Jester.new}, description: "A throne room, with no one on the throne. "),
+      k: Template.new(encounter: ->{Killer.new}, description: "This room looks like you walked into a bandit's home office. "),
+      g: Template.new(inventory:["gold"], description: "A lovely room filled with gold. "),
+      n: Template.new(description: "A literally boring nothing room. "),
+    }
+    
+    lay = {
       n: %w[north],
       e: %w[east],
       s: %w[south],
@@ -28,25 +45,30 @@ class App
       esw: %w[east south west],
       nesw: %w[north east south west]
     }
-
-    @temp = {
-      a: Template.new(encounter: ->{Avalanche.new}, inventory:["gemstone"], description: "A dusty room full of rubble. "),
-      c: Template.new(encounter: ->{Cow.new}, description: "A mostly empty room with straw on the floor. "),
-      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table. "),
-      i: Template.new(encounter: ->{Ice.new}, description: "This room is really cold for no good reason. "),
-      j: Template.new(encounter: ->{Jester.new}, description: "A throne room, with no one on the throne. "),
-      k: Template.new(encounter: ->{Killer.new}, description: "This room looks like you walked into a bandit's home office. "),
-      g: Template.new(inventory:["gold"], description: "A lovely room filled with gold. "),
-      n: Template.new(description: "A literally boring nothing room. "),
-    }
-
-    @map = [
-      [Room.new(@lay[:es], @temp[:f]), Room.new(@lay[:esw], @temp[:k]), Room.new(@lay[:w], @temp[:a])],
-      [Room.new(@lay[:ns], @temp[:n]), Room.new(@lay[:n], @temp[:g]),   Room.new(@lay[:s], @temp[:c])],
-      [Room.new(@lay[:ne], @temp[:j]), Room.new(@lay[:esw], @temp[:n]), Room.new(@lay[:nw], @temp[:i])]
-    ]
     
-    @map_start = [2, 1, "south"]
+    [[Room.new(lay[:es], temp[:f]), Room.new(lay[:esw], temp[:k]), Room.new(lay[:w], temp[:a])],
+     [Room.new(lay[:ns], temp[:n]), Room.new(lay[:n], temp[:g]),   Room.new(lay[:s], temp[:c])],
+     [Room.new(lay[:ne], temp[:j]), Room.new(lay[:esw], temp[:n]), Room.new(lay[:nw], temp[:i])]
+    ]
+  end
+  
+  def run
+    display text_block("intro")
+    look
+    
+    loop  do
+      display "- " * 20
+      print "What's next? > "
+      command = @input.gets.chomp.downcase
+  
+        if command.empty?
+          display "Type in what you want to do. Try ? if you're stuck."
+        else 
+          handle_command(command)
+          display " - - - "
+          look
+        end
+    end  
   end
   
   def display(msg)
@@ -99,10 +121,12 @@ class App
     end
   end
   
-  def move_avatar(new_y, new_x, back)
+  def move_avatar(new_y, new_x, back, initializing: false)
     @avatar.location[0] = new_y
     @avatar.location[1] = new_x
     @avatar.back = back
+    
+    return if initializing
     
     if @avatar.location[0] >= 3 
       game_over("You Win!\nYou manage to leave alive. Huzzah!\n #{check_inventory}")
@@ -146,10 +170,9 @@ class App
     msg = (
       case first
       when "debug"
-        Utility.debug(current_room, @avatar)
+        debug
       when "teleport"
-        move_avatar(second.to_i, third.to_i, fourth )
-        "BANFF"
+        teleport(second.to_i, third.to_i, fourth)
       when "north", "n"
         attempt_to_walk("north")
       when "east", "e"
@@ -161,7 +184,7 @@ class App
       when "?", "help"              
         text_block("help")
       when "hint"
-        current_room.enc.hint
+        hint
       when "i", "inv", "inventory"
         check_inventory
       when "look", "look room"
@@ -195,23 +218,29 @@ class App
    result
   end
   
-  def run
-    display text_block("intro")
-    move_avatar(*@map_start)
-    look
-    
-    loop  do
-      display "- " * 20
-      print "What's next? > "
-      command = @input.gets.chomp.downcase
+  private
   
-        if command.empty?
-          display "Type in what you want to do. Try ? if you're stuck."
-        else 
-          handle_command(command)
-          display " - - - "
-          look
-        end
-    end  
-  end  
+  def teleport(y, x, back)
+    raise "RTFM Shannon" if back.nil?
+    move_avatar(y, x, back)
+    "BANFF"
+  end
+
+  def hint
+    current_room.enc.hint
+  end 
+  
+  def debug
+    Utility.debug(current_room, @avatar)
+  end
+  
+  # logically public: 
+  #   App.display, App.initialize
+  #   Game.initialize, Game.text_block, Game.handle_command, Game.look
+  # Through handle_command, add:
+  #   move_avatar
+  #   attempt_to_walk
+  #   check_inventory
+  #   move_item
+  #   check_with_encounter
 end
