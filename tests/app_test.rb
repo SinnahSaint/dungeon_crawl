@@ -69,7 +69,7 @@ class AppTest < Test::Unit::TestCase
   
   def test_handle_command
     mappings = {
-      nil => :missing_command,
+      "" => :missing_command,
       "debug" => :debug,
       "teleport" => :teleport,
       "north" => :attempt_to_walk,
