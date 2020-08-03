@@ -78,7 +78,7 @@ class App
   def text_block(file_name)
     file = "./text_blocks/" + file_name + ".txt"
     
-    File.open(file) do |text|
+    File.open(file, 'r') do |text|
      text.read.lines.map { |line| line.strip.center(76) }.join("\n")
     end
   end
