@@ -20,22 +20,28 @@ class AppTest < Test::Unit::TestCase
       esw: %w[east south west],
     }
     temp = {
-      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table. "),
-      i: Template.new(encounter: ->{Ice.new}, description: "This room is really cold for no good reason. "),
-      n: Template.new(description: "A literally boring nothing room. "),
+      f: Template.new(encounter: ->{Fire.new}, 
+                      inventory: ["knife"], 
+                      description: "A kitchen with a nice table. ",
+                      ),
+      i: Template.new(encounter: ->{Ice.new}, 
+                      description: "This room is really cold for no good reason. ",
+                      ),
+      n: Template.new(description: "A literally boring nothing room. "
+                      ),
     }
     map = [
       [Room.new(lay[:ne], temp[:n]), 
        Room.new(lay[:esw], temp[:f]), 
-       Room.new(lay[:nw], temp[:i])]]
+       Room.new(lay[:nw], temp[:i]),
+       ]
+     ]
+    
     @map_start = [0, 1, "south"]
     
     @output = StringIO.new
     
     @game = App.new(avatar: @avatar, map: map, map_start: @map_start, output: @output)
-  end
-
-  def test_init # ?
   end
   
   def test_display
@@ -44,6 +50,7 @@ class AppTest < Test::Unit::TestCase
   end
   
   def test_run_loop 
+    
   end
   
   def test_text_block
@@ -188,15 +195,6 @@ class AppTest < Test::Unit::TestCase
     assert_equal [1, 1], @avatar.location
   end
   
-  def test_walk
-  # how to I test for the outgoing? this is just a switch sending to other methods
-  # assert @game.walk("garbage") 
-  # it sends the error message to display, but the test says it evaluates to nil? 
-  
-  # Don't test "walk" it is essentially an implementation "detail"
-  # Tested in "test_attempt_to_walk"
-  end
-  
   def test_move_avatar
     assert_equal @map_start, [@avatar.location, @avatar.back].flatten
     @game.move_avatar(1, 2, "back")
@@ -214,6 +212,4 @@ class AppTest < Test::Unit::TestCase
     assert_match "game's done", @output.string
   end
 
-  # def teardown
-  # end
 end
