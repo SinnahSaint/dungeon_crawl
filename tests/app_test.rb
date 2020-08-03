@@ -127,6 +127,16 @@ class AppTest < Test::Unit::TestCase
   end
   
   def test_current_room
+    @avatar.location = [0, 0]
+    zero = @game.current_room
+    @avatar.location = [0, 1]
+    one = @game.current_room
+    @avatar.location = [0, 2]
+    two = @game.current_room
+    
+    assert_not_equal zero, one
+    assert_not_equal zero, two
+    assert_not_equal one, two 
   end
 
   def test_look
@@ -153,6 +163,15 @@ class AppTest < Test::Unit::TestCase
    end
 
   def test_move_item
+    @avatar.location = [0,1]
+    
+    @game.move_item("knife", @game.current_room, @avatar)
+    assert_equal %w[lint penny hope knife], @avatar.inventory
+    assert_equal %w[], @game.current_room.inventory
+    
+    @game.move_item("penny", @avatar, @game.current_room)
+    assert_equal %w[lint hope knife], @avatar.inventory
+    assert_equal %w[penny], @game.current_room.inventory
   end
   
   def test_attempt_to_walk
