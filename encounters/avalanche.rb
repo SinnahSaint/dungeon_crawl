@@ -1,16 +1,11 @@
-class Avalanche
-  attr_reader :blocking
-  
-  def initialize
-    @blocking = false
-  end
+class Avalanche < NoEnc
   
   def handle_command(cmdstr, avatar)
     if cmdstr == "yodel"
       @blocking = true
       "Rocks fall; You almost die. That was too daring."
     else
-      ""
+      false
     end
   end
   

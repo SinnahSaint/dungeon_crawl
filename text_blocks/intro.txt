@@ -5,7 +5,7 @@
 Welcome to Dungeon Crawl!
 --------------------------------------------------------------------------------
 
-Be kind to this poor dumb oldschool game. One or two words is all you need. 
+Be kind to this poor dumb oldschool game. One or two words is all you need.
 You will never need to type something like "Tickle the clown with a feather."
 That would look more like "use feather" or "tickle clown".
 ----------------------------------------
@@ -13,5 +13,5 @@ You can move with N,S,E,W or use ? for help.
 ----------------------------------------
 
 You've finally made it through the woods and to the hidden dungeon. 
-Taking a deep breath you step inside. 
+Taking a deep breath, you step inside. . . . . .
 --------------------------------------------------------------------------------

@@ -1,10 +1,10 @@
-class Fire
-    attr_reader :blocking
-  
+class Fire < NoEnc
+
   def initialize
+    super
     @blocking = true
   end
-  
+
   def handle_command(cmdstr, avatar)
     if cmdstr == "douse fire" || cmdstr == "use milk"
       if avatar.has_item?("milk")
@@ -15,7 +15,7 @@ class Fire
         "Whoops! No milk in inventory. "
       end  
     else
-      ""
+      false
     end
   end
   
