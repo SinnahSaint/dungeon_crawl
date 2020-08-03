@@ -40,8 +40,8 @@ class AppTest < Test::Unit::TestCase
     @map_start = [0, 1, "south"]
     
     @output = StringIO.new
-    
-    @game = App.new(avatar: @avatar, map: map, map_start: @map_start, output: @output)
+    @input = StringIO.new
+    @game = App.new(avatar: @avatar, map: map, map_start: @map_start, output: @output, input: @input)
   end
   
   def test_display
@@ -49,8 +49,15 @@ class AppTest < Test::Unit::TestCase
    assert_match "test display msg", @output.string
   end
   
-  def test_run_loop 
-    
+  def test_run_loop
+    begin
+      @input.string = "\nexit\n"  # exit exits!
+      @game.run
+    rescue SystemExit
+      # stop exit exiting
+    end
+    # assert we got "What's next?" twice
+    assert_equal(3, @output.string.split("What's next?").size)
   end
   
   def test_text_block
