@@ -187,8 +187,6 @@ class App
         hint
       when "i", "inv", "inventory"
         check_inventory
-      when "look", "look room"
-        look
       when "quit", "exit"
         game_over("You die in the maze! Bye, Felicia!")
       when "take"

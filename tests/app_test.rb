@@ -67,8 +67,6 @@ class AppTest < Test::Unit::TestCase
       "i" => :check_inventory,
       "inv" => :check_inventory,
       "inventory" => :check_inventory,
-      "look" => :look,
-      "look room" => :look,
       "quit" => :game_over,
       "exit" => :game_over,
       "take" => :move_item,
