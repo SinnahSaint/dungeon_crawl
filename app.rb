@@ -164,11 +164,18 @@ class App
     end
   end
 
+  def missing_command
+    "Type in what you want to do. Try ? if you're stuck."
+  end
+
+
   def handle_command(cmdstr)
     first, second, third, fourth = cmdstr.split(" ")  
     
     msg = (
       case first
+      when nil
+        missing_command
       when "debug"
         debug
       when "teleport"
