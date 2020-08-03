@@ -56,20 +56,20 @@ class App
     display text_block("intro")
     look
     
-    loop  do
-      display "- " * 20
-      print "What's next? > "
-      command = @input.gets.chomp.downcase
-  
-        if command.empty?
-          display "Type in what you want to do. Try ? if you're stuck."
-        else 
-          handle_command(command)
-          display " - - - "
-          look
-        end
+    loop do
+      command = interface
+      handle_command(command)
+      display " - - - "
+      look
     end  
   end
+  
+  def interface
+    display "- " * 20
+    @output.print "What's next? > "
+    @input.gets.chomp.downcase
+  end
+
   
   def display(msg)
     @output.puts msg
