@@ -80,7 +80,7 @@ class App
     file = "./text_blocks/" + file_name + ".txt"
     
     File.open(file, 'r') do |text|
-     text.read.lines.map { |line| line.strip.center(76) }.join("\n")
+     text.read.lines.map { |line| line.strip.center(74) }.join("\n")
     end
   end
 

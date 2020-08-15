@@ -66,10 +66,9 @@ class AppTest < Test::Unit::TestCase
         file.write "This is a test file.\n"
         file.write "Nothing to see here."
     end
-    # File.close("./text_blocks/test.txt") # needed? or does do-block close?
         
-    assert_equal " "*28 + "This is a test file." + " "*28 + "\n" +
-                 " "*28 + "Nothing to see here." + " "*28, 
+    assert_equal " "*27 + "This is a test file." + " "*27 + "\n" +
+                 " "*27 + "Nothing to see here." + " "*27, 
                  @game.text_block("test")
       
     File.delete("./text_blocks/test.txt")    

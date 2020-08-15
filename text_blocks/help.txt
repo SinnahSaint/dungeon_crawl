@@ -1,5 +1,5 @@
 Help & Hints
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 * The goal is to find the gold, and get out of the dungeon safely, carrying as 
     many things as you can find.
 * Entering 'i' will get you to your inventory.
@@ -10,4 +10,4 @@ Help & Hints
 * If you get really stuck type hint and you will get a hint specific to the 
     encounter you're facing.
 * Good luck and have fun! Entering '?' will get you back to this help text.
---------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
