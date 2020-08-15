@@ -155,53 +155,51 @@ class App
 
   def handle_command(cmdstr)
     first, second, third, fourth = cmdstr.split(" ")  
+    # Want to see if the hash used in testing is helpful here but I don't see it yet 
     
-    msg = (
-      case first
-      when nil
-        missing_command
-      when "debug"
-        debug
-      when "teleport"
-        teleport(second.to_i, third.to_i, fourth)
-      when "north", "n"
-        attempt_to_walk("north")
-      when "east", "e"
-        attempt_to_walk("east")
-      when "south", "s"
-        attempt_to_walk("south")
-      when "west", "w" 
-        attempt_to_walk("west")
-      when "?", "help"              
-        text_block("help")
-      when "hint"
-        hint
-      when "i", "inv", "inventory"
-        check_inventory
-      when "quit", "exit"
-        game_over("You die in the maze! Bye, Felicia!")
-      when "take"
-        if move_item(second, current_room, @avatar)
-          "You pick up the #{second}. "
-        else
-          "Whoops! No #{second} here. "
-        end 
-      when "drop"
-        if move_item(second, @avatar, current_room)
-          "You drop the #{second}. "
-        else
-          "Whoops! No #{second} in inventory. "
-        end
-      else
-        check_with_encounter(cmdstr)
-      end
-    )   
-    display msg
+    display case first
+            when nil
+              missing_command
+            when "debug"
+              debug
+            when "teleport"
+              teleport(second.to_i, third.to_i, fourth)
+            when "north", "n"
+              attempt_to_walk("north")
+            when "east", "e"
+              attempt_to_walk("east")
+            when "south", "s"
+              attempt_to_walk("south")
+            when "west", "w" 
+              attempt_to_walk("west")
+            when "?", "help"              
+              text_block("help")
+            when "hint"
+              hint
+            when "i", "inv", "inventory"
+              check_inventory
+            when "quit", "exit"
+              game_over("You die in the maze! Bye, Felicia!")
+            when "take"
+              if move_item(second, current_room, @avatar)
+                "You pick up the #{second}. "
+              else
+                "Whoops! No #{second} here. "
+              end 
+            when "drop"
+              if move_item(second, @avatar, current_room)
+                "You drop the #{second}. "
+              else
+                "Whoops! No #{second} in inventory. "
+              end
+            else
+              check_with_encounter(cmdstr)
+            end  
   end
   
   def check_with_encounter(cmdstr)
    result = current_room.enc.handle_command(cmdstr, @avatar)
-   if result == false
+   unless result
     result = "Trying to #{cmdstr} won't work right now."
    end
    result
