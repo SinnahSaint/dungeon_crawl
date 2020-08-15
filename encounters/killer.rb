@@ -7,10 +7,7 @@ class Killer < NoEnc
     @friend = false
   end
   
-  def handle_command(cmdstr, avatar)
-    
-    ## Add hug option so you can keep milk
-    
+  def handle_command(cmdstr, avatar)    
     case cmdstr
     when "use knife", "stab man",  "kill man", "knife man"
       if avatar.has_item?("knife")
@@ -25,13 +22,14 @@ class Killer < NoEnc
       end   
     when "tell joke"
       avatar.leave("You pissed him off and died of being a smartass.")
-    when "use penny", "give penny", "use gold", "give gold" 
+    when "use penny", "give penny"
       if avatar.has_item?("penny")
         avatar.remove_item("smile")
         "He's insulted that you tried to bribe him."
       else
         "Whoops! No penny in inventory. "
       end  
+    when "use gold", "give gold"   
       if avatar.has_item?("gold")
         "He's insulted that you tried to bribe him with his own gold."
         avatar.leave("You pissed him off and died in the bowels of the dungeon.")
@@ -47,7 +45,12 @@ class Killer < NoEnc
         "That's just what he was looking for. You've made a friend."
       else
         "Whoops! No milk in inventory. "
-      end  
+      end
+    when "hug man", "give hug", "give kiss", "kiss man" 
+      @blocking = false
+      @friend = true
+      avatar.inventory << "smile"
+      "That's just what he was looking for. You've made a friend." 
     else
       false
     end
@@ -61,7 +64,7 @@ class Killer < NoEnc
     if @dead
       "The man lies dead on the floor. I can't beleve you actually killed him!"
     elsif @friend
-      "Tommy waves at you from the table. He really appreciated the milk."
+      "Tommy waves at you from the table. He really appreciated that."
     else
       <<~HERE
       In the room you see a man in leather armour. His sword is at his side. This guy 

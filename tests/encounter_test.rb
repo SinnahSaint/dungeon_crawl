@@ -324,7 +324,6 @@ class KillerTest < Test::Unit::TestCase
     assert @enc.inventory.empty?
   end
   
-  
   def test_handle_command_gold
     nogold = @enc.handle_command("use gold", @avatar)
     assert_equal nogold.empty?, false
@@ -393,6 +392,13 @@ class KillerTest < Test::Unit::TestCase
   def test_handle_command_joke
     @enc.handle_command("tell joke", @avatar)
     assert @avatar.called_leave
+  end
+  
+  def test_handle_command_hug
+    @enc.handle_command("hug man", @avatar)
+    assert @avatar.inventory.include?("smile")
+    assert_equal @enc.blocking, false
+    assert @enc.state.include? "Tommy waves"
   end
   
   def test_handle_command_other
