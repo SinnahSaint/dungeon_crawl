@@ -38,10 +38,11 @@ class AppTest < Test::Unit::TestCase
      ]
     
     @map_start = [0, 1, "south"]
+    @map_end = [1, 1]
     
     @output = StringIO.new
     @input = StringIO.new
-    @game = App.new(avatar: @avatar, map: map, map_start: @map_start, output: @output, input: @input)
+    @game = App.new(avatar: @avatar, map: map, map_end: @mapend, map_start: @map_start, output: @output, input: @input)
   end
   
   def test_display

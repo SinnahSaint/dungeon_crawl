@@ -7,11 +7,12 @@ Dir["./encounters/*.rb"].each do |file_name|
 end
 
 class App
-  def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil, map_start: nil)
+  def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil, map_end: nil, map_start: nil)
     @input = input
     @output = output
     @avatar = avatar || Player.new(self)
     @map = map || choose_map
+    @map_end = map_end || [3, 1]
     @map_start = map_start || [2, 1, "south"]
     move_avatar(*@map_start, initializing: true)
   end
@@ -128,7 +129,7 @@ class App
     
     return if initializing
     
-    if @avatar.location[0] >= 3 
+    if @avatar.location == @map_end
       game_over("You Win!\nYou manage to leave alive. Huzzah!\n #{check_inventory}")
     else
       "You walk to the next room."
