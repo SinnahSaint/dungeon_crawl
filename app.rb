@@ -3,6 +3,9 @@ require_relative "./template"
 require_relative "./room"
 require_relative "./map"
 require_relative "./utility"
+
+require 'pp'
+
 Dir["./encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
@@ -17,16 +20,27 @@ class App
     move_avatar(*@current_map.start, initializing: true)
   end
   
-  def run
+  def save_state
+   self.to_h
+  end
+  
+  def to_h
+    {
+      avatar: @avatar.to_h,
+      current_map: @current_map.to_h
+    }
+  end
+  
+  def run    
     display text_block("intro")
     look
-    
+
     loop do
       command = interface
       handle_command(command)
       display " - - - "
       look
-    end  
+    end
   end
   
   def interface
@@ -123,6 +137,8 @@ class App
               missing_command
             when "debug"
               debug
+            when "debuggame"
+              debug_game
             when "teleport"
               teleport(second.to_i, third.to_i, fourth)
             when "north", "n"
@@ -180,6 +196,10 @@ class App
   
   def debug
     Utility.debug(current_room, @avatar)
+  end
+  
+  def debug_game
+    Utility.debug_game(self)
   end
   
   def look

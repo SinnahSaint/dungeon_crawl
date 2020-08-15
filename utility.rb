@@ -12,6 +12,16 @@ module Utility
     end
   end
   
+  def debug_game(game)
+    <<~HERE
+    #{"- " * 20}
+    #{"- " * 20}
+    #{game.save_state}
+    #{"- " * 20}
+    #{"- " * 20}
+    HERE
+  end
+  
   def debug(current_room, avatar)
     <<~HERE
     #{"- " * 20}
@@ -31,5 +41,5 @@ module Utility
     HERE
   end
   
-  module_function :english_list, :debug
+  module_function :english_list, :debug, :debug_game
 end
