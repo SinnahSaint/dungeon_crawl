@@ -185,9 +185,14 @@ class AppTest < Test::Unit::TestCase
     reset_location.call
     assert_equal blocked_message, @game.attempt_to_walk("east")
     
-    reset_location.call
-    @game.attempt_to_walk("south")
-    assert_equal [1, 1], @avatar.location
+    begin
+      reset_location.call
+      @game.attempt_to_walk("south")
+      assert_equal [1, 1], @avatar.location
+    rescue SystemExit
+    end
+    
+    # Unblock the room (using milk, see setup) - can go ESW
     
     reset_location.call
     @avatar.inventory << "milk"
@@ -203,9 +208,12 @@ class AppTest < Test::Unit::TestCase
     @game.attempt_to_walk("east")
     assert_equal [0, 2], @avatar.location
     
-    reset_location.call
-    @game.attempt_to_walk("south")
-    assert_equal [1, 1], @avatar.location
+    begin
+      reset_location.call
+      @game.attempt_to_walk("south")
+      assert_equal [1, 1], @avatar.location
+    rescue SystemExit
+    end
   end
   
   def test_move_avatar
