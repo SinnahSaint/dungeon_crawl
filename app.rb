@@ -141,23 +141,6 @@ class App
     exit(0)
   end
 
-  def look
-    display current_room.description
-    display current_room.enc.state unless current_room.enc.state == ""
-    unless current_room.inventory.empty?
-      display "In this room you can see: #{Utility.english_list(current_room.inventory)}"
-    else
-      display "You don't see any interesting items here."
-    end  
-   
-    doors = current_room.lay - @avatar.back.split(" ")
-    unless doors.empty?
-    display "There are exits to the #{Utility.english_list(doors)}, or #{@avatar.back}, back the way you came."
-    else
-    display "The only exit is to the #{@avatar.back}, back the way you came."
-    end
-  end
-
   def move_item(item,from,to)
     if from.inventory.include?(item)
     from.remove_item(item)
@@ -240,9 +223,26 @@ class App
     Utility.debug(current_room, @avatar)
   end
   
+  def look
+    display current_room.description
+    display current_room.enc.state unless current_room.enc.state == ""
+    unless current_room.inventory.empty?
+      display "In this room you can see: #{Utility.english_list(current_room.inventory)}"
+    else
+      display "You don't see any interesting items here."
+    end  
+   
+    doors = current_room.lay - @avatar.back.split(" ")
+    unless doors.empty?
+    display "There are exits to the #{Utility.english_list(doors)}, or #{@avatar.back}, back the way you came."
+    else
+    display "The only exit is to the #{@avatar.back}, back the way you came."
+    end
+  end
+  
   # logically public: 
   #   App.display, App.initialize
-  #   Game.initialize, Game.text_block, Game.handle_command, Game.look
+  #   Game.initialize, Game.text_block, Game.handle_command, Game.look (talk to meg re: look)
   # Through handle_command, add:
   #   move_avatar
   #   attempt_to_walk

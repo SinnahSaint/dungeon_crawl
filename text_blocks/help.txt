@@ -3,7 +3,6 @@ Help & Hints
 * The goal is to find the gold, and get out of the dungeon safely, carrying as 
     many things as you can find.
 * Entering 'i' will get you to your inventory.
-* Entering 'look' will tell you about the room you're in.
 * Enter a cardinal direction & you will try to move that way.
 * Key words like 'use' and 'take' will let you interact with items.
 * Encounters in the dungeon may want an item to let you pass, or they may want 

@@ -146,19 +146,6 @@ class AppTest < Test::Unit::TestCase
     assert_not_equal zero, two
     assert_not_equal one, two 
   end
-
-  def test_look
-    expected = <<~TEXT
-    A kitchen with a nice table. 
-    OMG the table's on fire!
-    In this room you can see: knife
-    There are exits to the east and west, or south, back the way you came.
-    TEXT
-    
-    @game.look # outputs to @output via "puts"
-    
-    assert_equal expected, @output.string
-  end
   
   def test_check_inventory
     assert_equal "Your inventory includes: \n * lint\n * penny\n * hope ", 
