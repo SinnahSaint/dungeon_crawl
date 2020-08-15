@@ -3,14 +3,16 @@ require 'ostruct'
 require 'stringio'
 require_relative '../app.rb'
 require_relative '../player.rb'
-require_relative '../room.rb'
 require_relative '../template.rb'
+require_relative '../room.rb'
 require_relative '../utility.rb'
 require_relative '../encounters/no_enc.rb'
 require_relative '../encounters/fire.rb'
 require_relative '../encounters/ice.rb'
 
 class AppTest < Test::Unit::TestCase
+
+  DEFAULT_START_LOCATION = [0, 1, "south"]
 
   def setup
     @avatar = Player.new(self)
@@ -30,24 +32,27 @@ class AppTest < Test::Unit::TestCase
       n: Template.new(description: "A literally boring nothing room. "
                       ),
     }
-    map = [
-      [Room.new(lay[:ne], temp[:n]), 
-       Room.new(lay[:esw], temp[:f]), 
-       Room.new(lay[:nw], temp[:i]),
-       ]
-     ]
     
-    @map_start = [0, 1, "south"]
-    @map_end = [1, 1]
+    test_map = {
+      level: [
+         [
+           Room.new(lay[:ne], temp[:n]), 
+           Room.new(lay[:esw], temp[:f]), 
+           Room.new(lay[:nw], temp[:i]),
+         ],
+      ],
+      win: [1, 1],
+      start: DEFAULT_START_LOCATION,
+    }
     
     @output = StringIO.new
     @input = StringIO.new
-    @game = App.new(avatar: @avatar, map: map, map_end: @mapend, map_start: @map_start, output: @output, input: @input)
+    @game = App.new(avatar: @avatar, map: test_map, output: @output, input: @input)
   end
   
   def test_display
-   @game.display("test display msg")
-   assert_match "test display msg", @output.string
+    @game.display("test display msg")
+    assert_match "test display msg", @output.string
   end
   
   def test_run_loop
@@ -154,7 +159,7 @@ class AppTest < Test::Unit::TestCase
     assert_equal "Your inventory includes: \n * hope ", @game.check_inventory
     @avatar.remove_item("hope")
     assert_equal "You're not carrying anything.", @game.check_inventory
-   end
+  end
 
   def test_move_item
     @avatar.location = [0,1]
@@ -176,6 +181,8 @@ class AppTest < Test::Unit::TestCase
     
     blocked_message = "You'll have to deal with this or go back."
     
+    # Room blocked (see setup) - can only go back
+        
     reset_location.call
     assert_equal "That's a wall dummy.", @game.attempt_to_walk("north")
     
@@ -217,7 +224,7 @@ class AppTest < Test::Unit::TestCase
   end
   
   def test_move_avatar
-    assert_equal @map_start, [@avatar.location, @avatar.back].flatten
+    assert_equal DEFAULT_START_LOCATION, [@avatar.location, @avatar.back].flatten
     @game.move_avatar(1, 2, "back")
     assert_equal [1, 2], @avatar.location
     assert_equal "back", @avatar.back

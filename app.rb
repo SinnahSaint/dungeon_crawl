@@ -1,56 +1,20 @@
 require_relative "./player"
 require_relative "./template"
 require_relative "./room"
+require_relative "./map"
 require_relative "./utility"
 Dir["./encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
 
 class App
-  def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil, map_end: nil, map_start: nil)
+  def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil)
     @input = input
     @output = output
     @avatar = avatar || Player.new(self)
-    @map = map || choose_map
-    @map_end = map_end || [3, 1]
-    @map_start = map_start || [2, 1, "south"]
-    move_avatar(*@map_start, initializing: true)
-  end
-  
-  def choose_map
-    temp = {
-      a: Template.new(encounter: ->{Avalanche.new}, inventory:["gemstone"], description: "A dusty room full of rubble. "),
-      c: Template.new(encounter: ->{Cow.new}, description: "A mostly empty room with straw on the floor. "),
-      f: Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "A kitchen with a nice table. "),
-      i: Template.new(encounter: ->{Ice.new}, description: "This room is really cold for no good reason. "),
-      j: Template.new(encounter: ->{Jester.new}, description: "A throne room, with no one on the throne. "),
-      k: Template.new(encounter: ->{Killer.new}, description: "This room looks like you walked into a bandit's home office. "),
-      g: Template.new(inventory:["gold"], description: "A lovely room filled with gold. "),
-      n: Template.new(description: "A literally boring nothing room. "),
-    }
+    @current_map = Map.new(map)
     
-    lay = {
-      n: %w[north],
-      e: %w[east],
-      s: %w[south],
-      w: %w[west],
-      ne: %w[north east],
-      ns: %w[north south],
-      nw: %w[north west],
-      es: %w[east south],
-      ew: %w[east west],
-      sw: %w[south west],
-      nes: %w[north east south],
-      new: %w[north east west],
-      nsw: %w[north south west],
-      esw: %w[east south west],
-      nesw: %w[north east south west]
-    }
-    
-    [[Room.new(lay[:es], temp[:f]), Room.new(lay[:esw], temp[:k]), Room.new(lay[:w], temp[:a])],
-     [Room.new(lay[:ns], temp[:n]), Room.new(lay[:n], temp[:g]),   Room.new(lay[:s], temp[:c])],
-     [Room.new(lay[:ne], temp[:j]), Room.new(lay[:esw], temp[:n]), Room.new(lay[:nw], temp[:i])]
-    ]
+    move_avatar(*@current_map.start, initializing: true)
   end
   
   def run
@@ -86,7 +50,7 @@ class App
 
   def current_room
     y, x = @avatar.location
-    @map[y][x]
+    @current_map.level[y][x]
   end
  
   def check_inventory
@@ -126,7 +90,7 @@ class App
     
     return if initializing
     
-    if @avatar.location == @map_end
+    if @avatar.location == @current_map.win
       game_over("You Win!\nYou manage to leave alive. Huzzah!\n #{check_inventory}")
     else
       "You walk to the next room."
