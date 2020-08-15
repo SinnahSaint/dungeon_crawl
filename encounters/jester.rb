@@ -27,4 +27,10 @@ class Jester < NoEnc
     end
   end
   
+  def to_h
+    super.merge({
+      joke: @joke
+    })
+  end
+  
 end

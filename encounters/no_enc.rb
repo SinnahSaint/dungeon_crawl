@@ -30,4 +30,12 @@ class NoEnc
     ""
   end
   
+  def to_h
+    {
+      class: self.class.name,
+      blocking: @blocking,
+      inventory: @inventory
+    }
+  end
+  
 end

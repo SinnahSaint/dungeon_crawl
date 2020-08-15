@@ -21,4 +21,13 @@ class Room
     @inventory.delete(item)
   end
   
+  def to_h
+    {
+      lay: @lay,
+      description: @description,
+      inventory: @inventory,
+      enc: @enc.to_h
+    }
+  end
+  
 end

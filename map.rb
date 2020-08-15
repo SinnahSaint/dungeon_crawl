@@ -47,5 +47,17 @@ class Map
     @start = start || [2, 1, "south"] 
     @win = win || [3, 1]
   end
+  
+  def to_h
+    {
+      start: @start,
+      win: @win,
+      level: @level.map do |row|
+        row.map do |room|
+          room&.to_h
+        end
+      end
+    }
+  end
 
 end

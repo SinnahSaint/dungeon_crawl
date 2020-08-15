@@ -71,4 +71,11 @@ class Killer < NoEnc
     end
   end
   
+  def to_h    
+    super.merge({
+      dead: @dead,
+      friend: @friend,
+    })
+  end
+  
 end
