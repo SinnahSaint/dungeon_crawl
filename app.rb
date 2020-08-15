@@ -100,27 +100,39 @@ class App
 
   def attempt_to_walk(nesw)
     case nesw
-      when @avatar.back then walk(nesw)
+      when @avatar.back then move_avatar(*new_location(nesw))
       when *current_room.lay
         if current_room.enc.blocking 
           "You'll have to deal with this or go back."
         else
-          walk(nesw)
+          # walk(nesw)
+          move_avatar(*new_location(nesw))
         end
       else
         "That's a wall dummy."
     end
   end
   
-  def walk(nesw)
-    case nesw
-      when "north" then move_avatar(@avatar.location[0] - 1, @avatar.location[1],     "south")
-      when "east"  then move_avatar(@avatar.location[0],     @avatar.location[1] + 1, "west")
-      when "south" then move_avatar(@avatar.location[0] + 1, @avatar.location[1],     "north")
-      when "west"  then move_avatar(@avatar.location[0],     @avatar.location[1] - 1, "east")
-      else display "can't move."
-    end
+  def new_location(nesw)
+    direction = { 
+      "north" => [@avatar.location[0] - 1, @avatar.location[1] + 0, "south"],
+      "east" => [@avatar.location[0]  + 0, @avatar.location[1] + 1, "west"],
+      "south" => [@avatar.location[0] + 1, @avatar.location[1] + 0, "north"],
+      "west" => [@avatar.location[0]  + 0, @avatar.location[1] - 1, "east"],
+      }
+  
+    direction.fetch(nesw)
   end
+  
+  # def walk(nesw)
+  #   case nesw
+  #     when "north" then move_avatar(@avatar.location[0] - 1, @avatar.location[1],     "south")
+  #     when "east"  then move_avatar(@avatar.location[0],     @avatar.location[1] + 1, "west")
+  #     when "south" then move_avatar(@avatar.location[0] + 1, @avatar.location[1],     "north")
+  #     when "west"  then move_avatar(@avatar.location[0],     @avatar.location[1] - 1, "east")
+  #     else display "can't move."
+  #   end
+  # end
   
   def move_avatar(new_y, new_x, back, initializing: false)
     @avatar.location[0] = new_y
