@@ -324,6 +324,20 @@ class KillerTest < Test::Unit::TestCase
     assert @enc.inventory.empty?
   end
   
+  
+  def test_handle_command_gold
+    nogold = @enc.handle_command("use gold", @avatar)
+    assert_equal nogold.empty?, false
+    assert_instance_of String, nogold
+    assert @enc.blocking
+    assert_false @enc.state.include? "Tommy waves"
+    assert_false @enc.state.include? "The man lies dead"
+    
+    @avatar.inventory<<"gold"
+    @enc.handle_command("use gold", @avatar)
+    assert @avatar.called_leave
+  end
+  
   def test_handle_command_penny
     bribe = @enc.handle_command("use penny", @avatar)
     assert_equal bribe.empty?, false
@@ -343,7 +357,7 @@ class KillerTest < Test::Unit::TestCase
     assert_equal nomilk.empty?, false
     assert_instance_of String, nomilk
     assert @enc.blocking
-    # test for friendship in state
+    assert_false @enc.state.include? "Tommy waves"
     
     @avatar.inventory<<"milk"
     milk = @enc.handle_command("give milk", @avatar)
@@ -352,7 +366,7 @@ class KillerTest < Test::Unit::TestCase
     assert @avatar.inventory.none?("milk")
     assert @avatar.inventory.include?("smile")
     assert_equal @enc.blocking, false
-    # test for friendship in state
+    assert @enc.state.include? "Tommy waves"
   end
 
   def test_handle_command_kill
@@ -360,7 +374,7 @@ class KillerTest < Test::Unit::TestCase
     assert_equal noknife.empty?, false
     assert_instance_of String, noknife
     assert @enc.blocking
-    # test for dead in state
+    assert_false @enc.state.include? "The man lies dead"
     
     @avatar.inventory<<"knife"
     @avatar.inventory<<"smile"
@@ -373,7 +387,7 @@ class KillerTest < Test::Unit::TestCase
     assert @avatar.inventory.none?("hope")
     assert @avatar.inventory.none?("laughter")  
     assert_equal @enc.blocking, false
-    # test for dead in state 
+    assert @enc.state.include? "The man lies dead"
   end
 
   def test_handle_command_joke
