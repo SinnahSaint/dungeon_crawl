@@ -8,6 +8,9 @@ class Killer < NoEnc
   end
   
   def handle_command(cmdstr, avatar)
+    
+    ## Add hug option so you can keep milk
+    
     case cmdstr
     when "use knife", "stab man",  "kill man", "knife man"
       if avatar.has_item?("knife")
