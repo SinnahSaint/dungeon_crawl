@@ -8,6 +8,9 @@ class Killer < NoEnc
   end
   
   def handle_command(cmdstr, avatar)
+    
+    ## Add hug option so you can keep milk
+    
     case cmdstr
     when "use knife", "stab man",  "kill man", "knife man"
       if avatar.has_item?("knife")
@@ -66,6 +69,13 @@ class Killer < NoEnc
       have something for him.
       HERE
     end
+  end
+  
+  def to_h    
+    super.merge({
+      dead: @dead,
+      friend: @friend,
+    })
   end
   
 end

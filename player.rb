@@ -23,4 +23,12 @@ class Player
       @game.game_over(msg)
   end
   
+  def to_h
+    {
+      back: @back,
+      location: @location,
+      inventory: @inventory,
+    }
+  end
+  
 end

@@ -40,4 +40,11 @@ class Cow < NoEnc
     end
   end
   
+  def to_h
+    super.merge({
+      milked: @milked,
+      has_milk: @has_milk,
+    })
+  end
+  
 end

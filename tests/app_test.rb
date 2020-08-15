@@ -3,14 +3,16 @@ require 'ostruct'
 require 'stringio'
 require_relative '../app.rb'
 require_relative '../player.rb'
-require_relative '../room.rb'
 require_relative '../template.rb'
+require_relative '../room.rb'
 require_relative '../utility.rb'
 require_relative '../encounters/no_enc.rb'
 require_relative '../encounters/fire.rb'
 require_relative '../encounters/ice.rb'
 
 class AppTest < Test::Unit::TestCase
+
+  DEFAULT_START_LOCATION = [0, 1, "south"]
 
   def setup
     @avatar = Player.new(self)
@@ -30,23 +32,135 @@ class AppTest < Test::Unit::TestCase
       n: Template.new(description: "A literally boring nothing room. "
                       ),
     }
-    map = [
-      [Room.new(lay[:ne], temp[:n]), 
-       Room.new(lay[:esw], temp[:f]), 
-       Room.new(lay[:nw], temp[:i]),
-       ]
-     ]
     
-    @map_start = [0, 1, "south"]
+    test_map = {
+      level: [
+         [
+           Room.new(lay[:ne], temp[:n]), 
+           Room.new(lay[:esw], temp[:f]), 
+           Room.new(lay[:nw], temp[:i]),
+         ],
+      ],
+      win: [1, 1],
+      start: DEFAULT_START_LOCATION,
+    }
     
     @output = StringIO.new
     @input = StringIO.new
-    @game = App.new(avatar: @avatar, map: map, map_start: @map_start, output: @output, input: @input)
+    @game = App.new(avatar: @avatar, map: test_map, output: @output, input: @input)
+  end
+  
+  def test_default_init
+    game = App.new
+    save_state = game.save_state
+            
+    assert_equal %w(lint penny hope), save_state[:avatar][:inventory]
+    assert_equal [2,1], save_state[:avatar][:location]
+    
+    assert_equal "A kitchen with a nice table. ",
+      save_state[:current_map][:level][0][0][:description]
+    
+    expected = {
+      avatar: {
+        back: "south", 
+        inventory: ["lint", "penny", "hope"], 
+        location: [2, 1]
+      },
+      current_map: {
+        level: [
+          [ { description: "A kitchen with a nice table. ",
+              enc: { blocking: true, 
+                     class: "Fire", 
+                     inventory: []
+                   },
+              inventory: ["knife"],
+              lay: ["east", "south"]
+            },
+            { description: "This room looks like you walked into a bandit's home office. ",
+              enc: { blocking: true,
+                     class: "Killer",
+                     dead: false,
+                     friend: false,
+                     inventory: []
+              },
+              inventory: [],
+              lay: ["east", "south", "west"]
+            },
+            { description: "A dusty room full of rubble. ",
+              enc: { blocking: false, 
+                     class: "Avalanche", 
+                     inventory: []
+                   },
+              inventory: ["gemstone"],
+              lay: ["west"]
+            }
+          ],
+          [ { description: "A literally boring nothing room. ",
+              enc: { blocking: false, 
+                     class: "NoEnc", 
+                     inventory: []
+                   },
+              inventory: [],
+              lay: ["north", "south"]
+            },
+            { description: "A lovely room filled with gold. ",
+              enc: { blocking: false, 
+                     class: "NoEnc", 
+                     inventory: []
+                   },
+              inventory: ["gold"],
+              lay: ["north"]
+            },
+            { description: "A mostly empty room with straw on the floor. ",
+              enc: { blocking: false,
+                     class: "Cow",
+                     has_milk: true,
+                     inventory: [],
+                     milked: false
+                   },
+              inventory: [],
+              lay: ["south"]
+            }
+          ],
+          [
+            { description: "A throne room, with no one on the throne. ",
+              enc: { blocking: false, 
+                     class: "Jester", 
+                     inventory: [], 
+                     joke: false
+                   },
+              inventory: [],
+              lay: ["north", "east"]
+            },
+            { description: "A literally boring nothing room. ",
+              enc: { blocking: false, 
+                     class: "NoEnc", 
+                     inventory: []
+                   },
+              inventory: [],
+              lay: ["east", "south", "west"]
+            },
+            { description: "This room is really cold for no good reason. ",
+              enc: { blocking: false, 
+                     class: "Ice", 
+                     inventory: []
+                   },
+              inventory: [],
+              lay: ["north", "west"]
+            }
+          ]
+        ],
+        start: [2, 1, "south"],
+        win: [3, 1]
+      }
+    }
+    assert_equal expected, save_state
+    
   end
   
   def test_display
-   @game.display("test display msg")
-   assert_match "test display msg", @output.string
+    @game.display("test display msg")
+    assert_match "test display msg", @output.string
   end
   
   def test_run_loop
@@ -65,10 +179,9 @@ class AppTest < Test::Unit::TestCase
         file.write "This is a test file.\n"
         file.write "Nothing to see here."
     end
-    # File.close("./text_blocks/test.txt") # needed? or does do-block close?
         
-    assert_equal " "*28 + "This is a test file." + " "*28 + "\n" +
-                 " "*28 + "Nothing to see here." + " "*28, 
+    assert_equal " "*27 + "This is a test file." + " "*27 + "\n" +
+                 " "*27 + "Nothing to see here." + " "*27, 
                  @game.text_block("test")
       
     File.delete("./text_blocks/test.txt")    
@@ -145,19 +258,6 @@ class AppTest < Test::Unit::TestCase
     assert_not_equal zero, two
     assert_not_equal one, two 
   end
-
-  def test_look
-    expected = <<~TEXT
-    A kitchen with a nice table. 
-    OMG the table's on fire!
-    In this room you can see: knife
-    There are exits to the east and west, or south, back the way you came.
-    TEXT
-    
-    @game.look # outputs to @output via "puts"
-    
-    assert_equal expected, @output.string
-  end
   
   def test_check_inventory
     assert_equal "Your inventory includes: \n * lint\n * penny\n * hope ", 
@@ -167,7 +267,7 @@ class AppTest < Test::Unit::TestCase
     assert_equal "Your inventory includes: \n * hope ", @game.check_inventory
     @avatar.remove_item("hope")
     assert_equal "You're not carrying anything.", @game.check_inventory
-   end
+  end
 
   def test_move_item
     @avatar.location = [0,1]
@@ -189,6 +289,8 @@ class AppTest < Test::Unit::TestCase
     
     blocked_message = "You'll have to deal with this or go back."
     
+    # Room blocked (see setup) - can only go back
+        
     reset_location.call
     assert_equal "That's a wall dummy.", @game.attempt_to_walk("north")
     
@@ -198,9 +300,14 @@ class AppTest < Test::Unit::TestCase
     reset_location.call
     assert_equal blocked_message, @game.attempt_to_walk("east")
     
-    reset_location.call
-    @game.attempt_to_walk("south")
-    assert_equal [1, 1], @avatar.location
+    begin
+      reset_location.call
+      @game.attempt_to_walk("south")
+      assert_equal [1, 1], @avatar.location
+    rescue SystemExit
+    end
+    
+    # Unblock the room (using milk, see setup) - can go ESW
     
     reset_location.call
     @avatar.inventory << "milk"
@@ -216,13 +323,16 @@ class AppTest < Test::Unit::TestCase
     @game.attempt_to_walk("east")
     assert_equal [0, 2], @avatar.location
     
-    reset_location.call
-    @game.attempt_to_walk("south")
-    assert_equal [1, 1], @avatar.location
+    begin
+      reset_location.call
+      @game.attempt_to_walk("south")
+      assert_equal [1, 1], @avatar.location
+    rescue SystemExit
+    end
   end
   
   def test_move_avatar
-    assert_equal @map_start, [@avatar.location, @avatar.back].flatten
+    assert_equal DEFAULT_START_LOCATION, [@avatar.location, @avatar.back].flatten
     @game.move_avatar(1, 2, "back")
     assert_equal [1, 2], @avatar.location
     assert_equal "back", @avatar.back
