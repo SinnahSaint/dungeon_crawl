@@ -44,8 +44,8 @@ class Map
         [Room.new(LAY[:ns], TEMP[:n]), Room.new(LAY[:n], TEMP[:g]),   Room.new(LAY[:s], TEMP[:c])],
         [Room.new(LAY[:ne], TEMP[:j]), Room.new(LAY[:esw], TEMP[:n]), Room.new(LAY[:nw], TEMP[:i])],
       ]
-    @start = start || [0, 1, "south"] 
-    @win = win || [1,1]
+    @start = start || [2, 1, "south"] 
+    @win = win || [3, 1]
   end
 
 end

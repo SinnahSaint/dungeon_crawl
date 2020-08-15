@@ -12,7 +12,7 @@ class App
     @input = input
     @output = output
     @avatar = avatar || Player.new(self)
-    @current_map = Map.new(map)
+    @current_map = Map.new(map || {})
     
     move_avatar(*@current_map.start, initializing: true)
   end
