@@ -4,13 +4,12 @@ require_relative '../room.rb'
 
 class RoomTest < Test::Unit::TestCase
   def setup
-  @template = OpenStruct.new({
-    build_encounter: "encounter built", 
-    description: "template description",
-    inventory: %w[item another],
-  })
-  
-  @room = Room.new("layout", @template)
+    @template = OpenStruct.new({
+      build_encounter: "encounter built", 
+      description: "template description",
+      inventory: %w[item another],
+    })
+    @room = Room.new("layout", @template)
   end
 
   def test_room_creation    

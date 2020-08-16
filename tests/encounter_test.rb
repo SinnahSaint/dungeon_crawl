@@ -206,11 +206,15 @@ class IceTest < Test::Unit::TestCase
   def setup
     @enc = Ice.new
     @game = OpenStruct.new
+    
     def @game.game_over(msg); end
+    
     @avatar = Player.new(@game)
+    
     def @avatar.called_leave
       @called_leave
     end
+    
     def @avatar.leave(*args)
       @called_leave = true
     end
@@ -293,6 +297,14 @@ class JesterTest < Test::Unit::TestCase
   
   def test_state
     assert_instance_of String, @enc.state
+    assert_equal @enc.state.empty?, false
+    nojoke = @enc.state
+    
+    @enc.handle_command("tell joke", @avatar) # makes joke true
+    
+    joked = @enc.state
+    
+    assert_not_equal nojoke, joked
   end
 end
 
@@ -300,11 +312,15 @@ class KillerTest < Test::Unit::TestCase
   def setup
     @enc = Killer.new
     @game = OpenStruct.new
+    
     def @game.game_over(msg); end
+    
     @avatar = Player.new(@game)
+    
     def @avatar.called_leave
       @called_leave
     end
+    
     def @avatar.leave(*args)
       @called_leave = true
     end

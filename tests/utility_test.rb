@@ -1,5 +1,4 @@
 require 'test/unit'
-# require 'ostruct'
 require_relative '../utility.rb'
 
 class EnglishListTest < Test::Unit::TestCase
@@ -38,6 +37,7 @@ end
 
 class EncounterStub
   attr_accessor :state, :blocking
+  
   def initialize
     @blocking = false
     @state =  "There's a huge pile of rocks. It kind of reminds you of the Alpine Mountains."  
@@ -46,6 +46,7 @@ end
 
 class RoomLikeStub
   attr_accessor :lay, :enc, :inventory, :description
+  
   def initialize
     @lay = %w[east south west]
     @enc = EncounterStub.new        
@@ -56,6 +57,7 @@ end
   
 class AvatarStub
   attr_accessor :inventory, :back, :location
+  
   def initialize
     @inventory = %w[lint penny]
     @back = "south"
@@ -63,28 +65,11 @@ class AvatarStub
   end
 end
 
-# AvatarStubStruct = Struct.new(:inventory, :back, :location)
-
 class DebugTest < Test::Unit::TestCase
 
   def setup
     @current_room = RoomLikeStub.new
-    # @current_room = OpenStruct.new({
-    #   lay: %w[east south west],
-    #   enc: OpenStruct.new({
-    #     blocking: false,
-    #     state:  "There's a huge pile of rocks. It kind of reminds you of the Alpine Mountains.",
-    #   }),
-    #   inventory: %w[gemstone stone],
-    #   description: "A dusty room full of rubble. ",
-    # })
     @avatar = AvatarStub.new
-    # @avatar = AvatarStubStruct.new( %w[lint penny], "south", [2,2])
-    # @avatar = OpenStruct.new({
-    #   inventory: %w[lint penny],
-    #   location: [2,2],
-    #   back: "south",
-    # })
   end
 
   def test_debug
@@ -104,13 +89,8 @@ class DebugTest < Test::Unit::TestCase
     #{"- " * 20}
     #{"- " * 20}
     HERE
-    assert_equal Utility.debug(@current_room, @avatar), expected
     
-    # assert_match Utility.debug(@current_room, @avatar), /A dusty room full of rubble/
+    assert_equal expected, Utility.debug(@current_room, @avatar)
   end
-
-  def teardown
-  end
-
 
 end

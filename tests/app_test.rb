@@ -191,6 +191,7 @@ class AppTest < Test::Unit::TestCase
     mappings = {
       "" => :missing_command,
       "debug" => :debug,
+      "debuggame" => :debug_game,
       "teleport" => :teleport,
       "north" => :attempt_to_walk,
       "n" => :attempt_to_walk,

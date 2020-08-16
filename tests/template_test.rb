@@ -12,13 +12,11 @@ class TemplateTest < Test::Unit::TestCase
     assert nada.description.empty?
   end
 
-
   def test_init_allada
     allada = Template.new(encounter: ->{Fire.new}, inventory: ["knife"], description: "OMG it's aflame!")
     assert_equal allada.inventory, ["knife"]
     assert_equal allada.description, "OMG it's aflame!"
   end
-
 
   def test_build_encounter
     lambda_called = false
