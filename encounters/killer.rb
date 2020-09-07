@@ -32,7 +32,7 @@ class Killer < NoEnc
     when "use gold", "give gold"   
       if avatar.has_item?("gold")
         "He's insulted that you tried to bribe him with his own gold."
-        avatar.leave("You pissed him off and died in the bowels of the dungeon.")
+        avatar.leave("You pissed him off and died in the bowels of the dungeon. Game Over!")
       else
         "Whoops! No gold in inventory. "
       end

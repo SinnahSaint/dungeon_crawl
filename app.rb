@@ -156,7 +156,7 @@ class App
             when "i", "inv", "inventory"
               check_inventory
             when "quit", "exit"
-              game_over("You die in the maze! Bye, Felicia!")
+              game_over("You give up and die in the maze! Game Over!")
             when "take"
               if move_item(second, current_room, @avatar)
                 "You pick up the #{second}. "
