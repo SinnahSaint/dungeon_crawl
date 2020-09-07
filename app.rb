@@ -1,5 +1,4 @@
 require_relative "./app/player"
-require_relative "./app/template"
 require_relative "./app/room"
 require_relative "./app/map"
 require_relative "./app/utility"
