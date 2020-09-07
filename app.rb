@@ -20,7 +20,7 @@ class App
     @avatar = avatar || Player.new(self)
     @current_map = Map.new(map || load_map_from_file(DEFAULT_MAP_FILE))
     
-    move_avatar(*@current_map.start, initializing: true)
+    @avatar.move(*@current_map.start)
   end  
   
   def load_map_from_file(filename)
@@ -102,13 +102,9 @@ class App
     end
   end
   
-  def move_avatar(new_y, new_x, back, initializing: false)
-    @avatar.location[0] = new_y
-    @avatar.location[1] = new_x
-    @avatar.back = back
-    
-    return if initializing
-    
+  def move_avatar(new_y, new_x, back)
+    @avatar.move(new_y, new_x, back)
+        
     if @avatar.location == @current_map.win
       game_over("You Win!\nYou manage to leave alive. Huzzah!\n #{check_inventory}")
     else

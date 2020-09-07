@@ -1,11 +1,17 @@
 class Player
-  attr_accessor :back, :inventory, :location
+  attr_reader :back, :inventory, :location
   
   def initialize(game)
     @inventory = %w[lint penny hope]
     @back = ""
     @location = [] 
     @game = game    
+  end
+  
+  def move(new_y, new_x, back)
+    @location[0] = new_y
+    @location[1] = new_x
+    @back = back
   end
   
   def has_item?(item)
