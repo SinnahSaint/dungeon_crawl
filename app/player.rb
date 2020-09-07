@@ -4,13 +4,12 @@ class Player
   def initialize(game)
     @inventory = %w[lint penny hope]
     @back = ""
-    @location = [] 
+    @location = nil 
     @game = game    
   end
   
-  def move(new_y, new_x, back)
-    @location[0] = new_y
-    @location[1] = new_x
+  def move(location, back)
+    @location = location
     @back = back
   end
   
@@ -32,7 +31,7 @@ class Player
   def to_h
     {
       back: @back,
-      location: @location,
+      location: @location.to_h,
       inventory: @inventory,
     }
   end

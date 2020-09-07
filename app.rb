@@ -3,6 +3,7 @@ require_relative "./app/room"
 require_relative "./app/map"
 require_relative "./app/utility"
 require_relative "./app/map_loader"
+require_relative "./app/location"
 
 require 'yaml'
 require 'pp'
@@ -20,7 +21,8 @@ class App
     @avatar = avatar || Player.new(self)
     @current_map = Map.new(map || load_map_from_file(DEFAULT_MAP_FILE))
     
-    @avatar.move(*@current_map.start)
+    location, back = @current_map.start
+    @avatar.move(location, back)
   end  
   
   def load_map_from_file(filename)
@@ -71,8 +73,7 @@ class App
   end
 
   def current_room
-    y, x = @avatar.location
-    @current_map.level[y][x]
+    @current_map.level[@avatar.location.y][@avatar.location.x]
   end
  
   def check_inventory
@@ -88,10 +89,10 @@ class App
     return "That's a wall dummy." unless current_room.lay.include? nesw
     
     update = { 
-      "north" => [@avatar.location[0] - 1, @avatar.location[1] + 0, "south"],
-      "east"  => [@avatar.location[0] + 0, @avatar.location[1] + 1, "west"],
-      "south" => [@avatar.location[0] + 1, @avatar.location[1] + 0, "north"],
-      "west"  => [@avatar.location[0] + 0, @avatar.location[1] - 1, "east"],
+      "north" => [Location.new(y: @avatar.location.y - 1, x: @avatar.location.x + 0), "south"],
+      "east"  => [Location.new(y: @avatar.location.y + 0, x: @avatar.location.x + 1), "west"],
+      "south" => [Location.new(y: @avatar.location.y + 1, x: @avatar.location.x + 0), "north"],
+      "west"  => [Location.new(y: @avatar.location.y + 0, x: @avatar.location.x - 1), "east"],
       }
     
     if @avatar.back == nesw
@@ -103,8 +104,8 @@ class App
     end
   end
   
-  def move_avatar(new_y, new_x, back)
-    @avatar.move(new_y, new_x, back)
+  def move_avatar(location, back)
+    @avatar.move(location, back)
         
     if @avatar.location == @current_map.win
       game_over("You Win!\nYou manage to leave alive. Huzzah!\n #{check_inventory}")
@@ -152,7 +153,7 @@ class App
             when "debuggame"
               debug_game
             when "teleport"
-              teleport(second.to_i, third.to_i, fourth)
+              teleport(Location.new(y: second.to_i, x: third.to_i), fourth)
             when "north", "east", "south", "west"
               attempt_to_walk(first)
             when "help"              
@@ -190,9 +191,9 @@ class App
   
   private
   
-  def teleport(y, x, back)
+  def teleport(location, back)
     raise "RTFM Shannon" if back.nil?
-    move_avatar(y, x, back)
+    move_avatar(location, back)
     "BANFF"
   end
 

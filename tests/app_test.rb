@@ -5,16 +5,18 @@ require_relative '../app.rb'
 require_relative '../app/player.rb'
 require_relative '../app/room.rb'
 require_relative '../app/utility.rb'
+require_relative '../app/location.rb'
 require_relative '../encounters/no_enc.rb'
 require_relative '../encounters/fire.rb'
 require_relative '../encounters/ice.rb'
 
 class AppTest < Test::Unit::TestCase
 
-  DEFAULT_START_LOCATION = [0, 1, "south"]
+  DEFAULT_START_LOCATION = { y: 0, x: 1, back: "south" }
 
   def setup
     @avatar = Player.new(self)
+    start = DEFAULT_START_LOCATION
     test_map = {
       level: [
          [
@@ -31,8 +33,8 @@ class AppTest < Test::Unit::TestCase
                     ),
          ],
       ],
-      win: [1, 1],
-      start: DEFAULT_START_LOCATION,
+      win: Location.new(x: 1, y: 1),
+      start: [Location.new(x: start[:x], y: start[:y]), start[:back]], 
     }
     
     @output = StringIO.new
@@ -238,11 +240,11 @@ class AppTest < Test::Unit::TestCase
   end
   
   def test_current_room
-    @avatar.move(0, 0, "south")
+    @avatar.move(Location.new(x: 0, y: 0), "south")
     zero = @game.current_room
-    @avatar.move(0, 1, "south")
+    @avatar.move(Location.new(x: 1, y: 0), "south")
     one = @game.current_room
-    @avatar.move(0, 2, "south")
+    @avatar.move(Location.new(x: 2, y: 0), "south")
     two = @game.current_room
     
     assert_not_equal zero, one
@@ -261,7 +263,7 @@ class AppTest < Test::Unit::TestCase
   end
 
   def test_move_item
-    @avatar.move(0, 1, "south")
+    @avatar.move(Location.new(x: 1, y: 0), "south")
     
     @game.move_item("knife", @game.current_room, @avatar)
     assert_equal %w[lint penny hope knife], @avatar.inventory
@@ -273,7 +275,7 @@ class AppTest < Test::Unit::TestCase
   end
   
   def test_attempt_to_walk
-    reset_location = ->{ @avatar.move(0, 1, "south") }
+    reset_location = ->{ @avatar.move(Location.new(x: 1, y: 0), "south") }
     
     blocked_message = "You'll have to deal with this or go back."
     
@@ -291,7 +293,7 @@ class AppTest < Test::Unit::TestCase
     begin
       reset_location.call
       @game.attempt_to_walk("south")
-      assert_equal [1, 1], @avatar.location
+      assert_equal Location.new(x: 1, y: 1), @avatar.location
     rescue SystemExit
     end
     
@@ -305,24 +307,26 @@ class AppTest < Test::Unit::TestCase
     
     reset_location.call
     @game.attempt_to_walk("west")
-    assert_equal [0, 0], @avatar.location
+    assert_equal Location.new(x: 0, y: 0), @avatar.location
 
     reset_location.call
     @game.attempt_to_walk("east")
-    assert_equal [0, 2], @avatar.location
+    assert_equal Location.new(x: 2, y: 0), @avatar.location
     
     begin
       reset_location.call
       @game.attempt_to_walk("south")
-      assert_equal [1, 1], @avatar.location
+      assert_equal Location.new(x: 1, y: 1), @avatar.location
     rescue SystemExit
     end
   end
   
   def test_move_avatar
-    assert_equal DEFAULT_START_LOCATION, [@avatar.location, @avatar.back].flatten
-    @game.move_avatar(1, 2, "back")
-    assert_equal [1, 2], @avatar.location
+    assert_equal DEFAULT_START_LOCATION, @avatar.location.to_h.merge({back: @avatar.back})
+    
+    new_location = Location.new(x: 2, y: 1)
+    @game.move_avatar(new_location, "back")
+    assert_equal new_location, @avatar.location
     assert_equal "back", @avatar.back
     
     # expect(@avatar.back).to equal("back")  # RSpec

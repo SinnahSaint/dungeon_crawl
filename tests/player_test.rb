@@ -20,15 +20,15 @@ class PlayerTest < Test::Unit::TestCase
   def test_change_back
     assert_kind_of String, @guy.back
     assert @guy.back.empty?
-    @guy.move(0, 0, "south")
+    @guy.move(Location.new(x: 0, y: 0), "south")
     assert @guy.back == "south"
   end
   
   def test_change_location
-    assert_kind_of Array, @guy.location
-    assert @guy.location.empty?
-    @guy.move(2, 1, "south")
-    assert @guy.location == [2, 1]
+    assert_nil @guy.location
+    new_location = Location.new(x: 1, y: 2)
+    @guy.move(new_location, "south")
+    assert @guy.location == new_location
   end
   
   def test_add_item

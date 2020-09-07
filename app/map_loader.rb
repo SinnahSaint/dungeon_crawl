@@ -1,3 +1,5 @@
+require_relative "./location"
+
 class MapLoader
   def initialize(hash)
     @hash = hash
@@ -18,7 +20,7 @@ class MapLoader
           )
         end
       end,
-      start: [ start["y"], start["x"], start["back"] ],
+      start: [Location.new(x: start["x"], y: start["y"]), start["back"]],
       win: [ win["y"], win["x"] ],
       text: text
     }
