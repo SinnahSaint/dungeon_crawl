@@ -84,23 +84,21 @@ class App
   end
 
   def attempt_to_walk(nesw)
+    return "That's a wall dummy." unless current_room.lay.include? nesw
+    
     update = { 
       "north" => [@avatar.location[0] - 1, @avatar.location[1] + 0, "south"],
-      "east" => [@avatar.location[0]  + 0, @avatar.location[1] + 1, "west"],
+      "east"  => [@avatar.location[0] + 0, @avatar.location[1] + 1, "west"],
       "south" => [@avatar.location[0] + 1, @avatar.location[1] + 0, "north"],
-      "west" => [@avatar.location[0]  + 0, @avatar.location[1] - 1, "east"],
+      "west"  => [@avatar.location[0] + 0, @avatar.location[1] - 1, "east"],
       }
     
-    case nesw
-      when @avatar.back then move_avatar(*update.fetch(nesw))
-      when *current_room.lay
-        if current_room.enc.blocking 
-          "You'll have to deal with this or go back."
-        else
-          move_avatar(*update.fetch(nesw))
-        end
-      else
-        "That's a wall dummy."
+    if @avatar.back
+      move_avatar(*update.fetch(nesw))
+    elsif current_room.enc.blocking 
+      "You'll have to deal with this or go back."
+    else
+      move_avatar(*update.fetch(nesw))
     end
   end
   
