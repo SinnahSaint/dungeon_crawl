@@ -3,7 +3,6 @@ Dir["../encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
 
-
 class Map
   attr_reader :level, :start, :win
     #
@@ -18,24 +17,6 @@ class Map
   #   n: Template.new(description: "A literally boring nothing room. "),
   # }.freeze
   #
-  #
-  # LAY = {
-  #   n: %w[north],
-  #   e: %w[east],
-  #   s: %w[south],
-  #   w: %w[west],
-  #   ne: %w[north east],
-  #   ns: %w[north south],
-  #   nw: %w[north west],
-  #   es: %w[east south],
-  #   ew: %w[east west],
-  #   sw: %w[south west],
-  #   nes: %w[north east south],
-  #   new: %w[north east west],
-  #   nsw: %w[north south west],
-  #   esw: %w[east south west],
-  #   nesw: %w[north east south west],
-  # }.freeze
 
   def initialize(level: nil, start: nil, win: nil)
     @level = level

@@ -2,6 +2,7 @@ require_relative "./app/player"
 require_relative "./app/room"
 require_relative "./app/map"
 require_relative "./app/utility"
+require_relative "./app/map_loader"
 
 require 'yaml'
 require 'pp'
@@ -11,56 +12,19 @@ Dir["./encounters/*.rb"].each do |file_name|
 end
 
 class App
+  DEFAULT_MAP_FILE = './maps/default.yaml'
+  
   def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil)
     @input = input
     @output = output
     @avatar = avatar || Player.new(self)
-    @current_map = Map.new(map || generate_default_map)
+    @current_map = Map.new(map || load_map_from_file(DEFAULT_MAP_FILE))
     
     move_avatar(*@current_map.start, initializing: true)
-  end
+  end  
   
-  def generate_default_map
-    hash = YAML.load_file('./maps/default.yaml')
-        
-    level, start, win = hash["map"].values_at(%w[level start win])
-    
-    {
-      level: level.map do |row|
-        row.map do |col|
-          encounter_name = col["encounter"] || "NoEnc"
-          Room.new(
-            layout: decode_layout(col["layout"]), 
-            encounter: Object.const_get(encounter_name).new, 
-            inventory: col["inventory"], 
-            description: col["description"]
-          )
-        end
-      end,
-      start: [ start["y"], start["x"], start["back"] ],
-      win: [ win["y"], win["x"] ]
-    }
-  end
-  
-  LAY = {
-    n: %w[north],
-    e: %w[east],
-    s: %w[south],
-    w: %w[west],
-    ne: %w[north east],
-    ns: %w[north south],
-    nw: %w[north west],
-    es: %w[east south],
-    ew: %w[east west],
-    sw: %w[south west],
-    nes: %w[north east south],
-    new: %w[north east west],
-    nsw: %w[north south west],
-    esw: %w[east south west],
-    nesw: %w[north east south west],
-  }.freeze
-  def decode_layout(layout_string)
-    LAY[layout_string.downcase.to_sym]
+  def load_map_from_file(filename)
+    MapLoader.new(YAML.load_file(filename)).generate
   end
   
   def save_state
