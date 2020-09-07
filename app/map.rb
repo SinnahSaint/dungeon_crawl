@@ -38,22 +38,9 @@ class Map
   # }.freeze
 
   def initialize(level: nil, start: nil, win: nil)
-   @level = level ||[
-                     [Room.new(layout: %w[east south], encounter: Fire.new, inventory: ["knife"], description: "A kitchen with a nice table. "),
-                      Room.new(layout: %w[east south west], encounter: Killer.new, description: "This room looks like you walked into a bandit's home office. "), 
-                      Room.new(layout: %w[west], encounter: Avalanche.new, inventory:["gemstone"], description: "A dusty room full of rubble. "),
-                      ],
-                     [Room.new(layout: %w[north south], description: "A dark boring hallway. "),
-                      Room.new(layout: %w[north], inventory:["gold"], description: "A lovely room filled with gold. "),
-                      Room.new(layout: %w[south], encounter: Cow.new, description: "A mostly empty room with straw on the floor. "),
-                      ],
-                     [Room.new(layout: %w[north esat], encounter: Jester.new, description: "A throne room, with no one on the throne. "),
-                      Room.new(layout: %w[east south west], description: "A literally boring nothing room. "),
-                      Room.new(layout: %w[north west], encounter: Ice.new, description: "This room is really cold for no good reason. "),
-                      ],
-                    ]
-    @start = start || [2, 1, "south"] 
-    @win = win || [3, 1]
+    @level = level
+    @start = start
+    @win = win
   end
   
   def to_h

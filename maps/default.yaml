@@ -1,0 +1,49 @@
+map:
+  level: 
+    - 
+      - 
+        layout: ES
+        encounter_type: Fire
+        inventory:
+          - knife
+        description: A kitchen with a nice table.
+      - 
+        layout: ESW
+        encounter: Killer
+        description: This room looks like you walked into a bandit's home office.
+      -
+        layout: W
+        encounter: Avalanche
+        inventory: 
+          - gemstone
+        description: A dusty room full of rubble. 
+    -
+      -
+        layout: NS
+        description: A dark boring hallway.
+      -
+        layout: 'N'
+        inventory:
+          - gold
+        description: A lovely room filled with gold.
+      -
+        layout: S
+        encounter: Cow
+        description: A mostly empty room with straw on the floor.
+    -
+      -
+        layout: NE
+        encounter: Jester
+        description: A throne room, with no one on the throne.
+      -
+        layout: ESW
+        description: A literally boring nothing room.
+      -
+        layout: NW
+        encounter: Ice
+        description: This room is really cold for no good reason.
+          
+                     
+  start: { y: 2, x: 1, back: "south"}
+  win: { y: 3, x: 1 }
+  

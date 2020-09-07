@@ -10,11 +10,11 @@ class Room
     true
   end
   
-  def initialize(layout: %w[north east south west], encounter: NoEnc.new, inventory: [], description: "")
-    @lay = layout
-    @enc = encounter
-    @inventory = inventory.dup
-    @description = description
+  def initialize(layout: nil, encounter: nil, inventory: nil, description: nil)
+    @lay = layout || %w[north east south west]
+    @enc = encounter || NoEnc.new
+    @inventory = inventory&.dup || []
+    @description = description || ""
   end
   
   def remove_item(item)
