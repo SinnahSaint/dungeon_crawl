@@ -218,11 +218,14 @@ class App
       display "You don't see any interesting items here."
     end  
    
-    doors = current_room.lay - @avatar.back.split(" ")
-    unless doors.empty?
-    display "There are exits to the #{Utility.english_list(doors)}, or #{@avatar.back}, back the way you came."
+    doors = current_room.lay.reject { |dir| dir == @avatar.back }
+    
+    if @avatar.back.empty? 
+      exits = doors.empty? ? "no exits you can see." : "exits to the #{Utility.english_list(doors)}"
+      display "There is no way to go back the way you came, and there are #{exits}"
     else
-    display "The only exit is to the #{@avatar.back}, back the way you came."
+      exits = doors.empty? ? "#{@avatar.back}" : "#{Utility.english_list(doors)}, or #{@avatar.back}"
+      display "You can exit to the #{exits}, back the way you came."
     end
   end
   
