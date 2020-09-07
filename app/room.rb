@@ -12,9 +12,9 @@ class Room
   
   def initialize(lay, temp)
     @lay = lay
-    @description = temp.description
     @enc = temp.build_encounter
     @inventory = temp.inventory.dup
+    @description = temp.description
   end
   
   def remove_item(item)
