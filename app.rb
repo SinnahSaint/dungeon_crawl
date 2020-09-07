@@ -131,8 +131,18 @@ class App
 
   def handle_command(cmdstr)
     first, second, third, fourth = cmdstr.split(" ")  
-    # Want to see if the hash used in testing is helpful here but I don't see it yet 
     
+    replacements = {
+      'n' => 'north',
+      'e' => 'east',
+      's' => 'south',
+      'w' => 'west',
+      'i' => 'inventory',
+      'inv' => 'inventory',
+      '?' => 'help',
+    }
+    first = replacements[first] || first
+        
     display case first
             when nil
               missing_command
@@ -142,19 +152,13 @@ class App
               debug_game
             when "teleport"
               teleport(second.to_i, third.to_i, fourth)
-            when "north", "n"
-              attempt_to_walk("north")
-            when "east", "e"
-              attempt_to_walk("east")
-            when "south", "s"
-              attempt_to_walk("south")
-            when "west", "w" 
-              attempt_to_walk("west")
-            when "?", "help"              
-              text_block("help")
+            when "north", "east", "south", "west"
+              attempt_to_walk(first)
+            when "help"              
+              text_block(first)
             when "hint"
               hint
-            when "i", "inv", "inventory"
+            when "inventory"
               check_inventory
             when "quit", "exit"
               game_over("You give up and die in the maze! Game Over!")
