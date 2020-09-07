@@ -14,20 +14,20 @@ class PlayerTest < Test::Unit::TestCase
   def test_init
     @guy.inventory == %w[lint penny hope]
     @guy.back == ""
-    @guy.location = []   
+    @guy.location == []   
   end
   
   def test_change_back
     assert_kind_of String, @guy.back
     assert @guy.back.empty?
-    @guy.back = "south"
+    @guy.move(0, 0, "south")
     assert @guy.back == "south"
   end
   
   def test_change_location
     assert_kind_of Array, @guy.location
     assert @guy.location.empty?
-    @guy.location = [2, 1]
+    @guy.move(2, 1, "south")
     assert @guy.location == [2, 1]
   end
   

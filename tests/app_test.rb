@@ -18,14 +18,14 @@ class AppTest < Test::Unit::TestCase
     test_map = {
       level: [
          [
-           Room.new(layout: %w[east], description: "A literally boring nothing room. "
+           Room.new(layout: :e, description: "A literally boring nothing room. "
                     ), 
-           Room.new(layout: %w[east south west], 
+           Room.new(layout: :esw, 
                     encounter: Fire.new, 
                     inventory: ["knife"], 
                     description: "A kitchen with a nice table. ",
                     ), 
-           Room.new(layout: %w[west], 
+           Room.new(layout: :w, 
                     encounter: Ice.new, 
                     description: "This room is really cold for no good reason. ",
                     ),
@@ -238,11 +238,11 @@ class AppTest < Test::Unit::TestCase
   end
   
   def test_current_room
-    @avatar.location = [0, 0]
+    @avatar.move(0, 0, "south")
     zero = @game.current_room
-    @avatar.location = [0, 1]
+    @avatar.move(0, 1, "south")
     one = @game.current_room
-    @avatar.location = [0, 2]
+    @avatar.move(0, 2, "south")
     two = @game.current_room
     
     assert_not_equal zero, one
@@ -261,7 +261,7 @@ class AppTest < Test::Unit::TestCase
   end
 
   def test_move_item
-    @avatar.location = [0,1]
+    @avatar.move(0, 1, "south")
     
     @game.move_item("knife", @game.current_room, @avatar)
     assert_equal %w[lint penny hope knife], @avatar.inventory
@@ -273,10 +273,7 @@ class AppTest < Test::Unit::TestCase
   end
   
   def test_attempt_to_walk
-    reset_location = ->{
-      @avatar.back = "south"
-      @avatar.location = [0, 1]
-    }
+    reset_location = ->{ @avatar.move(0, 1, "south") }
     
     blocked_message = "You'll have to deal with this or go back."
     

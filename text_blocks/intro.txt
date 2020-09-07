@@ -12,6 +12,3 @@ That would look more like "use feather" or "tickle clown".
 You can move with N,S,E,W or use ? for help.
 ----------------------------------------
 
-You've finally made it through the woods and to the hidden dungeon. 
-Taking a deep breath, you step inside. . . . . .
--------------------------------------------------------------------------------

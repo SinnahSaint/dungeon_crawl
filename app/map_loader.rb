@@ -4,7 +4,7 @@ class MapLoader
   end
   
   def generate
-    level, start, win = @hash["map"].values_at(*%w[level start win])
+    level, start, win, text = @hash["map"].values_at(*%w[level start win text])
         
     {
       level: level.map do |row|
@@ -19,7 +19,8 @@ class MapLoader
         end
       end,
       start: [ start["y"], start["x"], start["back"] ],
-      win: [ win["y"], win["x"] ]
+      win: [ win["y"], win["x"] ],
+      text: text
     }
   end
   

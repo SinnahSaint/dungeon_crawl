@@ -93,7 +93,7 @@ class App
       "west"  => [@avatar.location[0] + 0, @avatar.location[1] - 1, "east"],
       }
     
-    if @avatar.back
+    if @avatar.back == nesw
       move_avatar(*update.fetch(nesw))
     elsif current_room.enc.blocking 
       "You'll have to deal with this or go back."
