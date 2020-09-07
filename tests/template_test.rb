@@ -1,5 +1,5 @@
 require 'test/unit'
-require_relative '../template.rb'
+require_relative '../app/template.rb'
 require_relative '../encounters/no_enc.rb'
 require_relative '../encounters/fire.rb'
 

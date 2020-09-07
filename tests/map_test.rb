@@ -1,5 +1,5 @@
 require 'test/unit'
-require_relative '../map.rb'
+require_relative '../app/map.rb'
 
 class MapTest < Test::Unit::TestCase
   

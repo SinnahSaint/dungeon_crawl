@@ -1,8 +1,8 @@
-require_relative "./player"
-require_relative "./template"
-require_relative "./room"
-require_relative "./map"
-require_relative "./utility"
+require_relative "./app/player"
+require_relative "./app/template"
+require_relative "./app/room"
+require_relative "./app/map"
+require_relative "./app/utility"
 
 require 'pp'
 

@@ -1,6 +1,6 @@
 require 'test/unit'
 require 'ostruct'
-require_relative '../player.rb'
+require_relative '../app/player.rb'
 
 class PlayerTest < Test::Unit::TestCase
   def setup

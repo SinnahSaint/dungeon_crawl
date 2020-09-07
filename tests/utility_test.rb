@@ -1,5 +1,5 @@
 require 'test/unit'
-require_relative '../utility.rb'
+require_relative '../app/utility.rb'
 
 class EnglishListTest < Test::Unit::TestCase
   
