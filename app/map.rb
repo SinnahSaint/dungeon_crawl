@@ -4,7 +4,7 @@ Dir["../encounters/*.rb"].each do |file_name|
 end
 
 class Map
-  attr_reader :level, :start, :win
+  attr_reader :level, :start, :win, :text
     #
   # TEMP = {
   #   a: Template.new(encounter: ->{Avalanche.new}, inventory:["gemstone"], description: "A dusty room full of rubble. "),
@@ -18,10 +18,11 @@ class Map
   # }.freeze
   #
 
-  def initialize(level: nil, start: nil, win: nil)
+  def initialize(level: nil, start: nil, win: nil, text: nil)
     @level = level
     @start = start
     @win = win
+    @text = text
   end
   
   def to_h

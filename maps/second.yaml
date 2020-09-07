@@ -44,10 +44,6 @@ map:
         description: This room is really cold for no good reason.
           
                      
-  text: |
-    You've finally made it through the woods and to the hidden dungeon. 
-    Taking a deep breath, you step inside. . . . . .
-    -------------------------------------------------------------------------------
   start: { y: 2, x: 1, back: "south"}
   win: { y: 3, x: 1 }
   

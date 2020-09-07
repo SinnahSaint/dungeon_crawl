@@ -40,6 +40,7 @@ class App
   
   def run    
     display text_block("intro")
+    display @current_map.text
     look
 
     loop do
