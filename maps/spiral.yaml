@@ -1,4 +1,16 @@
 map:
+  name: Spiral
+  
+  text: |
+    While taking a walk through the dark woods one night, something breaks 
+    underfoot and you tumble into to a hidden dungeon. 
+    Dusting yourself off you look around. . . . . .
+    -------------------------------------------------------------------------------   
+                    
+  start: { y: 1, x: 1, back: "" }
+  
+  win: { y: 2, x: 3 }
+  
   level: 
     - 
       - 
@@ -6,7 +18,7 @@ map:
         encounter: Fire
         inventory: 
           - knife
-        description: A dusty room full of rubble.
+        description: A cluttered kitchen.
       - 
         layout: EW
         description: An empty dining room.
@@ -43,13 +55,5 @@ map:
         encounter: Ice
         description: This room is a lot colder than the others.
           
-  text: |
-    While taking a walk through the dark woods one night, something breaks 
-    underfoot and you tumble into to a hidden dungeon. 
-    Dusting yourself off you look around. . . . . .
-    -------------------------------------------------------------------------------
   
-                     
-  start: { y: 1, x: 1, back: "" }
-  win: { y: 2, x: 3 }
   

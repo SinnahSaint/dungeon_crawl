@@ -31,7 +31,7 @@ class Cow < NoEnc
   
   def state
     if @has_milk 
-      "There is a cow in a milking stand. She looks really uncomfortable."
+      "There is a cow looking back and forth between you and a bucket. She looks really uncomfortable."
     else
       "The cow is happy."
     end

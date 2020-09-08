@@ -13,7 +13,7 @@ Dir["./encounters/*.rb"].each do |file_name|
 end
 
 class App
-  DEFAULT_MAP_FILE = './maps/default.yaml'
+  DEFAULT_MAP_FILE = './maps/spiral.yaml'
   
   def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil, map_file: nil)
     @input = input
