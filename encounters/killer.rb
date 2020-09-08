@@ -25,7 +25,8 @@ class Killer < NoEnc
     when "use penny", "give penny"
       if avatar.has_item?("penny")
         avatar.remove_item("smile")
-        "He's insulted that you tried to bribe him."
+        @friend = false
+        "He's insulted and doesn't look very friendly."
       else
         "Whoops! No penny in inventory. "
       end  

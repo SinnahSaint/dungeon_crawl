@@ -1,15 +1,26 @@
 class Jester < NoEnc
 
   def initialize
-    @joke = false
     super
+    @blocking = true
   end
 
   def handle_command(cmdstr, avatar)
-    if cmdstr == "tell joke"
-      @joke = true
+    case cmdstr
+    when "tell joke"
+      @blocking = false
       avatar.inventory << "laughter" 
-      "Pleased with your wit, the jester wanders away."
+      "Pleased with your wit, the jester sits to whittle a flute."
+    when "use knife", "stab jester",  "kill jester", "knife jester"
+      if avatar.has_item?("knife")
+        @blocking = false
+        avatar.remove_item("laughter")
+        avatar.remove_item("hope")
+        avatar.remove_item("smile")
+        "He was not expecting that. The battle is short."
+      else
+        "Whoops! No knife in inventory. "
+      end   
     else
       false
     end
@@ -20,17 +31,11 @@ class Jester < NoEnc
   end
   
   def state
-    if @joke == false
+    if @blocking == true
       "The jester peeks around the throne asking you to tell a joke."
     else
       ""
     end
-  end
-  
-  def to_h
-    super.merge({
-      joke: @joke
-    })
   end
   
 end

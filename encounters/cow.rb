@@ -7,8 +7,19 @@ class Cow < NoEnc
   end
 
   def handle_command(cmdstr, avatar)
-    if cmdstr == "milk cow" || cmdstr == "milk"
-      milk_bessy(avatar)
+    case cmdstr 
+    when "milk cow", "milk"
+      milk_bessy(avatar)  
+    when "use knife", "stab cow",  "kill cow", "knife cow"
+      if avatar.has_item?("knife")
+        avatar.remove_item("laughter")
+        avatar.remove_item("hope")
+        avatar.remove_item("smile")
+        avatar.remove_item("milk")
+        avatar.leave("She sees you comming and kicks you into next week. You die bleeding out on the rug. Game Over!")
+      else
+        "Whoops! No knife in inventory. "
+      end   
     else
       false
     end

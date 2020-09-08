@@ -264,7 +264,7 @@ class JesterTest < Test::Unit::TestCase
   end
 
   def test_init
-    assert_equal @enc.blocking, false
+    assert_equal @enc.blocking, true
     assert_instance_of Array, @enc.inventory
     assert @enc.inventory.empty?
   end
@@ -279,7 +279,7 @@ class JesterTest < Test::Unit::TestCase
   
   def test_handle_command_joke
     joke = @enc.handle_command("tell joke", @avatar)
-    assert_equal joke.empty?, false
+    assert_equal @enc.blocking, false
     assert_instance_of String, joke
     assert @avatar.inventory.include?("laughter")
   end
@@ -287,6 +287,7 @@ class JesterTest < Test::Unit::TestCase
   def test_handle_command_other
     other = @enc.handle_command("this is a test command", @avatar)
     assert_equal other, false
+    assert_equal @enc.blocking, true
     assert @avatar.inventory.empty?
   end
   
@@ -300,7 +301,7 @@ class JesterTest < Test::Unit::TestCase
     assert_equal @enc.state.empty?, false
     nojoke = @enc.state
     
-    @enc.handle_command("tell joke", @avatar) # makes joke true
+    @enc.handle_command("tell joke", @avatar) # makes blocking false
     
     joked = @enc.state
     
