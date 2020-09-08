@@ -15,11 +15,12 @@ end
 class App
   DEFAULT_MAP_FILE = './maps/default.yaml'
   
-  def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil)
+  def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil, map_file: nil)
     @input = input
     @output = output
     @avatar = avatar || Player.new(self)
-    @current_map = Map.new(map || load_map_from_file(DEFAULT_MAP_FILE))
+    @map_file = map_file || DEFAULT_MAP_FILE
+    @current_map = Map.new(map || load_map_from_file(@map_file))
     
     location, back = @current_map.start
     @avatar.move(location, back)
@@ -106,7 +107,6 @@ class App
   
   def move_avatar(location, back)
     @avatar.move(location, back)
-        
     if @avatar.location == @current_map.win
       game_over("You Win!\nYou manage to leave alive. Huzzah!\n #{check_inventory}")
     else
@@ -221,8 +221,8 @@ class App
     doors = current_room.lay.reject { |dir| dir == @avatar.back }
     
     if @avatar.back.empty? 
-      exits = doors.empty? ? "no exits you can see." : "exits to the #{Utility.english_list(doors)}"
-      display "There is no way to go back the way you came, and there are #{exits}"
+      exits = doors.empty? ? "and there are no exits you can see." : "but you can exit to the #{Utility.english_list(doors)}"
+      display "There is no way to go back the way you came, #{exits}"
     else
       exits = doors.empty? ? "#{@avatar.back}" : "#{Utility.english_list(doors)}, or #{@avatar.back}"
       display "You can exit to the #{exits}, back the way you came."
