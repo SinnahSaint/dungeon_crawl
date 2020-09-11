@@ -168,7 +168,7 @@ class App
               if move_item(second, current_room, @avatar)
                 "You pick up the #{second}. "
               else
-                "Whoops! No #{second} here. "
+                "Whoops! There's no #{second} you can take with you here. "
               end 
             when "drop"
               if move_item(second, @avatar, current_room)
