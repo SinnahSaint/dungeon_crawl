@@ -7,7 +7,9 @@ class Killer < NoEnc
     @friend = false
   end
   
-  def handle_command(cmdstr, avatar)    
+  def handle_command(cmdstr, avatar)   
+    missing_item = "Whoops! You don't seem to have the item to do that in your inventory. " 
+    
     case cmdstr
     when "use knife", "stab man",  "kill man", "knife man"
       if avatar.has_item?("knife")
@@ -18,24 +20,24 @@ class Killer < NoEnc
         avatar.remove_item("smile")
         "He was not expecting that. The battle is short."
       else
-        "Whoops! No knife in inventory. "
+        missing_item
       end   
     when "tell joke"
-      avatar.leave("You pissed him off and died of being a smartass.")
+      avatar.leave("You pissed him off and died in the bowels of the dungeon. Game Over!")
     when "use penny", "give penny"
       if avatar.has_item?("penny")
         avatar.remove_item("smile")
         @friend = false
         "He's insulted and doesn't look very friendly."
       else
-        "Whoops! No penny in inventory. "
+        missing_item
       end  
-    when "use gold", "give gold"   
+    when "use gold", "give gold", "use gemstone", "give gemstone"  
       if avatar.has_item?("gold")
-        "He's insulted that you tried to bribe him with his own gold."
+        "He's insulted that you tried to bribe him with his own treasure."
         avatar.leave("You pissed him off and died in the bowels of the dungeon. Game Over!")
       else
-        "Whoops! No gold in inventory. "
+        missing_item
       end
     when "use milk", "give milk"
       if avatar.has_item?("milk")
@@ -45,13 +47,13 @@ class Killer < NoEnc
         avatar.inventory << "smile"
         "That's just what he was looking for. You've made a friend."
       else
-        "Whoops! No milk in inventory. "
+        missing_item
       end
     when "hug man", "give hug", "give kiss", "kiss man" 
       @blocking = false
       @friend = true
       avatar.inventory << "smile"
-      "That's just what he was looking for. You've made a friend." 
+      "He was not expecting that. You've made a friend." 
     else
       false
     end
@@ -65,7 +67,7 @@ class Killer < NoEnc
     if @dead
       "The man lies dead on the floor. I can't beleve you actually killed him!"
     elsif @friend
-      "Tommy waves at you from the table. He really appreciated that."
+      "Tommy waves at you from the table. He trusts you now."
     else
       <<~HERE
       In the room you see a man in leather armour. His sword is at his side. This guy 
