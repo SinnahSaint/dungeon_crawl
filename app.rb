@@ -121,8 +121,8 @@ class App
 
   def move_item(item,from,to)
     if from.inventory.include?(item)
-    from.remove_item(item)
-    to.inventory << item
+      from.remove_item(item)
+      to.inventory << item
     end
   end
 

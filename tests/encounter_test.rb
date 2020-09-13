@@ -12,16 +12,6 @@ class NoEncTest < Test::Unit::TestCase
 
   def test_init
     assert_equal @enc.blocking, false
-    assert_instance_of Array, @enc.inventory
-    assert @enc.inventory.empty?
-  end
-  
-  def test_inventory_manipulation
-    @enc.inventory<<"TestItem"
-    assert @enc.inventory.include?("TestItem")
-    
-    @enc.remove_item("TestItem")
-    assert @enc.inventory.empty?
   end
   
   def test_handle_command
@@ -45,18 +35,8 @@ class AvalancheTest < Test::Unit::TestCase
 
   def test_init
     assert_equal @enc.blocking, false
-    assert_instance_of Array, @enc.inventory
-    assert @enc.inventory.empty?
   end
-  
-  def test_inventory_manipulation
-    @enc.inventory<<"TestItem"
-    assert @enc.inventory.include?("TestItem")
     
-    @enc.remove_item("TestItem")
-    assert @enc.inventory.empty?
-  end
-  
   def test_handle_command_yodel
     yell = @enc.handle_command("yodel", "avatar")
     assert_equal yell.empty?, false
@@ -96,16 +76,6 @@ class CowTest < Test::Unit::TestCase
 
   def test_init
     assert_equal @enc.blocking, false
-    assert_instance_of Array, @enc.inventory
-    assert @enc.inventory.empty?
-  end
-  
-  def test_inventory_manipulation
-    @enc.inventory<<"TestItem"
-    assert @enc.inventory.include?("TestItem")
-    
-    @enc.remove_item("TestItem")
-    assert @enc.inventory.empty?
   end
   
   def test_handle_command_milk
@@ -150,18 +120,8 @@ class FireTest < Test::Unit::TestCase
 
   def test_init
     assert_equal @enc.blocking, true
-    assert_instance_of Array, @enc.inventory
-    assert @enc.inventory.empty?
   end
-  
-  def test_inventory_manipulation
-    @enc.inventory<<"TestItem"
-    assert @enc.inventory.include?("TestItem")
     
-    @enc.remove_item("TestItem")
-    assert @enc.inventory.empty?
-  end
-  
   def test_handle_command_douse_sucess
     @avatar.inventory<<"milk"
     douse = @enc.handle_command("use milk", @avatar)
@@ -222,18 +182,8 @@ class IceTest < Test::Unit::TestCase
 
   def test_init
     assert_equal @enc.blocking, false
-    assert_instance_of Array, @enc.inventory
-    assert @enc.inventory.empty?
   end
-  
-  def test_inventory_manipulation
-    @enc.inventory<<"TestItem"
-    assert @enc.inventory.include?("TestItem")
     
-    @enc.remove_item("TestItem")
-    assert @enc.inventory.empty?
-  end
-  
   def test_handle_command_hurry
     @enc.handle_command("hurry", @avatar)
     assert @avatar.called_leave
@@ -265,16 +215,6 @@ class JesterTest < Test::Unit::TestCase
 
   def test_init
     assert_equal @enc.blocking, true
-    assert_instance_of Array, @enc.inventory
-    assert @enc.inventory.empty?
-  end
-  
-  def test_inventory_manipulation
-    @enc.inventory<<"TestItem"
-    assert @enc.inventory.include?("TestItem")
-    
-    @enc.remove_item("TestItem")
-    assert @enc.inventory.empty?
   end
   
   def test_handle_command_joke
@@ -329,18 +269,8 @@ class KillerTest < Test::Unit::TestCase
 
   def test_init
     assert_equal @enc.blocking, true
-    assert_instance_of Array, @enc.inventory
-    assert @enc.inventory.empty?
   end
-  
-  def test_inventory_manipulation
-    @enc.inventory<<"TestItem"
-    assert @enc.inventory.include?("TestItem")
     
-    @enc.remove_item("TestItem")
-    assert @enc.inventory.empty?
-  end
-  
   def test_handle_command_gold
     nogold = @enc.handle_command("use gold", @avatar)
     assert_equal nogold.empty?, false
