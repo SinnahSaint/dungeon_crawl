@@ -13,13 +13,7 @@ module Utility
   end
   
   def debug_game(game)
-    <<~HERE
-    #{"- " * 20}
-    #{"- " * 20}
-    #{game.save_state}
-    #{"- " * 20}
-    #{"- " * 20}
-    HERE
+    game.to_h
   end
   
   def debug(current_room, avatar)

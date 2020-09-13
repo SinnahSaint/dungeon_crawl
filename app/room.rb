@@ -40,12 +40,24 @@ class Room
     @inventory.delete(item)
   end
   
+  def replace_enc(new_enc)
+    raise "Must be an encounter" unless new_enc.kind_of? NoEnc # NoEnc is base class
+    @enc = new_enc    
+  end
+  
   def to_h
     {
       lay: @lay,
       description: @description,
       inventory: @inventory,
       enc: @enc.to_h
+    }
+  end
+  
+  def save_state
+    {
+      inventory: @inventory,
+      enc: @enc.save_state
     }
   end
   

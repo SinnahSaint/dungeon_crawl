@@ -1,10 +1,10 @@
 class Player
   attr_reader :back, :inventory, :location
   
-  def initialize(game)
-    @inventory = %w[lint penny hope]
-    @back = ""
-    @location = nil 
+  def initialize(game, location: nil, back: nil, inventory: nil)
+    @inventory = inventory || %w[lint penny hope]
+    @back = back || ""
+    @location = location 
     @game = game    
   end
   

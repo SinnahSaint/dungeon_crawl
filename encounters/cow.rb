@@ -1,9 +1,9 @@
 class Cow < NoEnc
 
-  def initialize
-    @milked = false
-    @has_milk = true
-    super
+  def initialize (blocking:false, milked: false, has_milk: true)
+    super(blocking: blocking)    
+    @milked = milked
+    @has_milk = has_milk
   end
 
   def handle_command(cmdstr, avatar)
@@ -52,6 +52,13 @@ class Cow < NoEnc
   end
   
   def to_h
+    super.merge({
+      milked: @milked,
+      has_milk: @has_milk,
+    })
+  end
+  
+  def save_state
     super.merge({
       milked: @milked,
       has_milk: @has_milk,

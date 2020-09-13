@@ -1,8 +1,8 @@
 class NoEnc
     attr_reader :blocking
     
-  def initialize
-    @blocking = false
+  def initialize(blocking: false)
+    @blocking = blocking
   end
   
   def ==(other)
@@ -29,6 +29,13 @@ class NoEnc
       class: self.class.name,
       blocking: @blocking,
     }
+  end
+  
+  def save_state
+    {
+      blocking: @blocking,
+    }
+    
   end
   
 end

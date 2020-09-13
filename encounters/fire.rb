@@ -1,8 +1,7 @@
 class Fire < NoEnc
 
-  def initialize
-    super
-    @blocking = true
+  def initialize(blocking: true)
+    super(blocking: blocking)
   end
 
   def handle_command(cmdstr, avatar)

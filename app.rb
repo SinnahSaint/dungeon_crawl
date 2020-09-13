@@ -7,6 +7,7 @@ require_relative "./app/location"
 
 require 'yaml'
 require 'pp'
+require 'fileutils'
 
 Dir["./encounters/*.rb"].each do |file_name|
   require_relative file_name
@@ -14,6 +15,7 @@ end
 
 class App
   DEFAULT_MAP_FILE = './maps/spiral.yaml'
+  SAVE_DIR = './saves'
   
   def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil, map_file: nil)
     @input = input
@@ -29,11 +31,7 @@ class App
   def load_map_from_file(filename)
     MapLoader.new(YAML.load_file(filename)).generate
   end
-  
-  def save_state
-   self.to_h
-  end
-  
+    
   def to_h
     {
       avatar: @avatar.to_h,
@@ -60,7 +58,6 @@ class App
     @input.gets.chomp.downcase
   end
 
-  
   def display(msg)
     @output.puts msg
   end
@@ -119,17 +116,19 @@ class App
     exit(0)
   end
 
-  def move_item(item,from,to)
-    if from.inventory.include?(item)
-      from.remove_item(item)
-      to.inventory << item
-    end
+  def move_item(item,from,to, on_success: nil, on_fail: nil)
+    on_fail ||= "Missing item #{item}"
+    raise on_fail unless from.inventory.include?(item)
+    
+    from.remove_item(item)
+    to.inventory << item
+    
+    on_success || "Moved #{item}"
   end
 
   def missing_command
     "Type in what you want to do. Try ? if you're stuck."
   end
-
 
   def handle_command(cmdstr)
     first, second, third, fourth = cmdstr.split(" ")  
@@ -151,34 +150,99 @@ class App
             when "debug"
               debug
             when "debuggame"
-              debug_game
+              pp debug_game
+              "------------"
             when "teleport"
               teleport(Location.new(y: second.to_i, x: third.to_i), fourth)
             when "north", "east", "south", "west"
               attempt_to_walk(first)
-            when "help"              
+            when "help"
               text_block(first)
             when "hint"
               hint
             when "inventory"
               check_inventory
+            when "save"
+              save_game(second)
+            when "load"
+              load_game(second)
             when "quit", "exit"
               game_over("You give up and die in the maze! Game Over!")
             when "take"
-              if move_item(second, current_room, @avatar)
-                "You pick up the #{second}. "
-              else
-                "Whoops! There's no #{second} you can take with you here. "
-              end 
+              move_item(second, current_room, @avatar, 
+                        on_success: "You #{first} the #{second}.",
+                        on_fail: "Whoops! There's no #{second} you can take with you here.")
             when "drop"
-              if move_item(second, @avatar, current_room)
-                "You drop the #{second}. "
-              else
-                "Whoops! No #{second} in inventory. "
-              end
+              move_item(second, @avatar, current_room,
+                        on_success: "You #{first} the #{second}.",
+                        on_fail: "Whoops! No #{second} in inventory.")
             else
               check_with_encounter(cmdstr)
             end  
+  rescue RuntimeError => e
+    display e.message
+  end
+  
+  def save_game(save_name)
+    save_to_file(build_filename(save_name))
+    
+    "Saved #{save_name} successfully."
+  end
+  
+  def save_to_file(save_filename)
+    FileUtils.mkdir_p(SAVE_DIR) unless File.directory?(SAVE_DIR)
+  
+    File.open(save_filename, 'w') do |file|
+      file.write(YAML.dump(save_state))
+    end
+  end
+  
+  def save_state
+    {
+      map_file: @map_file,
+      avatar: @avatar.to_h,
+      level: @current_map.level.map { |row| row.map { |room| room.save_state } }
+    }
+  end
+  
+  def load_save_from_file(save_filename)
+    YAML.load_file(save_filename)
+  end
+  
+  def build_filename(save_name)
+    raise "Invalid save name '#{save_name}'. Nothing happens." unless /\A[a-z0-9_\-]+\z/ =~ save_name
+    "#{SAVE_DIR}/#{save_name}.yaml"
+  end
+  
+  def load_game(save_name)
+    save_filename = build_filename(save_name)
+    
+    return "No such file" unless File.exist? save_filename
+    
+    save_hash = load_save_from_file(save_filename)
+    @map_file = save_hash[:map_file]
+    @current_map = Map.new(load_map_from_file(@map_file))
+    
+    avatar_hash = save_hash[:avatar]
+    
+    @avatar = Player.new(
+                        self, 
+                        location: Location.new(avatar_hash[:location]), 
+                        back: avatar_hash[:back], 
+                        inventory: avatar_hash[:inventory]
+                        )
+                        
+    @current_map.level.each.with_index do |row, y|
+      row.each.with_index do |cell, x|
+        room_save = save_hash[:level][y][x]
+        inv_save = room_save[:inventory]
+        enc_params = room_save[:enc]
+        
+        cell.inventory.replace(inv_save)
+        cell.replace_enc(cell.enc.class.new(enc_params))
+      end
+    end
+    "Loaded #{save_name} sucessfully!\n#{check_inventory}"   
   end
   
   def check_with_encounter(cmdstr)

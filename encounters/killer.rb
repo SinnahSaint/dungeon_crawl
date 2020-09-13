@@ -1,10 +1,9 @@
 class Killer < NoEnc
   
-  def initialize
-    super
-    @blocking = true
-    @dead = false
-    @friend = false
+  def initialize(blocking: true, dead: false, friend: false)
+    super(blocking: blocking)
+    @dead = dead
+    @friend = friend
   end
   
   def handle_command(cmdstr, avatar)   
@@ -78,6 +77,13 @@ class Killer < NoEnc
   end
   
   def to_h    
+    super.merge({
+      dead: @dead,
+      friend: @friend,
+    })
+  end
+  
+  def save_state
     super.merge({
       dead: @dead,
       friend: @friend,
