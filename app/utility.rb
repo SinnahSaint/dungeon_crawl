@@ -16,6 +16,14 @@ module Utility
     game.to_h
   end
   
+  def text_block(file_name)
+    file = "./text_blocks/" + file_name + ".txt"
+    
+    File.open(file, 'r') do |text|
+     text.read.lines.map { |line| line.strip.center(74) }.join("\n")
+    end
+  end
+  
   def debug(current_room, avatar)
     <<~HERE
     #{"- " * 20}
@@ -35,5 +43,5 @@ module Utility
     HERE
   end
   
-  module_function :english_list, :debug, :debug_game
+  module_function :english_list, :debug, :debug_game, :text_block
 end

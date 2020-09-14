@@ -40,7 +40,7 @@ class App
   end
   
   def run    
-    display text_block("intro")
+    display Utility.text_block("intro")
     display @current_map.text
     look
 
@@ -61,14 +61,7 @@ class App
   def display(msg)
     @output.puts msg
   end
-  
-  def text_block(file_name)
-    file = "./text_blocks/" + file_name + ".txt"
-    
-    File.open(file, 'r') do |text|
-     text.read.lines.map { |line| line.strip.center(74) }.join("\n")
-    end
-  end
+
 
   def current_room
     @current_map.level[@avatar.location.y][@avatar.location.x]
@@ -157,7 +150,7 @@ class App
             when "north", "east", "south", "west"
               attempt_to_walk(first)
             when "help"
-              text_block(first)
+              Utility.text_block(first)
             when "hint"
               hint
             when "inventory"
@@ -292,14 +285,5 @@ class App
       display "You can exit to the #{exits}, back the way you came."
     end
   end
-  
-  # logically public: 
-  #   App.display, App.initialize
-  #   Game.initialize, Game.text_block, Game.handle_command, Game.look (talk to meg re: look)
-  # Through handle_command, add:
-  #   move_avatar
-  #   attempt_to_walk
-  #   check_inventory
-  #   move_item
-  #   check_with_encounter
+
 end
