@@ -202,7 +202,7 @@ class GameTest < Test::Unit::TestCase
       # end
       @game.define_singleton_method(sym) do |*args|
         call_counts[sym] += 1               
-      end                                   
+      end 
     end
     
     mappings.each do |command, method|

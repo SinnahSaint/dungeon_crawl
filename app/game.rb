@@ -9,8 +9,8 @@ require 'yaml'
 require 'pp'
 require 'fileutils'
 
-Dir["../encounters/*.rb"].each do |file_name|
-  require_relative file_name
+Dir["./encounters/*.rb"].each do |file_name|
+  require file_name
 end
 
 class Game
@@ -143,8 +143,7 @@ class Game
             when "debug"
               debug
             when "debuggame"
-              pp debug_game
-              "------------"
+              PP.pp(debug_game, "")
             when "teleport"
               teleport(Location.new(y: second.to_i, x: third.to_i), fourth)
             when "north", "east", "south", "west"
