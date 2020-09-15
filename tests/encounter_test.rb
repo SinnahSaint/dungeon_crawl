@@ -1,13 +1,15 @@
 require 'test/unit'
 require 'ostruct'
+
 require './app/player'
+
 Dir["../encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
 
 class NoEncTest < Test::Unit::TestCase
   def setup
-    @enc = NoEnc.new
+    @enc = NoEnc.new(blocking: false)
   end
 
   def test_init
@@ -30,7 +32,7 @@ end
 
 class AvalancheTest < Test::Unit::TestCase
   def setup
-    @enc = Avalanche.new
+    @enc = Avalanche.new(blocking: false)
   end
 
   def test_init
@@ -68,7 +70,7 @@ end
 
 class CowTest < Test::Unit::TestCase  
   def setup
-    @enc = Cow.new
+    @enc = Cow.new(blocking: false)
     @avatar = OpenStruct.new({
       inventory: [],
     })
@@ -114,7 +116,7 @@ end
 
 class FireTest < Test::Unit::TestCase
   def setup
-    @enc = Fire.new
+    @enc = Fire.new(blocking: true)
     @avatar = Player.new(nil)
   end
 
@@ -164,7 +166,7 @@ end
 
 class IceTest < Test::Unit::TestCase  
   def setup
-    @enc = Ice.new
+    @enc = Ice.new(blocking: false)
     @game = OpenStruct.new
     
     def @game.game_over(msg); end
@@ -207,7 +209,7 @@ end
 
 class JesterTest < Test::Unit::TestCase
   def setup
-    @enc = Jester.new
+    @enc = Jester.new(blocking: true)
     @avatar = OpenStruct.new({
       inventory: []
     })
@@ -251,7 +253,7 @@ end
 
 class KillerTest < Test::Unit::TestCase
   def setup
-    @enc = Killer.new
+    @enc = Killer.new(blocking: true)
     @game = OpenStruct.new
     
     def @game.game_over(msg); end

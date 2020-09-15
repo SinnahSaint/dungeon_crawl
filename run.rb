@@ -1,4 +1,4 @@
-require_relative 'game.rb'
+require_relative 'app/game.rb'
 
 Game.new.run
 

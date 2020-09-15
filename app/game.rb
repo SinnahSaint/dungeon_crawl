@@ -1,15 +1,15 @@
-require_relative "./app/player"
-require_relative "./app/room"
-require_relative "./app/map"
-require_relative "./app/utility"
-require_relative "./app/map_loader"
-require_relative "./app/location"
+require_relative "./player"
+require_relative "./room"
+require_relative "./map"
+require_relative "./utility"
+require_relative "./map_loader"
+require_relative "./location"
 
 require 'yaml'
 require 'pp'
 require 'fileutils'
 
-Dir["./encounters/*.rb"].each do |file_name|
+Dir["../encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
 

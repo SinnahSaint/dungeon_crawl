@@ -1,7 +1,7 @@
 require 'test/unit'
 require 'ostruct'
 require 'stringio'
-require_relative '../game.rb'
+require_relative '../app/game.rb'
 require_relative '../app/player.rb'
 require_relative '../app/room.rb'
 require_relative '../app/utility.rb'
