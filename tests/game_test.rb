@@ -1,7 +1,7 @@
 require 'test/unit'
 require 'ostruct'
 require 'stringio'
-require_relative '../app.rb'
+require_relative '../game.rb'
 require_relative '../app/player.rb'
 require_relative '../app/room.rb'
 require_relative '../app/utility.rb'
@@ -10,7 +10,7 @@ require_relative '../encounters/no_enc.rb'
 require_relative '../encounters/fire.rb'
 require_relative '../encounters/ice.rb'
 
-class AppTest < Test::Unit::TestCase
+class GameTest < Test::Unit::TestCase
 
   DEFAULT_START_LOCATION = { y: 0, x: 1, back: "south" }
 
@@ -39,7 +39,7 @@ class AppTest < Test::Unit::TestCase
     
     @output = StringIO.new
     @input = StringIO.new
-    @game = App.new(avatar: @avatar, map: test_map, output: @output, input: @input)
+    @game = Game.new(avatar: @avatar, map: test_map, output: @output, input: @input)
   end
   
   # def test_default_init
@@ -166,19 +166,6 @@ class AppTest < Test::Unit::TestCase
     assert_equal(3, @output.string.split("What's next?").size)
   end
   
-  def test_text_block
-    File.open("./text_blocks/test.txt",'w') do |file|
-        file.write "This is a test file.\n"
-        file.write "Nothing to see here."
-    end
-        
-    assert_equal " "*27 + "This is a test file." + " "*27 + "\n" +
-                 " "*27 + "Nothing to see here." + " "*27, 
-                 @game.text_block("test")
-      
-    File.delete("./text_blocks/test.txt")    
-  end
-  
   def test_handle_command
     mappings = {
       "" => :missing_command,
@@ -193,8 +180,8 @@ class AppTest < Test::Unit::TestCase
       "s" => :attempt_to_walk,
       "west" => :attempt_to_walk,
       "w" => :attempt_to_walk,
-      "?" => :text_block,
-      "help" => :text_block,
+      "?" => :help,
+      "help" => :help,
       "hint" => :hint,
       "i" => :check_inventory,
       "inv" => :check_inventory,
@@ -208,6 +195,7 @@ class AppTest < Test::Unit::TestCase
     def @game.call_counts
       @call_counts ||= Hash.new { 0 }
     end
+    
     mappings.values.each do |sym| 
       # def @game.teleport(*args)
       #  call_counts[:teleport] += 1

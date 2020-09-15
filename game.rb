@@ -13,7 +13,7 @@ Dir["./encounters/*.rb"].each do |file_name|
   require_relative file_name
 end
 
-class App
+class Game
   DEFAULT_MAP_FILE = './maps/spiral.yaml'
   SAVE_DIR = './saves'
   
@@ -150,7 +150,7 @@ class App
             when "north", "east", "south", "west"
               attempt_to_walk(first)
             when "help"
-              Utility.text_block(first)
+              help
             when "hint"
               hint
             when "inventory"
@@ -252,6 +252,10 @@ class App
     raise "RTFM Shannon" if back.nil?
     move_avatar(location, back)
     "BANFF"
+  end
+  
+  def help
+    Utility.text_block("help")
   end
 
   def hint

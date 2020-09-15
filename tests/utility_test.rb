@@ -34,6 +34,22 @@ class EnglishListTest < Test::Unit::TestCase
   end
 
 end
+class TextBlockTest < Test::Unit::TestCase
+  
+  def test_text_block
+    File.open("./text_blocks/test.txt",'w') do |file|
+      file.write "This is a test file.\n"
+      file.write "Nothing to see here."
+    end
+      
+    assert_equal " "*27 + "This is a test file." + " "*27 + "\n" +
+               " "*27 + "Nothing to see here." + " "*27, 
+               Utility.text_block("test")
+    
+    File.delete("./text_blocks/test.txt")    
+  end
+
+end
 
 class EncounterStub
   attr_accessor :state, :blocking

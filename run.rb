@@ -1,5 +1,5 @@
-require_relative 'app.rb'
+require_relative 'game.rb'
 
-App.new.run
+Game.new.run
 
-#App.new(map_file: './maps/in_and_out.yaml').run
+#Game.new(map_file: './maps/in_and_out.yaml').run
