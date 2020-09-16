@@ -42,7 +42,7 @@ class App
   end
 
   def load_game(input: $stdin, output: $stdout, file: nil)
-    
+    # gonna need to move save file sorting from game into app
   end
 
   def new_game
