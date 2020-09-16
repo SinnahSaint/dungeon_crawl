@@ -13,13 +13,21 @@ class App
     # Game.new.run
   end
   
+  def prompt
+    @output.puts "\nWould you like to start a NEW game? LOAD a save? or QUIT?"
+  end
 
   def menu_loop
     Utility.text_block("menu")
-    loop do
-      command = @input.gets.chomp.downcase
-      handle_command(command)
+    
+    catch (:exit_app_loop) do
+      prompt
+      loop do
+        command = @input.gets.chomp.downcase
+        handle_command(command)
+      end
     end
+    
   end
   
   def handle_command(cmdstr)
@@ -29,7 +37,7 @@ class App
       when "new" then new_game
       when "load" then load_game(file: second)
       when "quit" then quit
-      else @output.puts "I don't understand. New, Load, or Quit?"
+      else prompt
     end
   end
 
@@ -40,6 +48,7 @@ class App
   def new_game
     @game = Game.new.run
     #Game.new(map_file: './maps/in_and_out.yaml').run
+    prompt
   end
   
   def quit
@@ -47,10 +56,9 @@ class App
     validation = @input.gets.chomp.downcase
     if validation == "yes"
       @output.puts Utility.text_block("goodbye")
-      exit(0)
+      throw :exit_app_loop 
     else
-      @output.puts "I don't understand. New, Load, or Quit?"
-      return
+      return prompt
     end
   end
   

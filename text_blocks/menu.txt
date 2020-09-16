@@ -10,4 +10,3 @@ You will never need to type something like "Tickle the clown with a feather."
 That would look more like "use feather" or "tickle clown".
 -------------------------------------------------------------------------------
 
-Would you like to start a New Game? Load a Save? Or Quit?

@@ -43,13 +43,16 @@ class Game
     display Utility.text_block("intro")
     display @current_map.text
     look
-
-    loop do
-      command = interface
-      handle_command(command)
-      display " - - - "
-      look
+    
+    catch (:exit_game_loop) do
+      loop do
+        command = interface
+        handle_command(command)
+        display " - - - "
+        look
+      end
     end
+    
   end
   
   def interface
@@ -106,7 +109,7 @@ class Game
   
   def game_over(msg)
     display msg 
-    exit(0)
+    throw :exit_game_loop
   end
 
   def move_item(item,from,to, on_success: nil, on_fail: nil)
