@@ -10,7 +10,6 @@ class App
     
     @output.puts Utility.text_block("menu")
     menu_loop
-    # Game.new.run
   end
   
   def prompt
@@ -44,10 +43,19 @@ class App
   def load_game(input: $stdin, output: $stdout, file: nil)
     # gonna need to move save file sorting from game into app
   end
+  
+  def random_map
+    @maps_avail = []
+    
+    Dir["./maps/*.yaml"].each do |map_name|
+      @maps_avail << map_name.to_s
+    end
+    
+    @maps_avail.sample
+  end
 
   def new_game
-    @game = Game.new.run
-    #Game.new(map_file: './maps/in_and_out.yaml').run
+    @game = Game.new(map_file: random_map).run
     prompt
   end
   
