@@ -7,25 +7,32 @@ class App
   def initialize(input: $stdin, output: $stdout)
     @input = input
     @output = output
-    
-    menu_loop
   end
   
   def prompt
     @output.puts Utility.text_block("menu_prompt")
   end
+  
+  def user_input
+    user_input = @input.gets.chomp.downcase
+    if user_input == "!"
+      @output.puts Utility.text_block("boss_emergency")
+      throw(:exit_app_loop) 
+    end
+    user_input
+  end
+
 
   def menu_loop
     @output.puts Utility.text_block("menu")
     
-    catch (:exit_app_loop) do
+    catch(:exit_app_loop) do
       prompt
       loop do
-        command = @input.gets.chomp.downcase
+        command = user_input
         handle_command(command)
       end
     end
-    
   end
   
   def handle_command(cmdstr)
@@ -85,7 +92,7 @@ class App
   
   def quit
     @output.puts "Are you sure you want to quit?"
-    validation = @input.gets.chomp.downcase
+    validation = user_input
     if validation == "yes"
       @output.puts Utility.text_block("goodbye")
       throw :exit_app_loop 
@@ -102,5 +109,5 @@ end
 
 
 
-App.new
+App.new.menu_loop
 

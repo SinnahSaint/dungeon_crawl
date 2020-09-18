@@ -59,28 +59,37 @@ class Game
     display "Loaded #{save_name} sucessfully!"   
   end
   
-  def run    
+  def run
     display Utility.text_block("intro")
     display @current_map.text
     look
     
-    catch (:exit_game_loop) do
-      loop do
-        command = interface
-        handle_command(command)
-        display " - - - "
-        look
+    catch(:exit_game_loop) do
+      catch(:boss_emergency)do
+        loop do
+          command = interface
+          handle_command(command)
+          display " - - - "
+          look
+        end
       end
+      boss_emergency
     end
   end
-   
+  
   def game_over(msg)
       display msg 
       throw :exit_game_loop
   end
   
-  
   private
+  
+  def boss_emergency
+    time = Time.now
+    save_game("boss_emergency_#{time.day}#{time.hour}")
+    display(Utility.text_block("boss_emergency"))
+    throw(:exit_app_loop)
+  end
   
   def load_map_from_file(filename)
     MapLoader.new(YAML.load_file(filename)).generate
@@ -96,7 +105,13 @@ class Game
   def interface
     display "- " * 20
     @output.print "What's next? > "
-    @input.gets.chomp.downcase
+    user_input
+  end
+
+  def user_input
+    user_input = @input.gets.chomp.downcase
+    if user_input == "!" then throw(:boss_emergency) end
+    user_input
   end
 
   def display(msg)
@@ -171,8 +186,6 @@ class Game
     display case first
             when nil
               missing_command
-            when "!"
-              boss_emergency
             when "debug"
               debug
             when "debuggame"
@@ -206,19 +219,15 @@ class Game
     "Type in what you want to do. Try ? if you're stuck."
   end
   
-  def boss_emergency
-    puts "boss emergency works on !"
-  end
-  
   def quit
     display "Would you like to save before you quit?"
-    save_request = @input.gets.chomp.downcase
-    
+    save_request = user_input
+      
     if save_request == "yes"
       catch (:save_sucess) do
         loop do
           display "Please type a simple name for your save file."
-          @save_name = @input.gets.chomp.downcase
+          @save_name = user_input
           if save_game(@save_name) then throw(:save_sucess) end
         end
       end
@@ -235,7 +244,7 @@ class Game
   def save_game(save_name)
     save_to_file(build_filename(save_name))
   end
-  
+    
   def save_to_file(save_filename)
     FileUtils.mkdir_p(SAVE_DIR) unless File.directory?(SAVE_DIR)
   

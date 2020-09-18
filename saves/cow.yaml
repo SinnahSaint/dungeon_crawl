@@ -1,0 +1,46 @@
+---
+:map_file: "./maps/spiral.yaml"
+:avatar:
+  :back: west
+  :location:
+    :x: 2
+    :y: 0
+  :inventory:
+  - lint
+  - penny
+  - hope
+:level:
+- - :inventory:
+    - knife
+    :enc:
+      :blocking: true
+  - :inventory: []
+    :enc:
+      :blocking: false
+  - :inventory: []
+    :enc:
+      :blocking: false
+      :milked: false
+      :has_milk: true
+- - :inventory: []
+    :enc:
+      :blocking: true
+  - :inventory:
+    - gold
+    :enc:
+      :blocking: false
+  - :inventory:
+    - gemstone
+    :enc:
+      :blocking: false
+- - :inventory: []
+    :enc:
+      :blocking: false
+  - :inventory: []
+    :enc:
+      :blocking: true
+      :dead: false
+      :friend: false
+  - :inventory: []
+    :enc:
+      :blocking: false

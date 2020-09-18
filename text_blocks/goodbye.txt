@@ -2,3 +2,5 @@ Thank you for playing Dungeon Crawl!
 
 Created by Shannon Briggs with help from Megan McVey
 GNU General Public License v3.0
+
+Boss Emergency Text by http://officeipsum.com
