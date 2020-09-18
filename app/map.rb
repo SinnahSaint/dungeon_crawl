@@ -1,6 +1,6 @@
 require_relative "./room"
-Dir["../encounters/*.rb"].each do |file_name|
-  require_relative file_name
+Dir["./encounters/*.rb"].each do |file_name|
+  require file_name
 end
 
 class Map

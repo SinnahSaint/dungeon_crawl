@@ -9,5 +9,8 @@ Help & Hints
     you to do something else.
 * If you get really stuck type hint and you will get a hint specific to the 
     encounter you're facing.
+* If you need to get out quickly there's a boss emergency function.
+Just enter ! and the game will save your file with a default name,
+as well as fill your screen with office-y text.
 * Good luck and have fun! Entering '?' will get you back to this help text.
 -------------------------------------------------------------------------------

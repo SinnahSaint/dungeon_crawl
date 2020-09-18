@@ -1,0 +1,7 @@
+- -   MAIN MENU   - -
+Would you like to:
+start a NEW game?
+LOAD a save?
+or QUIT?
+- - - - - - - - - - - - -
+

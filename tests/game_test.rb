@@ -1,7 +1,7 @@
 require 'test/unit'
 require 'ostruct'
 require 'stringio'
-require_relative '../game.rb'
+require_relative '../app/game.rb'
 require_relative '../app/player.rb'
 require_relative '../app/room.rb'
 require_relative '../app/utility.rb'
@@ -202,7 +202,7 @@ class GameTest < Test::Unit::TestCase
       # end
       @game.define_singleton_method(sym) do |*args|
         call_counts[sym] += 1               
-      end                                   
+      end 
     end
     
     mappings.each do |command, method|
