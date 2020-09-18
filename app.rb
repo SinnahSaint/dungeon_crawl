@@ -17,11 +17,10 @@ class App
     user_input = @input.gets.chomp.downcase
     if user_input == "!"
       @output.puts Utility.text_block("boss_emergency")
-      throw(:exit_app_loop) 
+      throw(:exit_app_loop)
     end
     user_input
   end
-
 
   def menu_loop
     @output.puts Utility.text_block("menu")
@@ -31,22 +30,25 @@ class App
       loop do
         command = user_input
         handle_command(command)
+        prompt
       end
     end
   end
   
   def handle_command(cmdstr)
-    cmdary = cmdstr.split(" ")
-    first = cmdary.first
-    index = cmdary.index(first)
-    cmdary.delete_at(index)
-    second = cmdary.join 
-    
+    unless cmdstr == ""
+      cmdary = cmdstr.split(" ")
+      first = cmdary.first
+      index = cmdary.index(first)
+      cmdary.delete_at(index)
+      second = cmdary.join 
+    end
     case first
       when "new" then new_game
       when "load" then load_save(file: second)
       when "quit" then quit
-      else prompt
+      else 
+        @output.puts "I don't understand."
     end
   end
   
@@ -68,8 +70,6 @@ class App
     else
       puts "Invalid save name '#{file}'. Nothing happens.","Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
     end
-    
-    prompt
   end
   
   def random_map
@@ -87,7 +87,6 @@ class App
                      output: @output, 
                      map_file: random_map,
                      ).run
-    prompt
   end
   
   def quit
@@ -97,17 +96,10 @@ class App
       @output.puts Utility.text_block("goodbye")
       throw :exit_app_loop 
     else
-      return prompt
+      return
     end
   end
   
 end
 
-
-
-
-
-
-
 App.new.menu_loop
-
