@@ -27,16 +27,36 @@ class Game
     location, back = @current_map.start
     @avatar.move(location, back)
   end  
-  
-  def load_map_from_file(filename)
-    MapLoader.new(YAML.load_file(filename)).generate
-  end
+ 
+  def load_game(save_name)
+    save_filename = build_filename(save_name)
     
-  def to_h
-    {
-      avatar: @avatar.to_h,
-      current_map: @current_map.to_h
-    }
+    return "No such file" unless File.exist? save_filename
+    
+    save_hash = load_save_from_file(save_filename)
+    @map_file = save_hash[:map_file]
+    @current_map = Map.new(load_map_from_file(@map_file))
+    
+    avatar_hash = save_hash[:avatar]
+    
+    @avatar = Player.new(
+                        self, 
+                        location: Location.new(avatar_hash[:location]), 
+                        back: avatar_hash[:back], 
+                        inventory: avatar_hash[:inventory]
+                        )
+                        
+    @current_map.level.each.with_index do |row, y|
+      row.each.with_index do |cell, x|
+        room_save = save_hash[:level][y][x]
+        inv_save = room_save[:inventory]
+        enc_params = room_save[:enc]
+        
+        cell.inventory.replace(inv_save)
+        cell.replace_enc(cell.enc.class.new(enc_params))
+      end
+    end
+    display "Loaded #{save_name} sucessfully!"   
   end
   
   def run    
@@ -52,9 +72,27 @@ class Game
         look
       end
     end
-    
+  end
+   
+  def game_over(msg)
+      display msg 
+      throw :exit_game_loop
   end
   
+  
+  private
+  
+  def load_map_from_file(filename)
+    MapLoader.new(YAML.load_file(filename)).generate
+  end
+  
+  def to_h
+    {
+      avatar: @avatar.to_h,
+      current_map: @current_map.to_h
+    }
+  end
+    
   def interface
     display "- " * 20
     @output.print "What's next? > "
@@ -64,7 +102,6 @@ class Game
   def display(msg)
     @output.puts msg
   end
-
 
   def current_room
     @current_map.level[@avatar.location.y][@avatar.location.x]
@@ -106,11 +143,6 @@ class Game
       "You walk to the next room."
     end
   end
-  
-  def game_over(msg)
-    display msg 
-    throw :exit_game_loop
-  end
 
   def move_item(item,from,to, on_success: nil, on_fail: nil)
     on_fail ||= "Missing item #{item}"
@@ -120,10 +152,6 @@ class Game
     to.inventory << item
     
     on_success || "Moved #{item}"
-  end
-
-  def missing_command
-    "Type in what you want to do. Try ? if you're stuck."
   end
 
   def handle_command(cmdstr)
@@ -143,6 +171,8 @@ class Game
     display case first
             when nil
               missing_command
+            when "!"
+              boss_emergency
             when "debug"
               debug
             when "debuggame"
@@ -157,12 +187,8 @@ class Game
               hint
             when "inventory"
               check_inventory
-            when "save"
-              save_game(second)
-            when "load"
-              load_game(second)
             when "quit", "exit"
-              game_over("You give up and die in the maze! Game Over!")
+              quit
             when "take"
               move_item(second, current_room, @avatar, 
                         on_success: "You #{first} the #{second}.",
@@ -174,14 +200,40 @@ class Game
             else
               check_with_encounter(cmdstr)
             end  
-  rescue RuntimeError => e
-    display e.message
+  end
+
+  def missing_command
+    "Type in what you want to do. Try ? if you're stuck."
+  end
+  
+  def boss_emergency
+    puts "boss emergency works on !"
+  end
+  
+  def quit
+    display "Would you like to save before you quit?"
+    save_request = @input.gets.chomp.downcase
+    
+    if save_request == "yes"
+      catch (:save_sucess) do
+        loop do
+          display "Please type a simple name for your save file."
+          @save_name = @input.gets.chomp.downcase
+          if save_game(@save_name) then throw(:save_sucess) end
+        end
+      end
+      game_over("Saved #{@save_name} successfully.")
+    elsif save_request == "no"
+      game_over("You give up! No loot for you. Game Over!")
+    else 
+      display "Simple yes or no please."
+      quit
+    end
+    
   end
   
   def save_game(save_name)
     save_to_file(build_filename(save_name))
-    
-    "Saved #{save_name} successfully."
   end
   
   def save_to_file(save_filename)
@@ -205,39 +257,12 @@ class Game
   end
   
   def build_filename(save_name)
-    raise "Invalid save name '#{save_name}'. Nothing happens." unless /\A[a-z0-9_\-]+\z/ =~ save_name
-    "#{SAVE_DIR}/#{save_name}.yaml"
-  end
-  
-  def load_game(save_name)
-    save_filename = build_filename(save_name)
-    
-    return "No such file" unless File.exist? save_filename
-    
-    save_hash = load_save_from_file(save_filename)
-    @map_file = save_hash[:map_file]
-    @current_map = Map.new(load_map_from_file(@map_file))
-    
-    avatar_hash = save_hash[:avatar]
-    
-    @avatar = Player.new(
-                        self, 
-                        location: Location.new(avatar_hash[:location]), 
-                        back: avatar_hash[:back], 
-                        inventory: avatar_hash[:inventory]
-                        )
-                        
-    @current_map.level.each.with_index do |row, y|
-      row.each.with_index do |cell, x|
-        room_save = save_hash[:level][y][x]
-        inv_save = room_save[:inventory]
-        enc_params = room_save[:enc]
-        
-        cell.inventory.replace(inv_save)
-        cell.replace_enc(cell.enc.class.new(enc_params))
-      end
+    if /\A[a-z0-9_\-]+\z/ =~ save_name
+      "#{SAVE_DIR}/#{save_name}.yaml"
+    else
+      display "Invalid save name '#{save_name}'. Nothing happens."
+      quit 
     end
-    "Loaded #{save_name} sucessfully!\n#{check_inventory}"   
   end
   
   def check_with_encounter(cmdstr)
@@ -247,8 +272,6 @@ class Game
    end
    result
   end
-  
-  private
   
   def teleport(location, back)
     raise "RTFM Shannon" if back.nil?

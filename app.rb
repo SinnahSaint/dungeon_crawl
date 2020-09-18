@@ -8,16 +8,15 @@ class App
     @input = input
     @output = output
     
-    @output.puts Utility.text_block("menu")
     menu_loop
   end
   
   def prompt
-    @output.puts "\nWould you like to start a NEW game? LOAD a save? or QUIT?"
+    @output.puts Utility.text_block("menu_prompt")
   end
 
   def menu_loop
-    Utility.text_block("menu")
+    @output.puts Utility.text_block("menu")
     
     catch (:exit_app_loop) do
       prompt
@@ -30,18 +29,40 @@ class App
   end
   
   def handle_command(cmdstr)
-   first, second = cmdstr.split(" ")  
+    cmdary = cmdstr.split(" ")
+    first = cmdary.first
+    index = cmdary.index(first)
+    cmdary.delete_at(index)
+    second = cmdary.join 
     
     case first
       when "new" then new_game
-      when "load" then load_game(file: second)
+      when "load" then load_save(file: second)
       when "quit" then quit
       else prompt
     end
   end
+  
+  def saves_available
+    @saves_avail = []
+    Dir["./saves/*.yaml"].each do |save_name|
+      @saves_avail << File.basename(save_name, ".yaml")
+    end
+    @saves_avail
+  end
 
-  def load_game(input: $stdin, output: $stdout, file: nil)
-    # gonna need to move save file sorting from game into app
+  def load_save(file: nil)
+    if saves_available.include?(file)
+      @game = Game.new(input: @input, 
+                       output: @output,
+                       )
+      @game.load_game(file)
+      @game.run
+    else
+      puts "Invalid save name '#{file}'. Nothing happens.","Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
+    end
+    
+    prompt
   end
   
   def random_map
@@ -55,7 +76,10 @@ class App
   end
 
   def new_game
-    @game = Game.new(map_file: random_map).run
+    @game = Game.new(input: @input, 
+                     output: @output, 
+                     map_file: random_map,
+                     ).run
     prompt
   end
   
