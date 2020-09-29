@@ -14,6 +14,7 @@ Dir["./encounters/*.rb"].each do |file_name|
 end
 
 class Game
+  attr_reader :avatar
   DEFAULT_MAP_FILE = './maps/spiral.yaml'
   SAVE_DIR = './saves'
   

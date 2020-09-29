@@ -12,156 +12,68 @@ require_relative '../encounters/ice.rb'
 
 class GameTest < Test::Unit::TestCase
 
-  DEFAULT_START_LOCATION = { y: 0, x: 1, back: "south" }
+  DEFAULT_START_LOCATION = Location.new(y: 0, x: 1)
+  DEFAULT_START_BACK     = "south"
 
   def setup
-    @avatar = Player.new(self)
-    start = DEFAULT_START_LOCATION
-    test_map = {
-      level: [
+    @test_map = {
+      "map" => {
+        "level" =>[
          [
-           Room.new(layout: :e, description: "A literally boring nothing room. "
-                    ), 
-           Room.new(layout: :esw, 
-                    encounter: Fire.new, 
-                    inventory: ["knife"], 
-                    description: "A kitchen with a nice table. ",
-                    ), 
-           Room.new(layout: :w, 
-                    encounter: Ice.new, 
-                    description: "This room is really cold for no good reason. ",
-                    ),
-         ],
-      ],
-      win: Location.new(x: 1, y: 1),
-      start: [Location.new(x: start[:x], y: start[:y]), start[:back]], 
+           {"layout" => "E", 
+            "description" => "A literally boring nothing room. "
+           }, 
+           {"layout" => "ESW", 
+            "encounter" => "Fire", 
+            "inventory" => ["knife"], 
+            "description" => "A kitchen with a nice table. ",
+           }, 
+           {"layout" => "W", 
+            "encounter" => "Ice", 
+            "description" => "This room is really cold for no good reason. ",
+           },
+          ]
+        ],
+        "win" => {"x" => 1, "y" => 1},
+        "start" => {"y" => 0, "x" => 1, "back" => "south"},
+      }
     }
     
     @output = StringIO.new
     @input = StringIO.new
-    @game = Game.new(avatar: @avatar, map: test_map, output: @output, input: @input)
+    @game = Game.new(
+      map: MapLoader.new(@test_map).generate, 
+      output: @output, input: @input)
+    @avatar = @game.avatar
   end
   
-  # def test_default_init
-  #   game = App.new
-  #   save_state = game.save_state
-  #
-  #   assert_equal %w(lint penny hope), save_state[:avatar][:inventory]
-  #   assert_equal [2,1], save_state[:avatar][:location]
-  #
-  #   assert_equal "A kitchen with a nice table. ",
-  #     save_state[:current_map][:level][0][0][:description]
-  #
-  #   expected = {
-  #     avatar: {
-  #       back: "south",
-  #       inventory: ["lint", "penny", "hope"],
-  #       location: [2, 1]
-  #     },
-  #     current_map: {
-  #       level: [
-  #         [ { description: "A kitchen with a nice table. ",
-  #             enc: { blocking: true,
-  #                    class: "Fire",
-  #                    inventory: []
-  #                  },
-  #             inventory: ["knife"],
-  #             lay: ["east", "south"]
-  #           },
-  #           { description: "This room looks like you walked into a bandit's home office. ",
-  #             enc: { blocking: true,
-  #                    class: "Killer",
-  #                    dead: false,
-  #                    friend: false,
-  #                    inventory: []
-  #             },
-  #             inventory: [],
-  #             lay: ["east", "south", "west"]
-  #           },
-  #           { description: "A dusty room full of rubble. ",
-  #             enc: { blocking: false,
-  #                    class: "Avalanche",
-  #                    inventory: []
-  #                  },
-  #             inventory: ["gemstone"],
-  #             lay: ["west"]
-  #           }
-  #         ],
-  #         [ { description: "A literally boring nothing room. ",
-  #             enc: { blocking: false,
-  #                    class: "NoEnc",
-  #                    inventory: []
-  #                  },
-  #             inventory: [],
-  #             lay: ["north", "south"]
-  #           },
-  #           { description: "A lovely room filled with gold. ",
-  #             enc: { blocking: false,
-  #                    class: "NoEnc",
-  #                    inventory: []
-  #                  },
-  #             inventory: ["gold"],
-  #             lay: ["north"]
-  #           },
-  #           { description: "A mostly empty room with straw on the floor. ",
-  #             enc: { blocking: false,
-  #                    class: "Cow",
-  #                    has_milk: true,
-  #                    inventory: [],
-  #                    milked: false
-  #                  },
-  #             inventory: [],
-  #             lay: ["south"]
-  #           }
-  #         ],
-  #         [
-  #           { description: "A throne room, with no one on the throne. ",
-  #             enc: { blocking: false,
-  #                    class: "Jester",
-  #                    inventory: [],
-  #                    joke: false
-  #                  },
-  #             inventory: [],
-  #             lay: ["north", "east"]
-  #           },
-  #           { description: "A literally boring nothing room. ",
-  #             enc: { blocking: false,
-  #                    class: "NoEnc",
-  #                    inventory: []
-  #                  },
-  #             inventory: [],
-  #             lay: ["east", "south", "west"]
-  #           },
-  #           { description: "This room is really cold for no good reason. ",
-  #             enc: { blocking: false,
-  #                    class: "Ice",
-  #                    inventory: []
-  #                  },
-  #             inventory: [],
-  #             lay: ["north", "west"]
-  #           }
-  #         ]
-  #       ],
-  #       start: [2, 1, "south"],
-  #       win: [3, 1]
-  #     }
-  #   }
-  #   assert_equal expected, save_state
-  #
-  # end
-  
+  def test_default_init
+    save_state = @game.save_state
+    
+    assert_equal %w(lint penny hope), save_state[:avatar][:inventory]
+    assert_equal @test_map["map"]["start"]["x"], save_state[:avatar][:location][:x]
+    assert_equal @test_map["map"]["start"]["y"], save_state[:avatar][:location][:y]
+    assert_equal @test_map["map"]["start"]["back"], save_state[:avatar][:back]
+
+    # assert_equal "A literally boring nothing room. ",
+    #               save_state[:current_map][:level][0][0][:description]
+                  
+    # expected = {}
+    # assert_equal expected, save_state
+  end
+
   def test_display
     @game.display("test display msg")
     assert_match "test display msg", @output.string
   end
-  
+
   def test_run_loop
     @input.string = "\nexit\nno\n"
     @game.run
     # assert we got "What's next?" twice
     assert_equal(3, @output.string.split("What's next?").size)
   end
-  
+
   def test_handle_command
     mappings = {
       "" => :missing_command,
@@ -187,25 +99,25 @@ class GameTest < Test::Unit::TestCase
       "take" => :move_item,
       "drop" => :move_item,
     }
-    
+
     def @game.call_counts
       @call_counts ||= Hash.new { 0 }
     end
-    
-    mappings.values.each do |sym| 
+
+    mappings.values.each do |sym|
       # def @game.teleport(*args)
       #  call_counts[:teleport] += 1
       # end
       @game.define_singleton_method(sym) do |*args|
-        call_counts[sym] += 1               
-      end 
+        call_counts[sym] += 1
+      end
     end
-    
+
     mappings.each do |command, method|
       before = @game.call_counts[method]
       @game.handle_command(command)
       after = @game.call_counts[method]
-      assert_equal before + 1, after 
+      assert_equal before + 1, after
     end
   end
 
@@ -217,12 +129,12 @@ class GameTest < Test::Unit::TestCase
     def enc.handle_command(*_args)
       @called = true
     end
-    
+
     @game.check_with_encounter("")
-    
+
     assert enc.called?
   end
-  
+
   def test_current_room
     @avatar.move(Location.new(x: 0, y: 0), "south")
     zero = @game.current_room
@@ -230,14 +142,14 @@ class GameTest < Test::Unit::TestCase
     one = @game.current_room
     @avatar.move(Location.new(x: 2, y: 0), "south")
     two = @game.current_room
-    
+
     assert_not_equal zero, one
     assert_not_equal zero, two
-    assert_not_equal one, two 
+    assert_not_equal one, two
   end
-  
+
   def test_check_inventory
-    assert_equal "Your inventory includes: \n * lint\n * penny\n * hope ", 
+    assert_equal "Your inventory includes: \n * lint\n * penny\n * hope ",
       @game.check_inventory
     @avatar.remove_item("lint")
     @avatar.remove_item("penny")
@@ -248,16 +160,16 @@ class GameTest < Test::Unit::TestCase
 
   def test_move_item
     @avatar.move(Location.new(x: 1, y: 0), "south")
-    
+
     @game.move_item("knife", @game.current_room, @avatar)
     assert_equal %w[lint penny hope knife], @avatar.inventory
     assert_equal %w[], @game.current_room.inventory
-    
+
     @game.move_item("penny", @avatar, @game.current_room)
     assert_equal %w[lint hope knife], @avatar.inventory
     assert_equal %w[penny], @game.current_room.inventory
   end
-  
+
   def test_attempt_to_walk
     reset_location = ->{ @avatar.move(Location.new(x: 1, y: 0), "south") }
     
@@ -306,19 +218,19 @@ class GameTest < Test::Unit::TestCase
       end
     end
   end
-  
+
   def test_move_avatar
-    assert_equal DEFAULT_START_LOCATION, @avatar.location.to_h.merge({back: @avatar.back})
-    
+    assert_equal DEFAULT_START_LOCATION, @avatar.location
+
     new_location = Location.new(x: 2, y: 1)
     @game.move_avatar(new_location, "back")
     assert_equal new_location, @avatar.location
     assert_equal "back", @avatar.back
-    
+
     # expect(@avatar.back).to equal("back")  # RSpec
   end
-  
-  def test_game_over  
+
+  def test_game_over
     catch :exit_game_loop do
       @game.game_over("game's done")
     end

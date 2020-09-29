@@ -20,7 +20,10 @@ class MapLoader
           )
         end
       end,
-      start: [Location.new(x: start["x"], y: start["y"]), start["back"]],
+      start: [
+        Location.new(x: start["x"], y: start["y"]), 
+        start["back"]
+      ],
       win:  Location.new(x: win["x"], y: win["y"] ),
       text: text
     }
