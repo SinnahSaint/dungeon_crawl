@@ -54,12 +54,21 @@ class GameTest < Test::Unit::TestCase
     assert_equal @test_map["map"]["start"]["x"], save_state[:avatar][:location][:x]
     assert_equal @test_map["map"]["start"]["y"], save_state[:avatar][:location][:y]
     assert_equal @test_map["map"]["start"]["back"], save_state[:avatar][:back]
-
-    # assert_equal "A literally boring nothing room. ",
-    #               save_state[:current_map][:level][0][0][:description]
                   
-    # expected = {}
-    # assert_equal expected, save_state
+    expected = {
+      :avatar=>
+        {:back=>"south",
+          :inventory=>["lint", "penny", "hope"],
+          :location=>{:x=>1, :y=>0}},
+      :level=>
+      [
+        [{:enc=>{:blocking=>false}, :inventory=>[]},
+        {:enc=>{:blocking=>true}, :inventory=>["knife"]},
+        {:enc=>{:blocking=>false}, :inventory=>[]}]
+      ],
+      :map_file=>"./maps/spiral.yaml"
+    }
+    assert_equal expected, save_state
   end
 
   def test_display
