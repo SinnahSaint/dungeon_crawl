@@ -1,9 +1,0 @@
-- Use Raise strings for the display txt from encounters and such?
-
-- Somehow separate interface(input&output) from the code(game&app) so it can run in something other than terminal
-
-- figure out multi-map sets
-
-- create main campaign mapset
-
-- figure out map randomization/generation with Meg

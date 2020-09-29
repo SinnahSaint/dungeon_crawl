@@ -156,12 +156,8 @@ class GameTest < Test::Unit::TestCase
   end
   
   def test_run_loop
-    begin
-      @input.string = "\nexit\n"  # exit exits!
-      @game.run
-    rescue SystemExit
-      # stop exit exiting
-    end
+    @input.string = "\nexit\nno\n"
+    @game.run
     # assert we got "What's next?" twice
     assert_equal(3, @output.string.split("What's next?").size)
   end
@@ -186,8 +182,8 @@ class GameTest < Test::Unit::TestCase
       "i" => :check_inventory,
       "inv" => :check_inventory,
       "inventory" => :check_inventory,
-      "quit" => :game_over,
-      "exit" => :game_over,
+      "quit" => :quit,
+      "exit" => :quit,
       "take" => :move_item,
       "drop" => :move_item,
     }
@@ -280,9 +276,10 @@ class GameTest < Test::Unit::TestCase
     
     begin
       reset_location.call
-      @game.attempt_to_walk("south")
-      assert_equal Location.new(x: 1, y: 1), @avatar.location
-    rescue SystemExit
+      catch(:exit_game_loop) do
+        @game.attempt_to_walk("south")
+        assert_equal Location.new(x: 1, y: 1), @avatar.location
+      end
     end
     
     # Unblock the room (using milk, see setup) - can go ESW
@@ -303,9 +300,10 @@ class GameTest < Test::Unit::TestCase
     
     begin
       reset_location.call
-      @game.attempt_to_walk("south")
-      assert_equal Location.new(x: 1, y: 1), @avatar.location
-    rescue SystemExit
+      catch(:exit_game_loop) do
+        @game.attempt_to_walk("south")
+        assert_equal Location.new(x: 1, y: 1), @avatar.location
+      end
     end
   end
   
@@ -321,7 +319,7 @@ class GameTest < Test::Unit::TestCase
   end
   
   def test_game_over  
-    assert_raise(SystemExit) do
+    catch :exit_game_loop do
       @game.game_over("game's done")
     end
     # expected = "game's done" actual = @output.string
