@@ -3,6 +3,7 @@ require_relative "app/utility.rb"
 
 
 class App
+  attr_accessor :input, :output
   
   def initialize(input: $stdin, output: $stdout)
     @input = input
@@ -102,4 +103,3 @@ class App
   
 end
 
-App.new.run
