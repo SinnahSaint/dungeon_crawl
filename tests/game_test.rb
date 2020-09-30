@@ -56,18 +56,18 @@ class GameTest < Test::Unit::TestCase
     assert_equal @test_map["map"]["start"]["back"], save_state[:avatar][:back]
                   
     expected = {
-      :avatar=>
-        {:back=>"south",
-          :inventory=>["lint", "penny", "hope"],
-          :location=>{:x=>1, :y=>0}},
-      :level=>
-      [
+      :avatar=>{
+        :back=>"south",
+        :inventory=>["lint", "penny", "hope"],
+        :location=>{:x=>1, :y=>0}
+        },
+      :level=>[
         [{:enc=>{:blocking=>false}, :inventory=>[]},
         {:enc=>{:blocking=>true}, :inventory=>["knife"]},
         {:enc=>{:blocking=>false}, :inventory=>[]}]
-      ],
+        ],
       :map_file=>"./maps/spiral.yaml"
-    }
+      }
     assert_equal expected, save_state
   end
 

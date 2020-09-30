@@ -28,11 +28,15 @@ class App
     
     catch(:exit_app_loop) do
       prompt
-      loop do
-        command = user_input
-        handle_command(command)
-        prompt
-      end
+      run_app_loop
+    end
+  end
+  
+  def run_app_loop
+    loop do
+      command = user_input
+      handle_command(command)
+      prompt
     end
   end
   
@@ -45,17 +49,26 @@ class App
       second = cmdary.join 
     end
     case first
-      when "new" then new_game
+      when "new"  then new_game
       when "load" then load_save(file: second)
       when "quit" then quit
+      when "!"    then boss_emergency # this shouldn't happen as it's caught in user_input right now
       else 
-        @output.puts "I don't understand."
+        confused
     end
+  end
+  
+  def confused
+    @output.puts "I don't understand."
+  end
+  
+  def yaml_save_files
+    Dir["./saves/*.yaml"]
   end
   
   def saves_available
     @saves_avail = []
-    Dir["./saves/*.yaml"].each do |save_name|
+    yaml_save_files.each do |save_name|
       @saves_avail << File.basename(save_name, ".yaml")
     end
     @saves_avail
