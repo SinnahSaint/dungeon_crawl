@@ -10,6 +10,10 @@ class App
     @output = output
   end
   
+  def has_game?
+    @game.nil? == false
+  end
+  
   def prompt
     @output.puts Utility.text_block("menu_prompt")
   end
@@ -73,6 +77,11 @@ class App
     end
     @saves_avail
   end
+  
+  def run_the_game
+    @game.run
+    @game = nil
+  end
 
   def load_save(file: nil)
     if saves_available.include?(file)
@@ -80,18 +89,20 @@ class App
                        output: @output,
                        )
       @game.load_game(file)
-      @game.run
+      run_the_game
     else
-      puts "Invalid save name '#{file}'. Nothing happens.","Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
+      @output.puts "Invalid save name '#{file}'. Nothing happens."
+      @output.puts "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
     end
   end
   
+  def yaml_map_files
+    Dir["./maps/*.yaml"]
+  end
+  
   def random_map
-    @maps_avail = []
-    
-    Dir["./maps/*.yaml"].each do |map_name|
-      @maps_avail << map_name.to_s
-    end
+    @maps_avail = yaml_map_files.map(&:to_s)
+    # @maps_avail = yaml_map_files.map { |map_name| map_name.to_s }   ## same thing
     
     @maps_avail.sample
   end
@@ -100,7 +111,8 @@ class App
     @game = Game.new(input: @input, 
                      output: @output, 
                      map_file: random_map,
-                     ).run
+                     )
+    run_the_game
   end
   
   def quit
