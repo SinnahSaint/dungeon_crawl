@@ -147,14 +147,26 @@ class AppTest < Test::Unit::TestCase
     end
   end
   
-  
-  
-  def test_new_game
-    
+  def test_quit_empty
+    @input.string = "\n"
+    @app.quit
+    refute_match /GNU General Public License/, @output.string
+    assert_equal "Are you sure you want to quit?\n", @output.string
   end
   
-  def test_quit
-    
+  def test_quit_garbage
+    @input.string = "kjbsdf asdflkjhas \n"
+    @app.quit
+    refute_match /GNU General Public License/, @output.string
+    assert_equal "Are you sure you want to quit?\n", @output.string
+  end
+  
+  def test_quit_yes
+    @input.string = "yes\n"
+      catch(:exit_app_loop) do
+        @app.quit
+      end
+    assert_match /GNU General Public License/, @output.string
   end
   
 end
