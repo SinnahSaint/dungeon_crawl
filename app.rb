@@ -10,6 +10,15 @@ class App
     @output = output
   end
   
+  def run
+    @output.puts Utility.text_block("menu")
+    
+    catch(:exit_app_loop) do
+      prompt
+      run_app_loop
+    end
+  end
+  
   def has_game?
     @game.nil? == false
   end
@@ -25,15 +34,6 @@ class App
       throw(:exit_app_loop)
     end
     user_input
-  end
-
-  def run
-    @output.puts Utility.text_block("menu")
-    
-    catch(:exit_app_loop) do
-      prompt
-      run_app_loop
-    end
   end
   
   def run_app_loop
