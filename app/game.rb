@@ -68,7 +68,7 @@ class Game
     catch(:exit_game_loop) do
       catch(:boss_emergency)do
         loop do
-          command = interface
+          command = prompt
           handle_command(command)
           display " - - - "
           look
@@ -101,7 +101,7 @@ class Game
     }
   end
     
-  def interface
+  def prompt
     display "- " * 20
     @output.print "What's next? > "
     user_input
