@@ -10,6 +10,7 @@ class CommandHandler
   def private_output
     @output
   end
+  
   def private_input
     @input
   end
@@ -65,6 +66,5 @@ class CommandHandler
   def confused
     @output.puts "I don't understand."
   end
-  
   
 end
