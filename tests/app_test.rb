@@ -53,7 +53,7 @@ class AppTest < Test::Unit::TestCase
   end
 
   def test_load_save_right
-    def @app.set_and_run_the_game; end
+    def @app.set_the_game; end
     
     @game = Game.new(ui: @ui)
     @game.save_game("load_save_test_file")

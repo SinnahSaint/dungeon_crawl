@@ -31,19 +31,11 @@ class Game
   def run
     @ui.output Utility.text_block("intro")
     @ui.output @current_map.text
-    look
-    
-    catch(:exit_game_loop) do
-      catch(:boss_emergency)do
-        loop do
-          @ui.handle_command(@ui.user_input)
-          @ui.output " - - - "
-          look
-        end
-      end
-      boss_emergency
-    end
   end
+  
+  def new_game; end
+
+  def load_save; end
   
   def load_game(save_name)
     save_filename = build_filename(save_name)
@@ -77,8 +69,8 @@ class Game
   end
   
   def game_over(msg)
-      @ui.output msg 
-      throw :exit_game_loop
+    @ui.output msg
+    @ui.game = nil
   end
   
   def boss_emergency
@@ -100,6 +92,7 @@ class Game
   end
     
   def prompt
+    look
     @ui.output "- " * 20
     @ui.output "What's next? > "
   end

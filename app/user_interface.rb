@@ -8,8 +8,8 @@ class UserInterface
   end
 
   def run
-    target.prompt
     catch(:exit_app_loop) do
+      target.prompt
       run_loop
     end
   end
@@ -32,80 +32,58 @@ class UserInterface
   
   def handle_command(cmdstr)
   
-    if @game    
-      first, second, third, fourth = cmdstr.split(" ")  
-    
-      replacements = {
-        'n' => 'north',
-        'e' => 'east',
-        's' => 'south',
-        'w' => 'west',
-        'i' => 'inventory',
-        'inv' => 'inventory',
-        '?' => 'help',
-      }
-      first = replacements[first] || first
-        
-      output case first
-              when nil
-                missing_command
-              when "debug"
-                @game.debug
-              when "debuggame"
-                @game.PP.pp(debug_game, "")
-              when "teleport"
-                @game.teleport(Location.new(y: second.to_i, x: third.to_i), fourth)
-              when "north", "east", "south", "west"
-                @game.attempt_to_walk(first)
-              when "help"
-                @game.help
-              when "hint"
-                @game.hint
-              when "inventory"
-                @game.check_inventory
-              when "quit", "exit"
-                @game.quit
-              when "take"
-                @game.move_item(second, current_room, @avatar, 
-                          on_success: "You #{first} the #{second}.",
-                          on_fail: "Whoops! There's no #{second} you can take with you here.")
-              when "drop"
-                @game.move_item(second, @avatar, current_room,
-                          on_success: "You #{first} the #{second}.",
-                          on_fail: "Whoops! No #{second} in inventory.")
-              else
-                @game.check_with_encounter(cmdstr)
-              end  
-    
-    else
-      unless cmdstr == ""
-        cmdary = cmdstr.split(" ")
-        first = cmdary.first
-        index = cmdary.index(first)
-        cmdary.delete_at(index)
-        second = cmdary.join 
-      end
-      case first
-        when "new"  then @app.new_game
-        when "load" then @app.load_save(file: second)
-        when "quit" then target.quit
-        when "!"    then target.boss_emergency 
-        else 
-          confused
-      end
-  
-    end
+    first, second, third, fourth = cmdstr.split(" ")  
 
+    replacements = {
+      'n' => 'north',
+      'e' => 'east',
+      's' => 'south',
+      'w' => 'west',
+      'i' => 'inventory',
+      'inv' => 'inventory',
+      '?' => 'help',
+      'exit'=> 'quit'
+    }
+    
+    first = replacements[first] || first
+    
+    output case first
+            when "new"
+              target.new_game
+            when "load"
+              target.load_save(file: second)
+            when "quit"
+              target.quit
+            when "!"
+              target.boss_emergency 
+            when "help"
+              target.help
+            when nil
+              missing_command
+            when "debug"
+              @game.debug
+            when "debuggame"
+              @game.PP.pp(debug_game, "")
+            when "teleport"
+              @game.teleport(Location.new(y: second.to_i, x: third.to_i), fourth)
+            when "north", "east", "south", "west"
+              @game.attempt_to_walk(first)
+            when "hint"
+              @game.hint
+            when "inventory"
+              @game.check_inventory
+            when "take"
+              @game.move_item(second, current_room, @avatar, 
+                        on_success: "You #{first} the #{second}.",
+                        on_fail: "Whoops! There's no #{second} you can take with you here.")
+            when "drop"
+              @game.move_item(second, @avatar, current_room,
+                        on_success: "You #{first} the #{second}.",
+                        on_fail: "Whoops! No #{second} in inventory.")
+            else
+              @game.check_with_encounter(cmdstr)
+            end
   end
-
-  def private_output
-    @output
-  end  # for now, until game knows about CommmandHandler
-  
-  def private_input
-    @input
-  end  # for now, until game knows about CommmandHandler
-  
 
   private
   
@@ -119,10 +97,6 @@ class UserInterface
       target.prompt
     end
   end
-  
 
-  def confused
-    @output.puts "I don't understand."
-  end
   
 end

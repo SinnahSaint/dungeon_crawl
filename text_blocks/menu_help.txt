@@ -1,0 +1,4 @@
+If you type NEW a new game will start with a random map.
+
+If you type LOAD you will see the list of available save files,
+and for example, "Load Cow" will load the Cow save file.

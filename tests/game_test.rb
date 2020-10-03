@@ -71,52 +71,6 @@ class GameTest < Test::Unit::TestCase
     assert_equal expected, save_state
   end
 
-  def test_handle_command
-    mappings = {
-      "" => :missing_command,
-      "debug" => :debug,
-      "debuggame" => :debug_game,
-      "teleport" => :teleport,
-      "north" => :attempt_to_walk,
-      "n" => :attempt_to_walk,
-      "east" => :attempt_to_walk,
-      "e" => :attempt_to_walk,
-      "south" => :attempt_to_walk,
-      "s" => :attempt_to_walk,
-      "west" => :attempt_to_walk,
-      "w" => :attempt_to_walk,
-      "?" => :help,
-      "help" => :help,
-      "hint" => :hint,
-      "i" => :check_inventory,
-      "inv" => :check_inventory,
-      "inventory" => :check_inventory,
-      "quit" => :quit,
-      "exit" => :quit,
-      "take" => :move_item,
-      "drop" => :move_item,
-    }
-
-    def @game.call_counts
-      @call_counts ||= Hash.new { 0 }
-    end
-
-    mappings.values.each do |sym|
-      # def @game.teleport(*args)
-      #  call_counts[:teleport] += 1
-      # end
-      @game.define_singleton_method(sym) do |*args|
-        call_counts[sym] += 1
-      end
-    end
-
-    mappings.each do |command, method|
-      before = @game.call_counts[method]
-      @game.handle_command(command)
-      after = @game.call_counts[method]
-      assert_equal before + 1, after
-    end
-  end
   # def test_run_loop
   #   @input.string = "\nexit\nno\n"
   #   @game.run
@@ -191,7 +145,7 @@ class GameTest < Test::Unit::TestCase
     
     begin
       reset_location.call
-      catch(:exit_game_loop) do
+      catch(:exit_game) do
         @game.attempt_to_walk("south")
         assert_equal Location.new(x: 1, y: 1), @avatar.location
       end
@@ -215,7 +169,7 @@ class GameTest < Test::Unit::TestCase
     
     begin
       reset_location.call
-      catch(:exit_game_loop) do
+      catch(:exit_game) do
         @game.attempt_to_walk("south")
         assert_equal Location.new(x: 1, y: 1), @avatar.location
       end
@@ -234,7 +188,7 @@ class GameTest < Test::Unit::TestCase
   end
 
   def test_game_over
-    catch :exit_game_loop do
+    catch :exit_game do
       @game.game_over("game's done")
     end
     # expected = "game's done" actual = @output.string

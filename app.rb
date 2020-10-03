@@ -21,6 +21,14 @@ class App
     @ui.output Utility.text_block("menu_prompt")
   end
   
+  def help
+    @ui.output Utility.text_block("menu_help")
+  end
+  
+  def missing_command
+    @ui.output "I don't understand."
+  end
+  
   def boss_emergency
     @ui.output Utility.text_block("boss_emergency")
     throw(:exit_app_loop)
@@ -38,18 +46,16 @@ class App
     @saves_avail
   end
   
-  def set_and_run_the_game
+  def set_the_game
     @ui.game = @game
-    @game.run
-    @game = nil
-    @ui.game = nil
   end
 
   def load_save(file: nil)
     if saves_available.include?(file)
       @game = Game.new(ui: @ui)
       @game.load_game(file)
-      set_and_run_the_game
+      set_the_game
+      @game.run
     else
       @ui.output "Invalid save name '#{file}'. Nothing happens."
       @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
@@ -71,13 +77,15 @@ class App
     @game = Game.new(ui: @ui, 
                      map_file: random_map,
                      )
-    set_and_run_the_game
+    set_the_game
+    @game.run
   end
   
   def quit
     @ui.output "Are you sure you want to quit?"
     if @ui.user_input == "yes"
       @ui.output Utility.text_block("goodbye")
+      @ui.app = nil
       throw :exit_app_loop 
     else
       return
