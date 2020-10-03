@@ -1,32 +1,12 @@
 require_relative 'game.rb'
 
-class CommandHandler  
+class UserInterface
+    
   def initialize(input: $stdin, output: $stdout)
     @input = input
     @output = output
   end
-  
-  # for now, until game knows about CommmandHandler
-  def private_output
-    @output
-  end
-  
-  def private_input
-    @input
-  end
-  
-  def app=(value)
-    @app = value
-  end
-  
-  def output(message)
-    @output.puts message
-  end
-  
-  def target
-    @game || @app
-  end
-  
+
   def run
     target.prompt
     catch(:exit_app_loop) do
@@ -34,15 +14,43 @@ class CommandHandler
     end
   end
   
+  def app=(value)
+    @app = value
+  end
+  
+  def game=(value)
+    @game = value
+  end
+  
+  def user_input
+    @input.gets.chomp.downcase
+  end
+  
+  def output(message)
+    @output.puts message
+  end
+  
+
+  def private_output
+    @output
+  end  # for now, until game knows about CommmandHandler
+  
+  def private_input
+    @input
+  end  # for now, until game knows about CommmandHandler
+  
+
+  private
+  
+  def target
+    @game || @app
+  end
+
   def run_loop
     loop do
       handle_command(user_input)
       target.prompt
     end
-  end
-  
-  def user_input
-    @input.gets.chomp.downcase
   end
   
   def handle_command(cmdstr)

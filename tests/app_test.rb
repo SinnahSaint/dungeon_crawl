@@ -7,7 +7,7 @@ class AppTest < Test::Unit::TestCase
   def setup
     @output = StringIO.new
     @input = StringIO.new
-    @ui = CommandHandler.new(input: @input, output: @output)
+    @ui = UserInterface.new(input: @input, output: @output)
     @app = App.new(ui: @ui)
   end
   
@@ -52,8 +52,8 @@ class AppTest < Test::Unit::TestCase
     assert_equal false, @app.has_game?
   end
 
-  def test_load_save_right 
-    def @app.run_the_game; end
+  def test_load_save_right
+    def @app.set_and_run_the_game; end
     
     Game.new.save_game("load_save_test_file")
     

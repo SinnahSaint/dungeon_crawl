@@ -1,9 +1,9 @@
 require_relative 'app/game.rb'
 require_relative "app/utility.rb"
-require_relative 'app/command_handler.rb'
+require_relative 'app/user_interface.rb'
 
 class App  
-  def initialize(ui: CommandHandler.new)
+  def initialize(ui: UserInterface.new)
     @ui = ui
     @ui.app = self
   end
@@ -38,9 +38,11 @@ class App
     @saves_avail
   end
   
-  def run_the_game
+  def set_and_run_the_game
+    @ui.game = @game
     @game.run
     @game = nil
+    @ui.game = nil
   end
 
   def load_save(file: nil)
@@ -49,7 +51,7 @@ class App
                        output: @ui.private_output,
                        )
       @game.load_game(file)
-      run_the_game
+      set_and_run_the_game
     else
       @ui.output "Invalid save name '#{file}'. Nothing happens."
       @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
@@ -72,7 +74,7 @@ class App
                      output: @ui.private_output, 
                      map_file: random_map,
                      )
-    run_the_game
+    set_and_run_the_game
   end
   
   def quit
