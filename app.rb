@@ -47,9 +47,7 @@ class App
 
   def load_save(file: nil)
     if saves_available.include?(file)
-      @game = Game.new(input: @ui.private_input, 
-                       output: @ui.private_output,
-                       )
+      @game = Game.new(ui: @ui)
       @game.load_game(file)
       set_and_run_the_game
     else
@@ -70,8 +68,7 @@ class App
   end
 
   def new_game
-    @game = Game.new(input: @ui.private_input, 
-                     output: @ui.private_output, 
+    @game = Game.new(ui: @ui, 
                      map_file: random_map,
                      )
     set_and_run_the_game

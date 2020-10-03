@@ -55,7 +55,8 @@ class AppTest < Test::Unit::TestCase
   def test_load_save_right
     def @app.set_and_run_the_game; end
     
-    Game.new.save_game("load_save_test_file")
+    @game = Game.new(ui: @ui)
+    @game.save_game("load_save_test_file")
     
     @app.load_save(file: "load_save_test_file")  # with the load_save_test_file
 
