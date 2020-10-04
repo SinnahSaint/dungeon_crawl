@@ -14,7 +14,7 @@ class App
   end
   
   def has_game?
-    @game.nil? == false
+    @game.is_a? Game
   end
   
   def prompt
@@ -23,10 +23,6 @@ class App
   
   def help
     @ui.output Utility.text_block("menu_help")
-  end
-  
-  def missing_command
-    @ui.output "I don't understand."
   end
   
   def boss_emergency

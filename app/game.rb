@@ -4,6 +4,7 @@ require_relative "./map"
 require_relative "./utility"
 require_relative "./map_loader"
 require_relative "./location"
+require_relative './game_null'
 
 require 'yaml'
 require 'pp'
@@ -33,9 +34,13 @@ class Game
     @ui.output @current_map.text
   end
   
-  def new_game; end
+  def new_game
+    missing_command
+  end
 
-  def load_save; end
+  def load_save
+    missing_command
+  end
   
   def load_game(save_name)
     save_filename = build_filename(save_name)
@@ -70,7 +75,7 @@ class Game
   
   def game_over(msg)
     @ui.output msg
-    @ui.game = nil
+    @ui.game = GameNull.new(@ui)
   end
   
   def boss_emergency
@@ -146,10 +151,6 @@ class Game
     to.inventory << item
     
     on_success || "Moved #{item}"
-  end
-
-  def missing_command
-    "Type in what you want to do. Try ? if you're stuck."
   end
   
   def quit

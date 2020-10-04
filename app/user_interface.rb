@@ -1,7 +1,9 @@
 require_relative 'game.rb'
+require_relative 'game_null.rb'
 
 class UserInterface
-    
+  attr_reader :app
+
   def initialize(input: $stdin, output: $stdout)
     @input = input
     @output = output
@@ -16,6 +18,7 @@ class UserInterface
   
   def app=(value)
     @app = value
+    @game = GameNull.new(self)
   end
   
   def game=(value)
@@ -63,7 +66,7 @@ class UserInterface
             when "debug"
               @game.debug
             when "debuggame"
-              @game.PP.pp(debug_game, "")
+              PP.pp(@game.debug_game, "")
             when "teleport"
               @game.teleport(Location.new(y: second.to_i, x: third.to_i), fourth)
             when "north", "east", "south", "west"
@@ -73,11 +76,11 @@ class UserInterface
             when "inventory"
               @game.check_inventory
             when "take"
-              @game.move_item(second, current_room, @avatar, 
+              @game.move_item(second, @game.current_room, @game.avatar, 
                         on_success: "You #{first} the #{second}.",
                         on_fail: "Whoops! There's no #{second} you can take with you here.")
             when "drop"
-              @game.move_item(second, @avatar, current_room,
+              @game.move_item(second, @game.avatar, @game.current_room,
                         on_success: "You #{first} the #{second}.",
                         on_fail: "Whoops! No #{second} in inventory.")
             else
@@ -85,10 +88,10 @@ class UserInterface
             end
   end
 
-  private
-  
   def target
-    @game || @app
+    return @game if @game.is_a? Game
+
+    @app
   end
 
   def run_loop
@@ -98,5 +101,12 @@ class UserInterface
     end
   end
 
-  
+  def missing_command
+    if @game.is_a? Game
+      "Type in what you want to do. Try ? if you're stuck."
+    else
+      "I don't understand. Try ? if you're stuck."
+    end
+  end
+
 end
