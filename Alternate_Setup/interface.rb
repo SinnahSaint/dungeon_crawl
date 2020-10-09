@@ -9,14 +9,15 @@ class UserInterface
   def initialize(input: $stdin, output: $stdout)
     @input = input
     @output = output
-    @app = App.new(ui: self)
+    @game_loader = GameLoader.new(ui:self)
+    @menu = MainMenu.new(ui: self)
     @game = GameNull(ui: self)
   end
 
   def target
     return @game if @game.is_a? Game
 
-    @app
+    @menu
   end
 
   def run_app_loop
@@ -72,9 +73,9 @@ class UserInterface
     
     output case first
             when "new"
-              target.new_game
+              @game_loader.new_game
             when "load"
-              target.load_save(file: second)
+              @game_loader.load_saved_game(file: second)
             when "quit"
               target.quit
             when "!"
@@ -94,7 +95,9 @@ class UserInterface
             when "hint"
               @game.hint
             when "inventory"
-              @game.check_inventory
+              @game.check_avatar_inventory
+            when "look"
+              @game.check_room_inventory
             when "take"
               @game.move_item(second, @game.current_room, @game.avatar, 
                         on_success: "You #{first} the #{second}.",
