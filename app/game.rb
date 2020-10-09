@@ -74,8 +74,8 @@ class Game
   end
   
   def game_over(msg)
-    @ui.output msg
     @ui.game = GameNull.new(@ui)
+    msg
   end
   
   def boss_emergency

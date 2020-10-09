@@ -81,7 +81,6 @@ class App
     @ui.output "Are you sure you want to quit?"
     if @ui.user_input == "yes"
       @ui.output Utility.text_block("goodbye")
-      @ui.app = nil
       throw :exit_app_loop 
     else
       return
