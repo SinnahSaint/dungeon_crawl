@@ -1,0 +1,59 @@
+map:
+  name: Spiral
+  
+  text: |
+    While taking a walk through the dark woods one night, something breaks 
+    underfoot and you tumble into to a hidden dungeon. 
+    Dusting yourself off you look around. . . . . .
+    -------------------------------------------------------------------------------   
+                    
+  start: { y: 1, x: 1, back: "" }
+  
+  win: { y: 2, x: 3 }
+  
+  level: 
+    - 
+      - 
+        layout: ES
+        encounter: Fire
+        inventory: 
+          - knife
+        description: A cluttered kitchen.
+      - 
+        layout: EW
+        description: An empty dining room.
+      -
+        layout: SW
+        encounter: Cow
+        description: A glamorous bedroom fit for a queen.... wait, is that a cow on the chaise longue?
+    -
+      -
+        layout: NS
+        encounter: Jester
+        description: A dusty throneroom with no-one holding court.
+      -
+        layout: E
+        inventory: 
+          - gold
+        description: A grand hall filled with gold coins. You must be in a bandit's saferoom.
+      -
+        layout: NW
+        encounter: Avalanche
+        inventory: 
+          - gemstone
+        description: A dusty room full of rubble.
+    -
+      -
+        layout: NE
+        description: A plain storage room with empty shelves.
+      -
+        layout: EW
+        encounter: Killer
+        description: A guardroom. You must be getting close to the entrance.
+      -
+        layout: EW
+        encounter: Ice
+        description: This room is a lot colder than the others.
+          
+  
+  
