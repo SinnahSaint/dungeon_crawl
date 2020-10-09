@@ -4,6 +4,7 @@ require_relative "./map"
 require_relative "./utility"
 require_relative "./map_loader"
 require_relative "./location"
+require_relative './game_null'
 
 require 'yaml'
 require 'pp'
@@ -18,9 +19,8 @@ class Game
   DEFAULT_MAP_FILE = './maps/spiral.yaml'
   SAVE_DIR = './saves'
   
-  def initialize(input: $stdin, output: $stdout, avatar: nil, map: nil, map_file: nil)
-    @input = input
-    @output = output
+  def initialize(ui: nil, avatar: nil, map: nil, map_file: nil)
+    @ui = ui
     @avatar = avatar || Player.new(self)
     @map_file = map_file || DEFAULT_MAP_FILE
     @current_map = Map.new(map || load_map_from_file(@map_file))
@@ -29,6 +29,19 @@ class Game
     @avatar.move(location, back)
   end  
  
+  def run
+    @ui.output Utility.text_block("intro")
+    @ui.output @current_map.text
+  end
+  
+  def new_game
+    missing_command
+  end
+
+  def load_save
+    missing_command
+  end
+  
   def load_game(save_name)
     save_filename = build_filename(save_name)
     
@@ -57,36 +70,18 @@ class Game
         cell.replace_enc(cell.enc.class.new(enc_params))
       end
     end
-    display "Loaded #{save_name} sucessfully!"   
-  end
-  
-  def run
-    display Utility.text_block("intro")
-    display @current_map.text
-    look
-    
-    catch(:exit_game_loop) do
-      catch(:boss_emergency)do
-        loop do
-          command = interface
-          handle_command(command)
-          display " - - - "
-          look
-        end
-      end
-      boss_emergency
-    end
+    @ui.output "Loaded #{save_name} sucessfully!"   
   end
   
   def game_over(msg)
-      display msg 
-      throw :exit_game_loop
+    @ui.game = GameNull.new(@ui)
+    msg
   end
   
   def boss_emergency
     time = Time.now
     save_game("boss_emergency_#{time.day}#{time.hour}")
-    display(Utility.text_block("boss_emergency"))
+    @ui.output(Utility.text_block("boss_emergency"))
     throw(:exit_app_loop)
   end
   
@@ -101,20 +96,10 @@ class Game
     }
   end
     
-  def interface
-    display "- " * 20
-    @output.print "What's next? > "
-    user_input
-  end
-
-  def user_input
-    user_input = @input.gets.chomp.downcase
-    if user_input == "!" then throw(:boss_emergency) end
-    user_input
-  end
-
-  def display(msg)
-    @output.puts msg
+  def prompt
+    look
+    @ui.output "- " * 20
+    @ui.output "What's next? > "
   end
 
   def current_room
@@ -167,68 +152,16 @@ class Game
     
     on_success || "Moved #{item}"
   end
-
-  def handle_command(cmdstr)
-    first, second, third, fourth = cmdstr.split(" ")  
-    
-    replacements = {
-      'n' => 'north',
-      'e' => 'east',
-      's' => 'south',
-      'w' => 'west',
-      'i' => 'inventory',
-      'inv' => 'inventory',
-      '?' => 'help',
-    }
-    first = replacements[first] || first
-        
-    display case first
-            when nil
-              missing_command
-            when "debug"
-              debug
-            when "debuggame"
-              PP.pp(debug_game, "")
-            when "teleport"
-              teleport(Location.new(y: second.to_i, x: third.to_i), fourth)
-            when "north", "east", "south", "west"
-              attempt_to_walk(first)
-            when "help"
-              help
-            when "hint"
-              hint
-            when "inventory"
-              check_inventory
-            when "quit", "exit"
-              quit
-            when "take"
-              move_item(second, current_room, @avatar, 
-                        on_success: "You #{first} the #{second}.",
-                        on_fail: "Whoops! There's no #{second} you can take with you here.")
-            when "drop"
-              move_item(second, @avatar, current_room,
-                        on_success: "You #{first} the #{second}.",
-                        on_fail: "Whoops! No #{second} in inventory.")
-            else
-              check_with_encounter(cmdstr)
-            end  
-    rescue RuntimeError => e
-    display e.message
-  end
-
-  def missing_command
-    "Type in what you want to do. Try ? if you're stuck."
-  end
   
   def quit
-    display "Would you like to save before you quit?"
-    save_request = user_input
+    @ui.output "Would you like to save before you quit?"
+    save_request = @ui.user_input
       
     if save_request == "yes"
       catch (:save_sucess) do
         loop do
-          display "Please type a simple name for your save file."
-          @save_name = user_input
+          @ui.output "Please type a simple name for your save file."
+          @save_name = @ui.user_input
           if save_game(@save_name) then throw(:save_sucess) end
         end
       end
@@ -236,7 +169,7 @@ class Game
     elsif save_request == "no"
       game_over("You give up! No loot for you. Game Over!")
     else 
-      display "Simple yes or no please."
+      @ui.output "Simple yes or no please."
       quit
     end
     
@@ -270,7 +203,7 @@ class Game
     if /\A[a-z0-9_\-]+\z/ =~ save_name
       "#{SAVE_DIR}/#{save_name}.yaml"
     else
-      display "Invalid save name '#{save_name}'. Nothing happens."
+      @ui.output "Invalid save name '#{save_name}'. Nothing happens."
       quit 
     end
   end
@@ -306,22 +239,22 @@ class Game
   end
   
   def look
-    display current_room.description
-    display current_room.enc.state unless current_room.enc.state == ""
+    @ui.output current_room.description
+    @ui.output current_room.enc.state unless current_room.enc.state == ""
     unless current_room.inventory.empty?
-      display "In this room you can see: #{Utility.english_list(current_room.inventory)}"
+      @ui.output "In this room you can see: #{Utility.english_list(current_room.inventory)}"
     else
-      display "You don't see any interesting items here."
+      @ui.output "You don't see any interesting items here."
     end  
    
     doors = current_room.lay.reject { |dir| dir == @avatar.back }
     
     if @avatar.back.empty? 
       exits = doors.empty? ? "and there are no exits you can see." : "but you can exit to the #{Utility.english_list(doors)}"
-      display "There is no way to go back the way you came, #{exits}"
+      @ui.output "There is no way to go back the way you came, #{exits}"
     else
       exits = doors.empty? ? "#{@avatar.back}" : "#{Utility.english_list(doors)}, or #{@avatar.back}"
-      display "You can exit to the #{exits}, back the way you came."
+      @ui.output "You can exit to the #{exits}, back the way you came."
     end
   end
 

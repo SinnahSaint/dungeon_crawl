@@ -2,6 +2,7 @@ require 'test/unit'
 require 'ostruct'
 require 'stringio'
 require_relative '../app/game.rb'
+require_relative '../app/user_interface.rb'
 require_relative '../app/player.rb'
 require_relative '../app/room.rb'
 require_relative '../app/utility.rb'
@@ -41,9 +42,8 @@ class GameTest < Test::Unit::TestCase
     
     @output = StringIO.new
     @input = StringIO.new
-    @game = Game.new(
-      map: MapLoader.new(@test_map).generate, 
-      output: @output, input: @input)
+    @ui = UserInterface.new(input: @input, output: @output)
+    @game = Game.new(ui: @ui, map: MapLoader.new(@test_map).generate)
     @avatar = @game.avatar
   end
   
@@ -71,64 +71,12 @@ class GameTest < Test::Unit::TestCase
     assert_equal expected, save_state
   end
 
-  def test_display
-    @game.display("test display msg")
-    assert_match "test display msg", @output.string
-  end
-
-  def test_run_loop
-    @input.string = "\nexit\nno\n"
-    @game.run
-    # assert we got "What's next?" twice
-    assert_equal(3, @output.string.split("What's next?").size)
-  end
-
-  def test_handle_command
-    mappings = {
-      "" => :missing_command,
-      "debug" => :debug,
-      "debuggame" => :debug_game,
-      "teleport" => :teleport,
-      "north" => :attempt_to_walk,
-      "n" => :attempt_to_walk,
-      "east" => :attempt_to_walk,
-      "e" => :attempt_to_walk,
-      "south" => :attempt_to_walk,
-      "s" => :attempt_to_walk,
-      "west" => :attempt_to_walk,
-      "w" => :attempt_to_walk,
-      "?" => :help,
-      "help" => :help,
-      "hint" => :hint,
-      "i" => :check_inventory,
-      "inv" => :check_inventory,
-      "inventory" => :check_inventory,
-      "quit" => :quit,
-      "exit" => :quit,
-      "take" => :move_item,
-      "drop" => :move_item,
-    }
-
-    def @game.call_counts
-      @call_counts ||= Hash.new { 0 }
-    end
-
-    mappings.values.each do |sym|
-      # def @game.teleport(*args)
-      #  call_counts[:teleport] += 1
-      # end
-      @game.define_singleton_method(sym) do |*args|
-        call_counts[sym] += 1
-      end
-    end
-
-    mappings.each do |command, method|
-      before = @game.call_counts[method]
-      @game.handle_command(command)
-      after = @game.call_counts[method]
-      assert_equal before + 1, after
-    end
-  end
+  # def test_run_loop
+  #   @input.string = "\nexit\nno\n"
+  #   @game.run
+  #   # assert we got "What's next?" twice
+  #   assert_equal(3, @output.string.split("What's next?").size)
+  # end
 
   def test_check_with_encounter
     enc = @game.current_room.enc
@@ -197,7 +145,7 @@ class GameTest < Test::Unit::TestCase
     
     begin
       reset_location.call
-      catch(:exit_game_loop) do
+      catch(:exit_game) do
         @game.attempt_to_walk("south")
         assert_equal Location.new(x: 1, y: 1), @avatar.location
       end
@@ -221,7 +169,7 @@ class GameTest < Test::Unit::TestCase
     
     begin
       reset_location.call
-      catch(:exit_game_loop) do
+      catch(:exit_game) do
         @game.attempt_to_walk("south")
         assert_equal Location.new(x: 1, y: 1), @avatar.location
       end
@@ -240,7 +188,7 @@ class GameTest < Test::Unit::TestCase
   end
 
   def test_game_over
-    catch :exit_game_loop do
+    catch :exit_game do
       @game.game_over("game's done")
     end
     # expected = "game's done" actual = @output.string

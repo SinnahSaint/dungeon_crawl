@@ -1,71 +1,35 @@
 require_relative 'app/game.rb'
 require_relative "app/utility.rb"
+require_relative 'app/user_interface.rb'
 
-
-class App
-  attr_accessor :input, :output
-  
-  def initialize(input: $stdin, output: $stdout)
-    @input = input
-    @output = output
+class App  
+  def initialize(ui: UserInterface.new)
+    @ui = ui
+    @ui.app = self
   end
-  
-  def run
-    @output.puts Utility.text_block("menu")
     
-    catch(:exit_app_loop) do
-      prompt
-      run_app_loop
-    end
+  def run
+    @ui.output Utility.text_block("menu")
+    @ui.run
   end
   
   def has_game?
-    @game.nil? == false
+    @game.is_a? Game
   end
   
   def prompt
-    @output.puts Utility.text_block("menu_prompt")
+    @ui.output Utility.text_block("menu_prompt")
   end
   
-  def user_input
-    user_input = @input.gets.chomp.downcase
-    if user_input == "!"
-      @output.puts Utility.text_block("boss_emergency")
-      throw(:exit_app_loop)
-    end
-    user_input
+  def help
+    @ui.output Utility.text_block("menu_help")
   end
   
-  def run_app_loop
-    loop do
-      command = user_input
-      handle_command(command)
-      prompt
-    end
+  def boss_emergency
+    @ui.output Utility.text_block("boss_emergency")
+    throw(:exit_app_loop)
   end
-  
-  def handle_command(cmdstr)
-    unless cmdstr == ""
-      cmdary = cmdstr.split(" ")
-      first = cmdary.first
-      index = cmdary.index(first)
-      cmdary.delete_at(index)
-      second = cmdary.join 
-    end
-    case first
-      when "new"  then new_game
-      when "load" then load_save(file: second)
-      when "quit" then quit
-      when "!"    then boss_emergency # this shouldn't happen as it's caught in user_input right now
-      else 
-        confused
-    end
-  end
-  
-  def confused
-    @output.puts "I don't understand."
-  end
-  
+    
   def yaml_save_files
     Dir["./saves/*.yaml"]
   end
@@ -78,21 +42,19 @@ class App
     @saves_avail
   end
   
-  def run_the_game
-    @game.run
-    @game = nil
+  def set_the_game
+    @ui.game = @game
   end
 
   def load_save(file: nil)
     if saves_available.include?(file)
-      @game = Game.new(input: @input, 
-                       output: @output,
-                       )
+      @game = Game.new(ui: @ui)
       @game.load_game(file)
-      run_the_game
+      set_the_game
+      @game.run
     else
-      @output.puts "Invalid save name '#{file}'. Nothing happens."
-      @output.puts "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
+      @ui.output "Invalid save name '#{file}'. Nothing happens."
+      @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
     end
   end
   
@@ -108,18 +70,17 @@ class App
   end
 
   def new_game
-    @game = Game.new(input: @input, 
-                     output: @output, 
+    @game = Game.new(ui: @ui, 
                      map_file: random_map,
                      )
-    run_the_game
+    set_the_game
+    @game.run
   end
   
   def quit
-    @output.puts "Are you sure you want to quit?"
-    validation = user_input
-    if validation == "yes"
-      @output.puts Utility.text_block("goodbye")
+    @ui.output "Are you sure you want to quit?"
+    if @ui.user_input == "yes"
+      @ui.output Utility.text_block("goodbye")
       throw :exit_app_loop 
     else
       return
