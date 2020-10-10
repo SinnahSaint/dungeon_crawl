@@ -46,7 +46,6 @@
     avatar_hash = save_hash[:avatar]
     
     @avatar = Avatar.new(
-                        location: Location.new(avatar_hash[:location]), 
                         inventory: Inventory.new(avatar_hash[:inventory])
                         )
                         
@@ -63,7 +62,6 @@
     end
     @ui.output "Loaded #{save_name} sucessfully!"   
   end
-
 
   def yaml_map_files
     Dir["./files/new_games/*.yaml"]
@@ -92,17 +90,17 @@
         row.map do |col|
           encounter_name = col["encounter"] || "NoEnc"
           Room.new(
-            layout: decode_layout(col["layout"]), 
+            doors: col["doors"].map do |k,v|
+              Door.new(direction: k, destination: v)
+            end
             encounter: Object.const_get(encounter_name).new, 
             inventory: col["inventory"], 
             description: col["description"]
+            current_location: col["current_location"]
           )
         end
       end,
-      start: [
-        Location.new(x: start["x"], y: start["y"]), 
-        start["back"]
-      ],
+      start: [Location.new(x: start["x"], y: start["y"], back: start["back"])],
       win:  Location.new(x: win["x"], y: win["y"] ),
       text: text
     }

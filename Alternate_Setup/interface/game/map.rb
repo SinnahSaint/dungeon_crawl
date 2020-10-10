@@ -4,15 +4,20 @@ Dir["./encounters/*.rb"].each do |file_name|
 end
 
 class Map
-  attr_reader :level, :start, :win, :text
+  attr_reader :level, :start, :win, :text, :current_location
 
-  def initialize(level: nil, start: nil, win: nil, text: nil)
+  def initialize(level: nil, start: nil, win: nil, text: nil, current_location: nil)
     @level = level
     @start = start
     @win = win
     @text = text
+    @current_location = current_location || @start
   end
   
+  def move(new_location)
+    @current_location = new_location
+  end
+
   def to_h
     {
       start: @start,
