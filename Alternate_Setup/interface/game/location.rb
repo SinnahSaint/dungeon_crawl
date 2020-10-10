@@ -1,7 +1,7 @@
 class Location
   attr_reader :x, :y, :back
 
-  def initialize(x:, y:, :back = nil)
+  def initialize(x:, y:, :back = "")
     @x, @y, @back = x, y, back
   end
 

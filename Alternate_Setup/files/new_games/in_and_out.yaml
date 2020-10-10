@@ -6,52 +6,67 @@ map:
     Taking a deep breath, you step inside. . . . . .
     -------------------------------------------------------------------------------
       
-  start: { y: 2, x: 1, back: "south"}
+  start: { y: 2, x: 1, back: "south" }
   
   win: { y: 3, x: 1 }
   
   level: 
     - 
       - 
-        layout: ES
         encounter_type: Fire
         inventory:
           - knife
         description: A kitchen with a nice table.
+        doors: 
+          - { direction: "E", destination: { x: 1, y: 0, back: "W" } } 
+          - { direction: "S", destination: { x: 0, y: 1, back: "N" } }
       - 
-        layout: ESW
         encounter: Killer
         description: This room looks like you walked into a bandit's home office.
+        doors:  
+          - { direction: "E", destination: { x: 2, y: 0, back: "W" } } 
+          - { direction: "S", destination: { x: 1, y: 1, back: "N" } }
+          - { direction: "W", destination: { x: 0, y: 0, back: "E" } }
       -
-        layout: W
         encounter: Avalanche
         inventory: 
           - gemstone
-        description: A dusty room full of rubble. 
+        description: A dusty room full of rubble.
+        doors:
+          - { direction: "W", destination: { x: 1, y: 0, back: "E" } } 
     -
       -
-        layout: NS
         description: A dark boring hallway.
+        doors:  
+          - { direction: "N", destination: { x: 0, y: 0, back: "S" } } 
+          - { direction: "S", destination: { x: 0, y: 2, back: "N" } }
       -
-        layout: 'N'
         inventory:
           - gold
         description: A lovely room filled with gold.
+        doors:  
+          - { direction: "N", destination: { x: 1, y: 0, back: "S" } }
       -
-        layout: S
         encounter: Cow
         description: A mostly empty room with straw on the floor.
+        doors:  
+          - { direction: "S", destination: { x: 2, y: 2, back: "N" } }
     -
       -
-        layout: NE
         encounter: Jester
         description: A throne room, with no one on the throne.
+        doors:
+          - { direction: "N", destination: { x: 0, y: 1, back: "S" } }
+          - { direction: "E", destination: { x: 1, y: 2, back: "W" } }
       -
-        layout: ESW
         description: A literally boring nothing room.
+        doors:
+          - { direction: "E", destination: { x: 2, y: 2, back: "W" } } 
+          - { direction: "S", destination: { x: 1, y: 3, back: "N" } }
+          - { direction: "W", destination: { x: 0, y: 2, back: "W" } }
       -
-        layout: NW
         encounter: Ice
         description: This room is really cold for no good reason.
-
-  
+        doors:
+          - { direction: "N", destination: { x: 2, y: 1, back: "S" } } 
+          - { direction: "W", destination: { x: 1, y: 2, back: "E" } }

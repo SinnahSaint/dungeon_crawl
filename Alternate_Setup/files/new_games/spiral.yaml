@@ -7,53 +7,68 @@ map:
     Dusting yourself off you look around. . . . . .
     -------------------------------------------------------------------------------   
                     
-  start: { y: 1, x: 1, back: "" }
+  start: { y: 1, x: 1, }
   
   win: { y: 2, x: 3 }
   
   level: 
     - 
       - 
-        layout: ES
         encounter: Fire
         inventory: 
           - knife
         description: A cluttered kitchen.
+        doors:
+          - { direction: "E", destination: { x: 1, y: 0, back: "W" } } 
+          - { direction: "S", destination: { x: 0, y: 1, back: "N" } }
       - 
-        layout: EW
         description: An empty dining room.
+        doors:
+          - { direction: "E", destination: { x: 2, y: 0, back: "W" } } 
+          - { direction: "W", destination: { x: 0, y: 0, back: "E" } }
       -
-        layout: SW
         encounter: Cow
         description: A glamorous bedroom fit for a queen.... wait, is that a cow on the chaise longue?
+        doors:
+          - { direction: "S", destination: { x: 2, y: 1, back: "N" } } 
+          - { direction: "W", destination: { x: 1, y: 0, back: "E" } }
     -
       -
-        layout: NS
         encounter: Jester
         description: A dusty throneroom with no-one holding court.
+        doors:
+          - { direction: "N", destination: { x: 0, y: 0, back: "S" } } 
+          - { direction: "S", destination: { x: 0, y: 2, back: "N" } }
       -
-        layout: E
         inventory: 
           - gold
         description: A grand hall filled with gold coins. You must be in a bandit's saferoom.
+        doors:
+          - { direction: "E", destination: { x: 2, y: 1 } }
       -
-        layout: NW
         encounter: Avalanche
         inventory: 
           - gemstone
         description: A dusty room full of rubble.
+        doors:
+          - { direction: "N", destination: { x: 2, y: 0, back: "S" } } 
+          - { direction: "W", destination: { x: 1, y: 1, back: "E" } }
     -
       -
-        layout: NE
         description: A plain storage room with empty shelves.
+        doors:
+          - { direction: "N", destination: { x: 0, y: 1, back: "S" } } 
+          - { direction: "E", destination: { x: 1, y: 2, back: "W" } }
       -
-        layout: EW
         encounter: Killer
         description: A guardroom. You must be getting close to the entrance.
+        doors:
+          - { direction: "E", destination: { x: 2, y: 2, back: "W" } } 
+          - { direction: "W", destination: { x: 0, y: 2, back: "E" } }
       -
-        layout: EW
         encounter: Ice
         description: This room is a lot colder than the others.
-          
-  
+        doors:
+          - { direction: "E", destination: { x: 3, y: 2, back: "W" } } 
+          - { direction: "W", destination: { x: 1, y: 2, back: "E" } }
   
