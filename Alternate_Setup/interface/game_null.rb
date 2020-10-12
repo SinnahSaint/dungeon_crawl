@@ -12,9 +12,6 @@ class GameNull
   def to_h
     {}
   end
-  def save_state
-    {}
-  end
 
   def method_missing(*args)    
     @ui.missing_command

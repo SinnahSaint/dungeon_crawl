@@ -1,7 +1,6 @@
 class Avatar
-  def initialize(location: nil, inventory: nil)
-    @location = location
-    @inventory = inventory || Inventory.new
+  def initialize(inventory: nil)
+    @inventory = Inventory.new(inventory || [])
   end
 
 

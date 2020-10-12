@@ -1,6 +1,5 @@
 def class Room
-  def initialize(room_id: nil, doors: nil, encounter: nil, inventory: nil, description: nil)
-    @room_id = room_id   
+  def initialize(doors: nil, encounter: nil, inventory: nil, description: nil)
     @doors = doors || {}
     @enc = encounter || NoEnc.new
     @inventory = inventory&.dup || []
@@ -26,21 +25,15 @@ def class Room
   end
   
   def to_h
-    {
-      doors: @doors.map do |k, v|
-        {direction: k,
-        destination: v.to_h}
-      end  
+    {  
       description: @description,
       inventory: @inventory,
-      enc: @enc.to_h
-    }
-  end
-  
-  def save_state
-    {
-      inventory: @inventory,
-      enc: @enc.save_state
+      encounter: @enc.to_h
+      doors: @doors.transform_values(&:to_h)  #short form
     }
   end
 end
+
+# doors: @doors.transform_values do |door|  #same thing but longer
+#   door.to_h
+# end

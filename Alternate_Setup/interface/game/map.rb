@@ -20,8 +20,10 @@ class Map
 
   def to_h
     {
-      start: @start,
-      win: @win,
+      text: @text,
+      start: @start.to_h,
+      win: @win.to_h,
+      current: @current_location.to_h,
       level: @level.map do |row|
         row.map do |room|
           room&.to_h

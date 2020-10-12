@@ -1,8 +1,8 @@
+require_relative 'monkey_patch_hash.rb'
 require_relative 'utility.rb'
 require_relative 'interface/main_menu.rb'
 require_relative 'interface/game_null.rb'
 require_relative 'interface/game_loader.rb'
-
 
 class UserInterface
 

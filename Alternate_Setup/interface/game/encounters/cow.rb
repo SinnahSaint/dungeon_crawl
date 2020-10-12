@@ -1,6 +1,6 @@
 class Cow < NoEnc
 
-  def initialize (blocking:false, milked: false, has_milk: true)
+  def initialize(blocking:false, milked: false, has_milk: true)
     super(blocking: blocking)    
     @milked = milked
     @has_milk = has_milk
@@ -52,17 +52,9 @@ class Cow < NoEnc
   end
   
   def to_h
-    super.merge({
+    super.deep_merge(params: {
       milked: @milked,
       has_milk: @has_milk,
     })
-  end
-  
-  def save_state
-    super.merge({
-      milked: @milked,
-      has_milk: @has_milk,
-    })
-  end
-  
+  end  
 end
