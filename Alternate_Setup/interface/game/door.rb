@@ -1,13 +1,16 @@
 require_relative = '/map.rb'
 
-def class Door
-  def initialize (direction: nil, destination: nil)
-    @direction = direction
+class Door
+  def initialize(destination:, description: "" )
     @destination = Location.new(destination)
+    @description = description || "You move to the next room."
   end
 
-  def use_door(door: nil)
-    @map.move(door.destination)
+  def to_h
+    {
+      destination: @destination.to_h
+      description: @description
+    }
   end
-
 end
+

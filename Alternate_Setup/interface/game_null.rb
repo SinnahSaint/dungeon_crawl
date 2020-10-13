@@ -2,7 +2,6 @@ class GameNull
   def initialize(ui)
     @ui = ui
   end
-
   def current_room
     nil
   end
@@ -12,7 +11,6 @@ class GameNull
   def to_h
     {}
   end
-
   def method_missing(*args)    
     @ui.missing_command
   end

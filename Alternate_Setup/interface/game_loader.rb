@@ -10,8 +10,15 @@
     @ui.game.run
   end
 
-  def save_the_game(save_name)
-    save_to_file(build_save_path(save_name))
+  def save_the_game
+    @ui.output "Please choose a file name."
+    save_name = @ui.user_input
+    if saves_avail.include? save_name
+      @ui.output "That name is taken already."
+      save_the_game
+    else
+      save_to_file(build_save_path(save_name))
+      @ui.output "Game saved."
   end
 
   def load_saved_game(save_name)
@@ -33,7 +40,7 @@
     current_map = generate_map(save_hash["map"])
     avatar = generate_avatar(save_hash["avatar"])
                         
-    @ui.game = Game.new(avatar: avatar, current_map: current_map)
+    @ui.game = Game.new(avatar: avatar, map: current_map)
   end
 
   def generate_map(map_hash)

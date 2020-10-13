@@ -14,8 +14,9 @@ class Map
     @current_location = current_location || @start
   end
   
-  def move(new_location)
-    @current_location = new_location
+  def move(door)
+    @ui.output door.description
+    @current_location = door.destination
   end
 
   def to_h
