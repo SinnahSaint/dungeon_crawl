@@ -36,7 +36,14 @@ class Game
   def check_room_inventory
   end
 
-  def move_item(item, from, to)
+  def move_item(item, from, to, on_success: nil, on_fail: nil)
+    raise on_fail unless from.inventory.include?(item)
+    on_fail ||= "Missing item #{item}"
+    
+    from.remove_item(item)
+    to.inventory << item
+    
+    on_success || "Moved #{item}"
   end
 
   def check_with_encounter(cmdstr)

@@ -143,7 +143,7 @@ class Game
     end
   end
 
-  def move_item(item,from,to, on_success: nil, on_fail: nil)
+  def move_item(item, from, to, on_success: nil, on_fail: nil)
     on_fail ||= "Missing item #{item}"
     raise on_fail unless from.inventory.include?(item)
     
