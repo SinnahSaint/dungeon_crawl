@@ -3,6 +3,7 @@ avatar:
     - lint
     - penny
     - hope
+    - knife
 map:
   text: |
     You've finally made it through the woods and to the hidden dungeon. 
@@ -13,15 +14,14 @@ map:
   
   win: { y: 3, x: 1 }
   
-  current: ~
+  current: { x: 1, y: 0, back: "W" }
 
   level: 
     - 
       - 
         encounter: 
           type: Fire
-        inventory:
-          - knife
+          blocking: false
         description: A kitchen with a nice table.
         doors:
           "E": { destination: { x: 1, y: 0, back: "W" } } 
@@ -29,6 +29,8 @@ map:
       - 
         encounter: 
           type: Killer
+          blocking: false
+          frend: true
         description: This room looks like you walked into a bandit's home office.
         doors:  
           "E": { destination: { x: 2, y: 0, back: "W" } } 
@@ -45,11 +47,15 @@ map:
       - ~
     -
       -
+        encounter: 
+          type: NoEnc
         description: A dark boring hallway.
         doors:  
           "N": { destination: { x: 0, y: 0, back: "S" }, description: "Do you smell smoke?" } 
           "S": { destination: { x: 0, y: 2, back: "N" } }
       -
+        encounter: 
+          type: NoEnc
         inventory:
           - gold
         description: A lovely room filled with gold.
@@ -70,6 +76,8 @@ map:
           "N": { destination: { x: 0, y: 1, back: "S" } }
           "E": { destination: { x: 1, y: 2, back: "W" } }
       -
+        encounter: 
+          type: NoEnc
         description: A literally boring nothing room.
         doors:
           "E": { destination: { x: 2, y: 2, back: "W" }, description: "You feel a cool breeze walking to the next room." } 

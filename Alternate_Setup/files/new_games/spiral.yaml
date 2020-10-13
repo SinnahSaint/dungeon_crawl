@@ -1,6 +1,7 @@
-map:
-  name: Spiral
-  
+avatar:
+  inventory: 
+    - hope
+map:  
   text: |
     While taking a walk through the dark woods one night, something breaks 
     underfoot and you tumble into to a hidden dungeon. 
@@ -10,11 +11,14 @@ map:
   start: { y: 1, x: 1, }
   
   win: { y: 2, x: 3 }
+
+  current: ~
   
   level: 
     - 
       - 
-        encounter: Fire
+        encounter:
+          type: Fire
         inventory: 
           - knife
         description: A cluttered kitchen.
@@ -27,14 +31,16 @@ map:
           - { direction: "E", destination: { x: 2, y: 0, back: "W" } } 
           - { direction: "W", destination: { x: 0, y: 0, back: "E" } }
       -
-        encounter: Cow
+        encounter:
+          type: Cow
         description: A glamorous bedroom fit for a queen.... wait, is that a cow on the chaise longue?
         doors:
           - { direction: "S", destination: { x: 2, y: 1, back: "N" } } 
           - { direction: "W", destination: { x: 1, y: 0, back: "E" } }
     -
       -
-        encounter: Jester
+        encounter:
+          type: Jester
         description: A dusty throneroom with no-one holding court.
         doors:
           - { direction: "N", destination: { x: 0, y: 0, back: "S" } } 
@@ -46,7 +52,8 @@ map:
         doors:
           - { direction: "E", destination: { x: 2, y: 1 } }
       -
-        encounter: Avalanche
+        encounter:
+          type: Avalanche
         inventory: 
           - gemstone
         description: A dusty room full of rubble.
@@ -60,13 +67,15 @@ map:
           - { direction: "N", destination: { x: 0, y: 1, back: "S" } } 
           - { direction: "E", destination: { x: 1, y: 2, back: "W" } }
       -
-        encounter: Killer
+        encounter:
+          type: Killer
         description: A guardroom. You must be getting close to the entrance.
         doors:
           - { direction: "E", destination: { x: 2, y: 2, back: "W" } } 
           - { direction: "W", destination: { x: 0, y: 2, back: "E" } }
       -
-        encounter: Ice
+        encounter:
+          type: Ice
         description: This room is a lot colder than the others.
         doors:
           - { direction: "E", destination: { x: 3, y: 2, back: "W" } } 
