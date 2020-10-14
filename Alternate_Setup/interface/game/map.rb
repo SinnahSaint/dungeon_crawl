@@ -14,8 +14,19 @@ class Map
     @current_location = current_location || @start
   end
   
-  def move(door)
-    @ui.output door.description
+  def current_room
+     @level[@current_location.y][@current_location.x]
+  end
+
+  def blocked?(direction)
+    current_room.blocked? && direction != @current_location.back
+  end
+
+  def get_door(direction)
+    current_room.doors[direction]
+  end
+
+  def follow_door(door)
     @current_location = door.destination
   end
 

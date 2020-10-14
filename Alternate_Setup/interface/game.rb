@@ -12,7 +12,6 @@ class Game
   end
 
 
-
   def debug
   end
 
@@ -20,11 +19,25 @@ class Game
   end
 
   def teleport(location)
-    @map.move(Door.new(destination: location, description: "~ ~ BAMPF! ~ ~") 
+    door = Door.new(destination: location, description: "~ ~ BAMPF! ~ ~")
+    @ui.output(door.description)
+    @map.follow_door(door)
   end
 
   def attempt_to_walk(direction)
-    
+    if @map.blocked?(direction)
+      @ui.output "You'll have to deal with this first."
+      return
+    end
+
+    door = @map.get_door(direction)
+    if door.nil?
+      @ui.output "That's a wall, dummy!"
+      return
+    end
+
+    @ui.output(door.description)
+    @map.follow_door(door)
   end
 
   def hint
@@ -37,8 +50,8 @@ class Game
   end
 
   def move_item(item, from, to, on_success: nil, on_fail: nil)
-    raise on_fail unless from.inventory.include?(item)
     on_fail ||= "Missing item #{item}"
+    raise on_fail unless from.inventory.has?(item)
     
     from.remove_item(item)
     to.inventory << item

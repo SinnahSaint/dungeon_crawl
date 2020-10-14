@@ -1,4 +1,4 @@
-def class Room
+class Room
   def initialize(doors: nil, encounter: nil, inventory: nil, description: nil)
     @doors = doors || {}
     @enc = encounter || NoEnc.new
@@ -13,6 +13,10 @@ def class Room
     return false unless @doors == other.doors
     return false unless @enc == other.enc
     true
+  end
+
+  def blocked?
+    @enc.blocking
   end
   
   def remove_item(item)
