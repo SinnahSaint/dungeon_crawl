@@ -1,4 +1,6 @@
 class Room
+  attr_reader :doors
+  
   def initialize(doors: nil, encounter: nil, inventory: nil, description: nil)
     @doors = doors || {}
     @enc = encounter || NoEnc.new
@@ -32,8 +34,8 @@ class Room
     {  
       description: @description,
       inventory: @inventory,
-      encounter: @enc.to_h
-      doors: @doors.transform_values(&:to_h)  #short form
+      encounter: @enc.to_h,
+      doors: @doors.transform_values(&:to_h),  #short form
     }
   end
 end

@@ -1,8 +1,13 @@
 class Game
-  def initialize(avatar:,map:,)
+  def initialize(avatar:,map:,ui:)
     @avatar = avatar
     @map = map
+    @ui = ui
   end
+
+
+
+
 
   def to_h
     {
@@ -10,7 +15,6 @@ class Game
       map: @map.to_h,
     }
   end
-
 
   def debug
   end
@@ -62,7 +66,9 @@ class Game
   def check_with_encounter(cmdstr)
   end
 
-
+  def run
+    @ui.output "Heyyyyyy"
+  end
 
 
 

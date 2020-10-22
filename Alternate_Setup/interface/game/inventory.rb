@@ -15,13 +15,13 @@ class Inventory
   # end
 
   def ==(other)
-    @items.sort == other.@items.sort # && @equiped.sort == other.@equipped.sort
+    @items.sort == other.items.sort # && @equiped.sort == other.@equipped.sort
     ## when I get to equipping items
   end
 
   def to_h
     {
-      inventory: @items.sort
+      inventory: @items.sort,
       # equipped: @equipped.sort
     }
   end
