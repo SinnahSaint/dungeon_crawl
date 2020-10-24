@@ -6,9 +6,6 @@ class Game
   end
 
 
-
-
-
   def to_h
     {
       avatar: @avatar.to_h,
@@ -51,6 +48,7 @@ class Game
   end
 
   def check_room_inventory
+    @map.current_room.inventory
   end
 
   def move_item(item, from, to, on_success: nil, on_fail: nil)
@@ -64,6 +62,12 @@ class Game
   end
 
   def check_with_encounter(cmdstr)
+  end
+
+  def prompt
+    @map.current_description + 
+    "You can see" + Utility.english_list(check_room_inventory) +
+    "\n" + "- "*20 + "\n" + "What's next? > "
   end
 
   def run

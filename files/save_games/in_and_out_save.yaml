@@ -44,7 +44,6 @@ map:
         description: A dusty room full of rubble.
         doors:
           "W": { destination: { x: 1, y: 0, back: "E" } } 
-      - ~
     -
       -
         encounter: 

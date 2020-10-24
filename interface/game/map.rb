@@ -18,6 +18,10 @@ class Map
      @level[@current_location.y][@current_location.x]
   end
 
+  def current_description
+    current_room.description
+  end
+
   def blocked?(direction)
     current_room.blocked? && direction != @current_location.back
   end

@@ -32,8 +32,7 @@ class UserInterface
 
   def prompt
     if @game.is_a? Game
-      output "- " * 20
-      output "What's next? > "
+      output @game.prompt
     else
       output Utility.text_block("menu_prompt")
     end
