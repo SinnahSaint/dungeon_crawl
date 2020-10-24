@@ -3,5 +3,10 @@ class Avatar
     @inventory = Inventory.new(inventory || [])
   end
 
+  def to_h
+    {
+      inventory: @inventory
+    }
+  end
 
 end

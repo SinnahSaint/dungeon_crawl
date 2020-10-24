@@ -1,4 +1,5 @@
 require 'yaml'
+require "FileUtils"
 
 require_relative 'monkey_patch_hash.rb'
 require_relative 'utility.rb'
@@ -79,9 +80,10 @@ class UserInterface
   def boss_emergency
     if @game.is_a? Game
       now = Time.now
-      @game_loader.save_to_file(build_save_path("boss_#{now.minute+now.second}"))
+      save_path = @game_loader.build_save_path("boss_#{now.day}#{now.hour}")
+      @game_loader.save_to_file(save_path.to_s)
     end
-    Utility.text_block("boss_emergency")
+    output Utility.text_block("boss_emergency")
     throw(:exit_app_loop)
   end
 
@@ -94,6 +96,7 @@ class UserInterface
         output "Game saved."
        end
         @game = GameNull.new(ui: self)
+        ""
     
     else
       output "Are you sure you want to exit?"

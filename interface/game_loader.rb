@@ -1,5 +1,5 @@
  class GameLoader
-  SAVE_DIR = './Alternate_Setup/files/save_games/'
+  SAVE_DIR = './files/save_games/'
 
   def initialize(ui: nil)
     @ui = ui

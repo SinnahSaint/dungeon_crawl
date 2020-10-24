@@ -67,7 +67,7 @@ class Game
   end
 
   def run
-    @ui.output "Heyyyyyy"
+    @ui.output @map.text
   end
 
 
