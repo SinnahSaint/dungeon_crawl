@@ -1,5 +1,5 @@
 # require_relative "app.rb"
-require_relative "Alternate_Setup/interface.rb"
+require_relative "./interface.rb"
 
 UserInterface.new.run
 #App.new.run

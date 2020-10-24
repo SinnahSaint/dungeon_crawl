@@ -1,5 +1,5 @@
  class GameLoader
-  SAVE_DIR = './files/save_games'
+  SAVE_DIR = './Alternate_Setup/files/save_games/'
 
   def initialize(ui: nil)
     @ui = ui
@@ -10,15 +10,13 @@
     @ui.game.run
   end
 
-
-
   def load_saved_game(save_name)
     if saves_available.include?(save_name)
       load_game_from_file(build_save_path(save_name))
       @ui.output "Loaded #{save_name} sucessfully!"   
       @ui.game.run
     else
-      @ui.output "Invalid save name '#{file}'. Nothing happens."
+      @ui.output "Invalid save name '#{save_name}'. Nothing happens."
       @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
     end
   end
@@ -86,7 +84,7 @@
   end
   
   def yaml_map_files
-    Dir["./Alternate_Setup/files/new_games/*.yaml"]
+    Dir["./files/new_games/*.yaml"]
   end
   
   def random_map_path
@@ -97,7 +95,7 @@
   end
 
   def yaml_save_files
-    Dir["./saves/*.yaml"]
+    Dir["#{SAVE_DIR}*.yaml"]
   end
   
   def saves_available

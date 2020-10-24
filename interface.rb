@@ -14,7 +14,7 @@ require_relative 'interface/game/location.rb'
 require_relative 'interface/game/map.rb'
 require_relative 'interface/game/room.rb'
 
-Dir["./Alternate_Setup/interface/game/encounters/*.rb"].each do |file_name|
+Dir["./interface/game/encounters/*.rb"].each do |file_name|
   require file_name
 end
 
@@ -88,13 +88,13 @@ class UserInterface
   def quit
     if @game.is_a? Game
       output "Do you want to save first?"
-      throw(:exit_app_loop) if user_input == "no"
-      
-      output "Please type a save name for your file."
-      
-      @game_loader.save_to_file(build_save_path(user_input))
-      @game = Game_null(self)
-      output "Game saved."
+       if user_input == "yes"
+        output "Please type a save name for your file."
+        @game_loader.save_to_file(build_save_path(user_input))
+        output "Game saved."
+       end
+        @game = GameNull.new(ui: self)
+    
     else
       output "Are you sure you want to exit?"
       throw(:exit_app_loop) if user_input == "yes"
@@ -113,7 +113,7 @@ class UserInterface
     if @game.is_a? Game
       output "You can't start a game from inside a game."
     else
-      @game_loader.load_saved_game(file: save_name)
+      @game_loader.load_saved_game(save_name)
     end
   end
 
@@ -133,6 +133,11 @@ class UserInterface
       @game = Game_null(self)
       output "Game saved."
     end
+  end
+
+  def files_avail
+   output "Please choose from one of the available file names:"
+   output Utility.english_list(@game_loader.saves_available)
   end
 
   def handle_command(cmdstr)
@@ -160,7 +165,7 @@ class UserInterface
             when "save"
               save_the_game
             when "load"
-              load_a_game(second)
+              @game_loader.load_saved_game(second)
             when "quit"
               quit
             when "!"

@@ -17,7 +17,7 @@ module Utility
   end
   
   def text_block(file_name)
-    file = "./text_blocks/" + file_name + ".txt"
+    file = "./files/text_blocks/" + file_name + ".txt"
     
     File.open(file, 'r') do |text|
      text.read.lines.map { |line| line.strip.center(74) }.join("\n")
