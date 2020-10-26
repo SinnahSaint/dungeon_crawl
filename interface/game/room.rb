@@ -1,5 +1,5 @@
 class Room
-  attr_reader :doors, :description
+  attr_reader :doors, :description, :inventory
   
   def initialize(doors: nil, encounter: nil, inventory: nil, description: nil)
     @doors = doors || {}

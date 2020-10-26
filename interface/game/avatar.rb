@@ -1,6 +1,7 @@
 class Avatar
+  attr_reader :inventory
   def initialize(inventory: nil)
-    @inventory = Inventory.new(inventory || [])
+    @inventory = inventory&.dup || []
   end
 
   def to_h

@@ -49,7 +49,7 @@
           encounter_params = encounter[:params] || {}
           Room.new(
             encounter: Object.const_get(encounter_type).new(encounter_params), 
-            inventory: Inventory.new(col[:inventory]),
+            inventory: col[:inventory],
             description: col[:description],
             doors: col[:doors].transform_values do |door_hash|
               Door.new(door_hash)
@@ -62,7 +62,7 @@
       win:  Location.new(win),
       text: text,
     })
-  rescue => e
+    rescue => e
     puts map_hash[:text]
     raise
   end

@@ -26,7 +26,6 @@ class UserInterface
     @input = input
     @output = output
     @game_loader = GameLoader.new(ui: self)
-    @menu = MainMenu.new(ui: self)
     @game = GameNull.new(ui: self)
   end
 
@@ -70,9 +69,9 @@ class UserInterface
 
   def help
     if @game.is_a? Game
-      ouput Utility.text_block("help")
+      output Utility.text_block("help")
     else
-      ouput Utility.text_block("menu_help")
+      output Utility.text_block("menu_help")
     end
   end
 
@@ -105,7 +104,7 @@ class UserInterface
 
   def start_a_game
     if @game.is_a? Game
-      output "You can't start a game from inside a game."
+      "You can't start a game from inside a game."
     else
       @game_loader.new_game
     end

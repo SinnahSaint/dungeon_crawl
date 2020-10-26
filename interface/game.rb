@@ -1,4 +1,6 @@
 class Game
+  attr_reader :avatar
+
   def initialize(avatar:,map:,ui:)
     @avatar = avatar
     @map = map
@@ -33,7 +35,7 @@ class Game
 
     door = @map.get_door(direction)
     if door.nil?
-      @ui.output "That's a wall, dummy!"
+      @ui.output "You don't see any way to get through in that direction."
       return
     end
 
@@ -48,12 +50,21 @@ class Game
   end
 
   def check_room_inventory
-    @map.current_room.inventory
+    if current_room.inventory.empty?
+      " There's nothing you can take here."
+    else
+    " You can see " + Utility.english_list(current_room.inventory) +
+    "\n" + "- "*20 + "\n" + "What's next? > "
+    end
+  end
+
+  def current_room
+    @map.current_room
   end
 
   def move_item(item, from, to, on_success: nil, on_fail: nil)
     on_fail ||= "Missing item #{item}"
-    raise on_fail unless from.inventory.has?(item)
+    raise on_fail unless from.inventory.include?(item)
     
     from.remove_item(item)
     to.inventory << item
@@ -65,13 +76,11 @@ class Game
   end
 
   def prompt
-    @map.current_description + 
-    "You can see" + Utility.english_list(check_room_inventory) +
-    "\n" + "- "*20 + "\n" + "What's next? > "
+    @map.current_description + check_room_inventory
   end
 
   def run
-    @ui.output @map.text
+    @map.text
   end
 
 
