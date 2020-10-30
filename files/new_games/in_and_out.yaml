@@ -37,8 +37,9 @@ map:
       -
         encounter: 
           type: Avalanche
-        inventory: 
-          - gemstone
+        inventory:
+          loot: 
+            - gemstone
         description: A dusty room full of rubble.
         doors:
           "W": { destination: { x: 1, y: 0, back: "E" } } 
@@ -50,7 +51,8 @@ map:
           "S": { destination: { x: 0, y: 2, back: "N" } }
       -
         inventory:
-          - gold
+          loot: 
+            - gold
         description: A lovely room filled with gold.
         doors:  
           "N": { destination: { x: 1, y: 0, back: "S" } }

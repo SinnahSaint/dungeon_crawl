@@ -1,12 +1,16 @@
 class Avatar
   attr_reader :inventory
-  def initialize(inventory: nil)
-    @inventory = inventory&.dup || []
+
+  def initialize(inventory:)
+    @inventory = Inventory.new(
+                                loot: inventory[loot], 
+                                equipment: inventory[equipment],
+                              )
   end
 
   def to_h
     {
-      inventory: @inventory
+      inventory: @inventory.to_h
     }
   end
 

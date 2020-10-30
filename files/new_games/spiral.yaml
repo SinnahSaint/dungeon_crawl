@@ -19,8 +19,9 @@ map:
       - 
         encounter:
           type: Fire
-        inventory: 
-          - knife
+        inventory:
+          loot: 
+            - knife
         description: A cluttered kitchen.
         doors:
           "E": { destination: { x: 1, y: 0, back: "W" } } 
@@ -46,16 +47,18 @@ map:
           "N": { destination: { x: 0, y: 0, back: "S" } } 
           "S": { destination: { x: 0, y: 2, back: "N" } }
       -
-        inventory: 
-          - gold
+        inventory:
+          loot: 
+            - gold
         description: A grand hall filled with gold coins. You must be in a bandit's saferoom.
         doors:
           "E": { destination: { x: 2, y: 1 } }
       -
         encounter:
           type: Avalanche
-        inventory: 
-          - gemstone
+        inventory:
+          loot: 
+            - gemstone
         description: A dusty room full of rubble.
         doors:
           "N": { destination: { x: 2, y: 0, back: "S" } } 

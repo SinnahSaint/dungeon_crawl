@@ -1,9 +1,13 @@
 avatar:
-  inventory: 
-    - lint
-    - penny
-    - hope
-    - knife
+  inventory:
+    loot: 
+      - lint
+      - penny
+      - hope
+      
+    equipment:
+      weapon: knife
+
 map:
   text: |
     You've finally made it through the woods and to the hidden dungeon. 
@@ -39,8 +43,9 @@ map:
       -
         encounter: 
           type: Avalanche
-        inventory: 
-          - gemstone
+        inventory:
+          loot: 
+            - gemstone
         description: A dusty room full of rubble.
         doors:
           "W": { destination: { x: 1, y: 0, back: "E" } } 
@@ -56,7 +61,8 @@ map:
         encounter: 
           type: NoEnc
         inventory:
-          - gold
+          loot: 
+            - gold
         description: A lovely room filled with gold.
         doors:  
           "N": { destination: { x: 1, y: 0, back: "S" } }

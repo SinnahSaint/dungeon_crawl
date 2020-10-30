@@ -1,10 +1,13 @@
 def class Item
-  def initialize(name:, type: "stackable", quantity: 1, equipped: false)
+  attr_reader :name, :type
+  
+  def initialize(name:, type: "stackable")
     @name = name
-    @type = type
-    @quantity = quantity
-    @equipped = equipped
+    @type = type # equip slot like "head" or just "stackable"
   end
 
+  def equippable?
+    @type !== "stackable"
+  end
 
 end

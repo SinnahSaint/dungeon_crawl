@@ -4,7 +4,10 @@ class Room
   def initialize(doors: nil, encounter: nil, inventory: nil, description: nil)
     @doors = doors || {}
     @enc = encounter || NoEnc.new
-    @inventory = inventory&.dup || []
+    @inventory = Inventory.new(
+                                loot: inventory[loot], 
+                                equipment: inventory[equipment],
+                               )
     @description = description || ""
   end
   
