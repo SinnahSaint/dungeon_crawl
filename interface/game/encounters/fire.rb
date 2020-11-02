@@ -8,7 +8,7 @@ class Fire < NoEnc
     if cmdstr == "douse fire" || cmdstr == "use milk"
       if avatar.has_item?("milk")
         @blocking = false
-        avatar.remove_item("milk")
+        avatar.inventory.remove_item("milk")
         "The fire dies down."
       else
         "Whoops! No milk in inventory. "

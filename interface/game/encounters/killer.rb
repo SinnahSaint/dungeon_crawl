@@ -11,12 +11,12 @@ class Killer < NoEnc
     
     case cmdstr
     when "use knife", "stab man",  "kill man", "knife man"
-      if avatar.has_item?("knife")
+      if avatar.has_weapon == "knife"
         @blocking = false
         @dead = true
-        avatar.remove_item("laughter")
-        avatar.remove_item("hope")
-        avatar.remove_item("smile")
+        avatar.inventory.remove_item("laughter")
+        avatar.inventory.remove_item("hope")
+        avatar.inventory.remove_item("smile")
         "He was not expecting that. The battle is short."
       else
         missing_item
@@ -25,7 +25,7 @@ class Killer < NoEnc
       avatar.leave("You pissed him off and died in the bowels of the dungeon. Game Over!")
     when "use penny", "give penny"
       if avatar.has_item?("penny")
-        avatar.remove_item("smile")
+        avatar.inventory.remove_item("smile")
         @friend = false
         "He's insulted and doesn't look very friendly."
       else
@@ -42,8 +42,8 @@ class Killer < NoEnc
       if avatar.has_item?("milk")
         @blocking = false
         @friend = true
-        avatar.remove_item("milk")
-        avatar.inventory << "smile"
+        avatar.inventory.remove_item("milk")
+        avatar.inventory.add_item(name: "smile", type: "mood")
         "That's just what he was looking for. You've made a friend."
       else
         missing_item
@@ -51,7 +51,7 @@ class Killer < NoEnc
     when "hug man", "give hug", "give kiss", "kiss man" 
       @blocking = false
       @friend = true
-      avatar.inventory << "smile"
+      avatar.inventory.add_item(name: "smile", type: "mood")
       "He was not expecting that. You've made a friend." 
     else
       false

@@ -12,10 +12,10 @@ class Cow < NoEnc
       milk_bessy(avatar)  
     when "use knife", "stab cow",  "kill cow", "knife cow"
       if avatar.has_item?("knife")
-        avatar.remove_item("laughter")
-        avatar.remove_item("hope")
-        avatar.remove_item("smile")
-        avatar.remove_item("milk")
+        avatar.inventory.remove_item("laughter")
+        avatar.inventory.remove_item("hope")
+        avatar.inventory.remove_item("smile")
+        avatar.inventory.remove_item("milk")
         avatar.leave("She sees you comming and kicks you into next week. You die bleeding out on the rug. Game Over!")
       else
         "Whoops! No knife in inventory. "
@@ -40,11 +40,11 @@ class Cow < NoEnc
   def milk_bessy(avatar)
     if @has_milk && !@milked
       @milked = true
-      avatar.inventory << "milk"
+      avatar.inventory.add_item(name: "milk")
       "You get some milk."
     elsif @has_milk && @milked
       @has_milk = false
-      avatar.inventory << "milk"
+      avatar.inventory.add_item(name: "milk")
       "You get the rest of the milk."
     else
       "Bessy is not going to let you near her again today."
