@@ -1,0 +1,86 @@
+avatar:
+  inventory: 
+    - hope
+map:  
+  text: |
+    While taking a walk through the dark woods one night, something breaks 
+    underfoot and you tumble into to a hidden dungeon. 
+    Dusting yourself off you look around. . . . . .
+    -------------------------------------------------------------------------------   
+                    
+  start: { y: 1, x: 1, }
+  
+  win: { y: 2, x: 3 }
+
+  current: ~
+  
+  level: 
+    - 
+      - 
+        encounter:
+          type: Fire
+        inventory:
+          loot: 
+            - knife
+        description: A cluttered kitchen.
+        doors:
+          "E": { destination: { x: 1, y: 0, back: "W" } } 
+          "S": { destination: { x: 0, y: 1, back: "N" } }
+      - 
+        description: An empty dining room.
+        doors:
+          "E": { destination: { x: 2, y: 0, back: "W" } } 
+          "W": { destination: { x: 0, y: 0, back: "E" } }
+      -
+        encounter:
+          type: Cow
+        description: A glamorous bedroom fit for a queen.... wait, is that a cow on the chaise longue?
+        doors:
+          "S": { destination: { x: 2, y: 1, back: "N" } } 
+          "W": { destination: { x: 1, y: 0, back: "E" } }
+    -
+      -
+        encounter:
+          type: Jester
+        description: A dusty throneroom with no-one holding court.
+        doors:
+          "N": { destination: { x: 0, y: 0, back: "S" } } 
+          "S": { destination: { x: 0, y: 2, back: "N" } }
+      -
+        inventory:
+          loot: 
+            - gold
+        description: A grand hall filled with gold coins. You must be in a bandit's saferoom.
+        doors:
+          "E": { destination: { x: 2, y: 1 } }
+      -
+        encounter:
+          type: Avalanche
+        inventory:
+          loot: 
+            - gemstone
+        description: A dusty room full of rubble.
+        doors:
+          "N": { destination: { x: 2, y: 0, back: "S" } } 
+          "W": { destination: { x: 1, y: 1, back: "E" } }
+    -
+      -
+        description: A plain storage room with empty shelves.
+        doors:
+          "N": { destination: { x: 0, y: 1, back: "S" } } 
+          "E": { destination: { x: 1, y: 2, back: "W" } }
+      -
+        encounter:
+          type: Killer
+        description: A guardroom. You must be getting close to the entrance.
+        doors:
+          "E": { destination: { x: 2, y: 2, back: "W" } } 
+          "W": { destination: { x: 0, y: 2, back: "E" } }
+      -
+        encounter:
+          type: Ice
+        description: This room is a lot colder than the others.
+        doors:
+          "E": { destination: { x: 3, y: 2, back: "W" } } 
+          "W": { destination: { x: 1, y: 2, back: "E" } }
+  

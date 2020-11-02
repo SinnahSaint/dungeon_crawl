@@ -1,0 +1,85 @@
+avatar:
+  inventory: 
+    - lint
+    - penny
+    - hope
+map:
+  text: |
+    You've finally made it through the woods and to the hidden dungeon. 
+    Taking a deep breath, you step inside. . . . . .
+    -------------------------------------------------------------------------------
+      
+  start: { y: 2, x: 1, back: "S" }
+  
+  win: { y: 3, x: 1 }
+  
+  current: ~
+
+  level: 
+    - 
+      - 
+        encounter: 
+          type: Fire
+        inventory:
+          - knife
+        description: A kitchen with a nice table.
+        doors:
+          "E": { destination: { x: 1, y: 0, back: "W" } } 
+          "S": { destination: { x: 0, y: 1, back: "N" } }
+      - 
+        encounter: 
+          type: Killer
+        description: This room looks like you walked into a bandit's home office.
+        doors:  
+          "E": { destination: { x: 2, y: 0, back: "W" } } 
+          "S": { destination: { x: 1, y: 1, back: "N" } }
+          "W": { destination: { x: 0, y: 0, back: "E" }, description: "Do you smell smoke?" }
+      -
+        encounter: 
+          type: Avalanche
+        inventory:
+          loot: 
+            - gemstone
+        description: A dusty room full of rubble.
+        doors:
+          "W": { destination: { x: 1, y: 0, back: "E" } } 
+    -
+      -
+        description: A dark boring hallway.
+        doors:  
+          "N": { destination: { x: 0, y: 0, back: "S" }, description: "Do you smell smoke?" } 
+          "S": { destination: { x: 0, y: 2, back: "N" } }
+      -
+        inventory:
+          loot: 
+            - gold
+        description: A lovely room filled with gold.
+        doors:  
+          "N": { destination: { x: 1, y: 0, back: "S" } }
+      -
+        encounter: 
+          type: Cow
+        description: A mostly empty room with straw on the floor.
+        doors:  
+          "S": { destination: { x: 2, y: 2, back: "N" }, description: "You feel a cool breeze walking to the next room."}
+    -
+      -
+        encounter: 
+          type: Jester
+        description: A throne room, with no one on the throne.
+        doors:
+          "N": { destination: { x: 0, y: 1, back: "S" } }
+          "E": { destination: { x: 1, y: 2, back: "W" } }
+      -
+        description: A literally boring nothing room.
+        doors:
+          "E": { destination: { x: 2, y: 2, back: "W" }, description: "You feel a cool breeze walking to the next room." } 
+          "S": { destination: { x: 1, y: 3, back: "N" } }
+          "W": { destination: { x: 0, y: 2, back: "E" } }
+      -
+        encounter: 
+          type: Ice
+        description: This room is really cold for no good reason.
+        doors:
+          "N": { destination: { x: 2, y: 1, back: "S" }, description: "Something smells like a barn."} 
+          "W": { destination: { x: 1, y: 2, back: "E" } }

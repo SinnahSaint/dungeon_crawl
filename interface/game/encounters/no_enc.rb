@@ -26,16 +26,10 @@ class NoEnc
   
   def to_h
     {
-      class: self.class.name,
-      blocking: @blocking,
+      type: self.class.name,
+      params: {
+        blocking: @blocking
+      }
     }
-  end
-  
-  def save_state
-    {
-      blocking: @blocking,
-    }
-    
-  end
-  
+  end  
 end

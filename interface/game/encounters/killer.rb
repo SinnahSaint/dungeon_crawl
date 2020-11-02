@@ -77,14 +77,7 @@ class Killer < NoEnc
   end
   
   def to_h    
-    super.merge({
-      dead: @dead,
-      friend: @friend,
-    })
-  end
-  
-  def save_state
-    super.merge({
+    super.deep_merge(params: {
       dead: @dead,
       friend: @friend,
     })
