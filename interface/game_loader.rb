@@ -1,3 +1,5 @@
+require "fileutils"
+
  class GameLoader
   SAVE_DIR = './files/save_games/'
 
@@ -49,7 +51,7 @@
           encounter_params = encounter[:params] || {}
           Room.new(
             encounter: Object.const_get(encounter_type).new(encounter_params), 
-            inventory: col[:inventory],
+            inventory: Inventory.new(loot: col[:inventory]),
             description: col[:description],
             doors: col[:doors].transform_values do |door_hash|
               Door.new(door_hash)

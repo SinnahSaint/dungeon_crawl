@@ -1,5 +1,4 @@
 require 'yaml'
-require "FileUtils"
 
 require_relative 'monkey_patch_hash.rb'
 require_relative 'utility.rb'
