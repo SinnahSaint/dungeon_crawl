@@ -15,6 +15,20 @@ class Avatar
     @inventory.current_weapon
   end
 
+  def equip(item)
+    @inventory.equip_item(item)
+  end
+
+  def unequip(info)
+    slots = w%[head, torso, feet, weapon, trinket, mood]
+    
+    if slots.include?(info)
+      @inventory.unequip_by_slot(info)
+    else
+      @inventory.unequip_by_item(info)
+    end
+  end
+
   def to_h
     {
       inventory: @inventory.to_h

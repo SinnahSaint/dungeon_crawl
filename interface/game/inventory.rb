@@ -49,11 +49,19 @@ class Inventory
     end
   end
 
-  def unequip_item(slot)
+  def unequip_by_item(item)
+    @equipment.each{|slot,gear|
+      if gear.name == item
+        unequip_by_slot(slot)
+      end}
+  end
+
+  def unequip_by_slot(slot)
     gear = equipment[slot]
     @loot<<gear
     @equipment[slot] = nil
   end
+
 
   def to_h
     {

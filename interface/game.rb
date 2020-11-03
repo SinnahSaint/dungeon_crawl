@@ -7,6 +7,15 @@ class Game
     @ui = ui
   end
 
+  def equip(item)
+    @avatar.equip(item)
+  end
+  
+  def unequip(info)
+    @avatar.unequip(info)
+  end
+
+
   def to_h
     {
       avatar: @avatar.to_h,

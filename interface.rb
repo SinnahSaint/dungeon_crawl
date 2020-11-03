@@ -3,7 +3,6 @@ require "FileUtils"
 
 require_relative 'monkey_patch_hash.rb'
 require_relative 'utility.rb'
-require_relative 'interface/main_menu.rb'
 require_relative 'interface/game_null.rb'
 require_relative 'interface/game_loader.rb'
 require_relative 'interface/game.rb'
@@ -198,6 +197,10 @@ class UserInterface
               @game.move_item(second, @game.avatar, @game.current_room,
                         on_success: "You #{first} the #{second}.",
                         on_fail: "Whoops! No #{second} in inventory.")
+            when "equip"
+              @game.equip(second)
+            when "unequip"
+              @game.unequip(second)
             else
               @game.check_with_encounter(cmdstr)
             end
