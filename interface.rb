@@ -21,6 +21,7 @@ end
 
 class UserInterface
   attr_accessor :game
+  attr_reader :game_loader
 
   def initialize(input: $stdin, output: $stdout)
     @input = input
@@ -161,20 +162,20 @@ class UserInterface
     first = replacements[first] || first
     
     output case first
-            when "new"
-              start_a_game
-            when "save"
-              save_the_game
-            when "load"
-              @game_loader.load_saved_game(second)
+            when nil
+              missing_command
             when "quit"
               quit
             when "!"
               boss_emergency 
             when "help"
               help
-            when nil
-              missing_command
+            when "new"
+              start_a_game
+            when "save"
+              save_the_game
+            when "load"
+              @game_loader.load_saved_game(second)
             when "debug"
               @game.debug
             when "debuggame"

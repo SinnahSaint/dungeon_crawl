@@ -7,7 +7,6 @@ class Game
     @ui = ui
   end
 
-
   def to_h
     {
       avatar: @avatar.to_h,
