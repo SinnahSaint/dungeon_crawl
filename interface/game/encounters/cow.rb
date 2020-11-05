@@ -40,11 +40,11 @@ class Cow < NoEnc
   def milk_bessy(avatar)
     if @has_milk && !@milked
       @milked = true
-      avatar.inventory.add_item(name: "milk")
+      avatar.inventory.add_new_item(name: "milk")
       "You get some milk."
     elsif @has_milk && @milked
       @has_milk = false
-      avatar.inventory.add_item(name: "milk")
+      avatar.inventory.add_new_item(name: "milk")
       "You get the rest of the milk."
     else
       "Bessy is not going to let you near her again today."

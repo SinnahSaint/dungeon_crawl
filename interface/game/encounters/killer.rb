@@ -43,7 +43,7 @@ class Killer < NoEnc
         @blocking = false
         @friend = true
         avatar.inventory.remove_item("milk")
-        avatar.inventory.add_item(name: "smile", type: "mood")
+        avatar.inventory.add_new_item(name: "smile", type: "mood")
         "That's just what he was looking for. You've made a friend."
       else
         missing_item
@@ -51,7 +51,7 @@ class Killer < NoEnc
     when "hug man", "give hug", "give kiss", "kiss man" 
       @blocking = false
       @friend = true
-      avatar.inventory.add_item(name: "smile", type: "mood")
+      avatar.inventory.add_new_item(name: "smile", type: "mood")
       "He was not expecting that. You've made a friend." 
     else
       false

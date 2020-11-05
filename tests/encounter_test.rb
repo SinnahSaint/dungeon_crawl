@@ -127,7 +127,7 @@ class FireTest < Test::Unit::TestCase
   end
     
   def test_handle_command_douse_sucess
-    @avatar.inventory.add_item(name: "milk")
+    @avatar.inventory.add_new_item(name: "milk")
     douse = @enc.handle_command("use milk", @avatar)
     assert_equal douse.empty?, false
     assert_instance_of String, douse
@@ -157,7 +157,7 @@ class FireTest < Test::Unit::TestCase
     assert_equal @enc.state.empty?, false
     blocked = @enc.state
     
-    @avatar.inventory.add_item(name: "milk")
+    @avatar.inventory.add_new_item(name: "milk")
     douse = @enc.handle_command("use milk", @avatar) # makes blocking false
     
     unblocked = @enc.state
@@ -281,7 +281,7 @@ class KillerTest < Test::Unit::TestCase
     assert_false @enc.state.include? "Tommy waves"
     assert_false @enc.state.include? "The man lies dead"
     
-    @avatar.inventory.add_item(name: "gold")
+    @avatar.inventory.add_new_item(name: "gold")
     @enc.handle_command("use gold", @avatar)
     assert @avatar.called_leave
   end
@@ -292,7 +292,7 @@ class KillerTest < Test::Unit::TestCase
     assert_instance_of String, nopenny
     assert @enc.blocking
 
-    @avatar.inventory.add_item(name: "penny")
+    @avatar.inventory.add_new_item(name: "penny")
     bribe = @enc.handle_command("use penny", @avatar)
     assert_equal bribe.empty?, false
     assert_instance_of String, bribe
@@ -307,7 +307,7 @@ class KillerTest < Test::Unit::TestCase
     assert @enc.blocking
     assert_false @enc.state.include? "Tommy waves"
     
-    @avatar.inventory.add_item(name: "milk")
+    @avatar.inventory.add_new_item(name: "milk")
     milk = @enc.handle_command("give milk", @avatar)
     assert_equal milk.empty?, false
     assert_instance_of String, milk
@@ -324,10 +324,10 @@ class KillerTest < Test::Unit::TestCase
     assert @enc.blocking
     assert_false @enc.state.include? "The man lies dead"
     
-    @avatar.inventory.add_item(name: "knife", type: "weapon")
+    @avatar.inventory.add_new_item(name: "knife", type: "weapon")
     @avatar.inventory.equip_item("knife")
-    @avatar.inventory.add_item(name: "smile")
-    @avatar.inventory.add_item(name: "laughter")
+    @avatar.inventory.add_new_item(name: "smile")
+    @avatar.inventory.add_new_item(name: "laughter")
     stab = @enc.handle_command("kill man", @avatar)
     assert_equal stab.empty?, false
     assert_instance_of String, stab
@@ -365,8 +365,8 @@ class KillerTest < Test::Unit::TestCase
     assert_instance_of String, @enc.state
     assert_equal @enc.state.empty?, false
     
-    @avatar.inventory.add_item(name: "milk")
-    @avatar.inventory.add_item(name: "knife", type: "weapon")
+    @avatar.inventory.add_new_item(name: "milk")
+    @avatar.inventory.add_new_item(name: "knife", type: "weapon")
     @avatar.inventory.equip_item("knife")
     
     default = @enc.state

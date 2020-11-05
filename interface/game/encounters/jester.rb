@@ -8,7 +8,7 @@ class Jester < NoEnc
     case cmdstr
     when "tell joke"
       @blocking = false
-      avatar.inventory.add_item(name: "laughter", type: "mood") 
+      avatar.inventory.add_new_item(name: "laughter", type: "mood") 
       "Pleased with your wit, the jester sits to whittle a flute."
     when "use knife", "stab jester",  "kill jester", "knife jester"
       if avatar.has_item?("knife")

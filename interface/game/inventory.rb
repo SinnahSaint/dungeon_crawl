@@ -16,17 +16,28 @@ class Inventory
       }.merge(equipment)
   end
 
-  def current_weapon
-    weapon = @equipment[:weapon] || Item.new(name: "none")
-    weapon.name
+  def list(loot_or_equip)
+    list = []
+
+    if loot_or_equip == @loot
+      @loot.each do |item|
+        list << item.name
+      end
+    else
+      @equipment.values.each do |item|
+        list << item.name
+      end
+    end
+
+    list
   end
 
-  def add_item(name:, type:"stackable")
+  def add_item(item)
+    @loot << item
+  end
+
+  def add_new_item(name:, type:"stackable")
     @loot << Item.new(name: name, type: type,)
-  end
-
-  def find_item_index_by_name(item_name)
-    @loot.find_index { |item| item.name == item_name }
   end
 
   def remove_item(item_name)
@@ -38,6 +49,11 @@ class Inventory
     end
   end
 
+  def current_weapon
+    weapon = @equipment[:weapon] || Item.new(name: "none")
+    weapon.name
+  end
+
   def equip_item(item_name)
     gear = @loot.at(find_item_index_by_name(item_name))
     if gear.equipable?
@@ -45,23 +61,28 @@ class Inventory
       @equipment[slot.to_sym] = gear
       remove_item(item_name)
     else
-      raise "That item is not equipable."
+      "That item is not equipable."
     end
   end
 
-  def unequip_by_item(item)
+  def unequip(info)
     @equipment.each{|slot,gear|
-      if gear.name == item
+      if slot == info || gear.name == info
         unequip_by_slot(slot)
+      else
+        "#{info} is not equipped"
       end}
   end
 
   def unequip_by_slot(slot)
     gear = equipment[slot]
-    @loot<<gear
+    add_item(gear)
     @equipment[slot] = nil
   end
 
+  def find_item_index_by_name(item_name)
+    @loot.find_index { |item| item.name == item_name }
+  end
 
   def to_h
     {
