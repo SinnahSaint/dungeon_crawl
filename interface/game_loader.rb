@@ -1,4 +1,9 @@
 require "fileutils"
+require 'yaml'
+
+require_relative 'game/location.rb'
+require_relative 'game/map.rb'
+require_relative 'game/room.rb'
 
  class GameLoader
   SAVE_DIR = './files/save_games/'
@@ -22,6 +27,25 @@ require "fileutils"
       @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
     end
   end
+
+  def saves_available
+    @saves_avail = []
+    yaml_save_files.each do |save_name|
+      @saves_avail << File.basename(save_name, ".yaml")
+    end
+    @saves_avail
+  end
+
+  def save_to_file(save_filename)
+    FileUtils.mkdir_p(SAVE_DIR) unless File.directory?(SAVE_DIR)
+  
+    File.open(save_filename, 'w') do |file|
+      file.write(YAML.dump(save_state))
+    end
+  end
+
+
+  private 
 
   def load_game_from_file(file_path)    
     return "No such file" unless File.exist? file_path
@@ -73,14 +97,6 @@ require "fileutils"
     Avatar.new(avatar_hash)
   end
 
-  def save_to_file(save_filename)
-    FileUtils.mkdir_p(SAVE_DIR) unless File.directory?(SAVE_DIR)
-  
-    File.open(save_filename, 'w') do |file|
-      file.write(YAML.dump(save_state))
-    end
-  end
-  
   def save_state
     @ui.game.to_h
   end
@@ -98,14 +114,6 @@ require "fileutils"
 
   def yaml_save_files
     Dir["#{SAVE_DIR}*.yaml"]
-  end
-  
-  def saves_available
-    @saves_avail = []
-    yaml_save_files.each do |save_name|
-      @saves_avail << File.basename(save_name, ".yaml")
-    end
-    @saves_avail
   end
 
   def build_save_path(save_name)
