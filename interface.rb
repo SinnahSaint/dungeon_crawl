@@ -129,7 +129,7 @@ class UserInterface
       output "That name is taken already."
       save_the_game
     else
-      @game_loader.save_to_file(build_save_path(save_name))
+      @game_loader.save_to_file(@game_loader.build_save_path(save_name))
       @game = Game_null(self)
       output "Game saved."
     end
