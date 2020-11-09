@@ -6,10 +6,17 @@ require_relative 'game/map.rb'
 require_relative 'game/room.rb'
 
  class GameLoader
-  SAVE_DIR = './files/save_games/'
 
   def initialize(ui: nil)
     @ui = ui
+  end
+
+  def save_dir
+    './files/save_games'
+  end
+
+  def new_game_dir
+    './files/new_games'
   end
 
   def new_game
@@ -37,7 +44,7 @@ require_relative 'game/room.rb'
   end
 
   def save_to_file(save_filename)
-    FileUtils.mkdir_p(SAVE_DIR) unless File.directory?(SAVE_DIR)
+    FileUtils.mkdir_p(save_dir) unless File.directory?(save_dir)
   
     File.open(save_filename, 'w') do |file|
       file.write(YAML.dump(save_state))
@@ -102,7 +109,7 @@ require_relative 'game/room.rb'
   end
   
   def yaml_map_files
-    Dir["./files/new_games/*.yaml"]
+    Dir["#{new_game_dir}/*.yaml"]
   end
   
   def random_map_path
@@ -113,12 +120,12 @@ require_relative 'game/room.rb'
   end
 
   def yaml_save_files
-    Dir["#{SAVE_DIR}*.yaml"]
+    Dir["#{save_dir}/*.yaml"]
   end
 
   def build_save_path(save_name)
     if /\A[a-z0-9_\-]+\z/ =~ save_name
-      "#{SAVE_DIR}/#{save_name}.yaml"
+      "#{save_dir}/#{save_name}.yaml"
     else
       @ui.output "Invalid save name '#{save_name}'. Nothing happens." 
     end
