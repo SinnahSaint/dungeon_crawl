@@ -1,6 +1,7 @@
 require 'test/unit'
 require 'ostruct'
 require 'stringio'
+require 'yaml'
 
 require './interface/game_loader.rb'
 
@@ -11,16 +12,19 @@ class GameLoaderTest < Test::Unit::TestCase
     @input = StringIO.new
     @ui = OpenStruct.new(input: @input, output: @output)
     @ui.game = OpenStruct.new(run: "run successful")
-    @loader = GameLoader.new(ui: @ui)
 
-    # I wanna circumvent the yaml_map_files and yaml_save_files
-    # to avoid actually having to require all encounters and such
-    # gotta ask meg
+    @loader = GameLoader.new(ui: @ui)
+    def @loader.save_dir
+      './tests/testingfiles'
+    end
+    def @loader.new_game_dir
+      './tests/testingfiles'
+    end
     
   end
 
-  def test_new_game
-    # assert_equal "run successful", @loader.new_game
+  def test_new_game 
+    assert_equal "run successful", @loader.new_game
 
     # I wanna shortcut the random map path and save path 
     # to avoid actually having to require all encounters and such
@@ -39,17 +43,35 @@ class GameLoaderTest < Test::Unit::TestCase
 
   def test_saves_available
     expected = ["primarytestfile", "secondarytestfile" ]
-    # assert_equal expected, saves_available
+    real = @loader.saves_available
+    assert_equal expected.sort, real.sort
   end
 
   def test_save_to_file
-    # assert saves_available doesn't include "gonnasavenow"
-    # save_to_file("gonnasavenow")
-    # assert saves_available includes "gonnasavenow"
+    @game = @ui.game
+    def @game.to_h
+    {
+      avatar: "Avatar hash",
+      map: "Map hash",
+    }
+    end
+
+    refute @loader.saves_available.include? "gonnasavenow"
+    @loader.save_to_file("gonnasavenow")
+    assert @loader.saves_available.include? "gonnasavenow"
+
+    file_path = './tests/testingfiles/gonnasavenow.yaml'
+    File.open(file_path, "r") do |data|
+      @info = YAML.load(data, symbolize_names: true)
+    end
+    File.delete(file_path)
+
+    expected = {
+      avatar: "Avatar hash",
+      map: "Map hash",
+    }
+    assert_equal expected, @info
   end
 
-  def cleanup
-    # delete "gonnasavenow" from yaml_save_files
-  end
 
 end

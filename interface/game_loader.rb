@@ -4,6 +4,7 @@ require 'yaml'
 require_relative 'game/location.rb'
 require_relative 'game/map.rb'
 require_relative 'game/room.rb'
+require_relative 'game/avatar.rb'
 
  class GameLoader
 
@@ -43,10 +44,11 @@ require_relative 'game/room.rb'
     @saves_avail
   end
 
-  def save_to_file(save_filename)
+  def save_to_file(save_name)
     FileUtils.mkdir_p(save_dir) unless File.directory?(save_dir)
   
-    File.open(save_filename, 'w') do |file|
+    save_path = build_save_path(save_name)
+    File.open(save_path, 'w') do |file|
       file.write(YAML.dump(save_state))
     end
   end

@@ -1,0 +1,10 @@
+avatar:
+  inventory: 
+    - lint
+map:
+  text: "Test 1"
+  start: 
+  win:
+  current:
+  level:
+        
