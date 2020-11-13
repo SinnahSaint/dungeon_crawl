@@ -1,9 +1,11 @@
 class Location
   attr_reader :x, :y, :back
 
-  def initialize(x:, y:, back: "")
+  def initialize(x:, y:, back: nil)
     @x, @y = x, y
-    @back = back[0,1].upcase  # makes sure if someone typed "south" it gets saved as "S"
+
+    @back = back || ""
+    @back = @back[0,1].upcase  # makes sure if someone typed "south" it gets saved as "S"
   end
 
   def ==(other)
