@@ -1,6 +1,6 @@
-require 'interface'
+require 'interface.rb'
 
-RSpec.describe "RSpec" do
+RSpec.describe "Interface" do
 
   subject { UserInterface.new(input: input, output: output) }
   let(:input) { StringIO.new }
