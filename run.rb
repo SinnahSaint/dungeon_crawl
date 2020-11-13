@@ -1,5 +1,5 @@
-# require_relative "app.rb"
-require_relative "./interface.rb"
+$LOAD_PATH.unshift('.')
+
+require "interface"
 
 UserInterface.new.run
-#App.new.run
