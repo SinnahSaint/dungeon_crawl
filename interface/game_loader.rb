@@ -1,10 +1,10 @@
 require "fileutils"
 require 'yaml'
 
-require_relative 'game/location.rb'
-require_relative 'game/map.rb'
-require_relative 'game/room.rb'
-require_relative 'game/avatar.rb'
+require 'interface/game/location.rb'
+require 'interface/game/map.rb'
+require 'interface/game/room.rb'
+require 'interface/game/avatar.rb'
 
  class GameLoader
 

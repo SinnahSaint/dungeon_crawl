@@ -1,4 +1,4 @@
-require "./interface/game/item.rb"
+require "interface/game/item.rb"
 
 class Inventory
 

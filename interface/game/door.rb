@@ -1,5 +1,5 @@
-require "./interface/game/location.rb"
-require_relative = '/map.rb'
+require "interface/game/location.rb"
+require 'interface/game/map.rb'
 
 class Door
   def initialize(destination:, description: nil )

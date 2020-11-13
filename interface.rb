@@ -1,18 +1,18 @@
 require 'yaml'
 require 'pp'
 
-require_relative 'monkey_patch_hash.rb'
-require_relative 'utility.rb'
-require_relative 'interface/game_null.rb'
-require_relative 'interface/game_loader.rb'
-require_relative 'interface/game.rb'
+require 'monkey_patch_hash.rb'
+require 'utility.rb'
+require 'interface/game_null.rb'
+require 'interface/game_loader.rb'
+require 'interface/game.rb'
 
-require_relative 'interface/game/avatar.rb'
-require_relative 'interface/game/door.rb'
-require_relative 'interface/game/inventory.rb'
-require_relative 'interface/game/location.rb'
-require_relative 'interface/game/map.rb'
-require_relative 'interface/game/room.rb'
+require 'interface/game/avatar.rb'
+require 'interface/game/door.rb'
+require 'interface/game/inventory.rb'
+require 'interface/game/location.rb'
+require 'interface/game/map.rb'
+require 'interface/game/room.rb'
 
 Dir["./interface/game/encounters/*.rb"].each do |file_name|
   require file_name

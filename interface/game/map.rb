@@ -1,4 +1,4 @@
-require_relative "./room"
+require "interface/game/room.rb"
 Dir["./encounters/*.rb"].each do |file_name|
   require file_name
 end

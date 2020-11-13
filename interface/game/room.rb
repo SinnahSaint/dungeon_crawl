@@ -1,5 +1,5 @@
-require "./interface/game/inventory.rb"
-require "./interface/game/door.rb"
+require "interface/game/inventory.rb"
+require "interface/game/door.rb"
 
 class Room
   attr_reader :door_list, :enc, :room_inv, :room_desc
