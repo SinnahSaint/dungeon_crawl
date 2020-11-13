@@ -1,9 +1,7 @@
 require 'yaml'
-require "FileUtils"
 
 require_relative 'monkey_patch_hash.rb'
 require_relative 'utility.rb'
-require_relative 'interface/main_menu.rb'
 require_relative 'interface/game_null.rb'
 require_relative 'interface/game_loader.rb'
 require_relative 'interface/game.rb'
@@ -21,6 +19,7 @@ end
 
 class UserInterface
   attr_accessor :game
+  attr_reader :game_loader
 
   def initialize(input: $stdin, output: $stdout)
     @input = input
@@ -130,7 +129,7 @@ class UserInterface
       output "That name is taken already."
       save_the_game
     else
-      @game_loader.save_to_file(build_save_path(save_name))
+      @game_loader.save_to_file(@game_loader.build_save_path(save_name))
       @game = Game_null(self)
       output "Game saved."
     end
@@ -161,20 +160,20 @@ class UserInterface
     first = replacements[first] || first
     
     output case first
-            when "new"
-              start_a_game
-            when "save"
-              save_the_game
-            when "load"
-              @game_loader.load_saved_game(second)
+            when nil
+              missing_command
             when "quit"
               quit
             when "!"
               boss_emergency 
             when "help"
               help
-            when nil
-              missing_command
+            when "new"
+              start_a_game
+            when "save"
+              save_the_game
+            when "load"
+              @game_loader.load_saved_game(second)
             when "debug"
               @game.debug
             when "debuggame"
@@ -197,6 +196,10 @@ class UserInterface
               @game.move_item(second, @game.avatar, @game.current_room,
                         on_success: "You #{first} the #{second}.",
                         on_fail: "Whoops! No #{second} in inventory.")
+            when "equip"
+              @game.equip(second)
+            when "unequip"
+              @game.unequip(second)
             else
               @game.check_with_encounter(cmdstr)
             end

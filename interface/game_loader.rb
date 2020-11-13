@@ -1,8 +1,23 @@
+require "fileutils"
+require 'yaml'
+
+require_relative 'game/location.rb'
+require_relative 'game/map.rb'
+require_relative 'game/room.rb'
+require_relative 'game/avatar.rb'
+
  class GameLoader
-  SAVE_DIR = './files/save_games/'
 
   def initialize(ui: nil)
     @ui = ui
+  end
+
+  def save_dir
+    './files/save_games'
+  end
+
+  def new_game_dir
+    './files/new_games'
   end
 
   def new_game
@@ -20,6 +35,26 @@
       @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
     end
   end
+
+  def saves_available
+    @saves_avail = []
+    yaml_save_files.each do |save_name|
+      @saves_avail << File.basename(save_name, ".yaml")
+    end
+    @saves_avail
+  end
+
+  def save_to_file(save_name)
+    FileUtils.mkdir_p(save_dir) unless File.directory?(save_dir)
+  
+    save_path = build_save_path(save_name)
+    File.open(save_path, 'w') do |file|
+      file.write(YAML.dump(save_state))
+    end
+  end
+
+
+  private 
 
   def load_game_from_file(file_path)    
     return "No such file" unless File.exist? file_path
@@ -49,7 +84,7 @@
           encounter_params = encounter[:params] || {}
           Room.new(
             encounter: Object.const_get(encounter_type).new(encounter_params), 
-            inventory: col[:inventory],
+            inventory: Inventory.new(loot: col[:inventory]),
             description: col[:description],
             doors: col[:doors].transform_values do |door_hash|
               Door.new(door_hash)
@@ -71,20 +106,12 @@
     Avatar.new(avatar_hash)
   end
 
-  def save_to_file(save_filename)
-    FileUtils.mkdir_p(SAVE_DIR) unless File.directory?(SAVE_DIR)
-  
-    File.open(save_filename, 'w') do |file|
-      file.write(YAML.dump(save_state))
-    end
-  end
-  
   def save_state
     @ui.game.to_h
   end
   
   def yaml_map_files
-    Dir["./files/new_games/*.yaml"]
+    Dir["#{new_game_dir}/*.yaml"]
   end
   
   def random_map_path
@@ -95,20 +122,12 @@
   end
 
   def yaml_save_files
-    Dir["#{SAVE_DIR}*.yaml"]
-  end
-  
-  def saves_available
-    @saves_avail = []
-    yaml_save_files.each do |save_name|
-      @saves_avail << File.basename(save_name, ".yaml")
-    end
-    @saves_avail
+    Dir["#{save_dir}/*.yaml"]
   end
 
   def build_save_path(save_name)
     if /\A[a-z0-9_\-]+\z/ =~ save_name
-      "#{SAVE_DIR}/#{save_name}.yaml"
+      "#{save_dir}/#{save_name}.yaml"
     else
       @ui.output "Invalid save name '#{save_name}'. Nothing happens." 
     end

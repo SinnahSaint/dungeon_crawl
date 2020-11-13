@@ -1,0 +1,9 @@
+avatar:
+  inventory: 
+    - fuzz
+map:
+  text: "Test 2"
+  start: 
+  win:
+  current:
+  level:

@@ -7,6 +7,14 @@ class Game
     @ui = ui
   end
 
+  def equip(item)
+    @avatar.equip(item)
+  end
+  
+  def unequip(info)
+    @avatar.unequip(info)
+  end
+
 
   def to_h
     {
@@ -47,13 +55,14 @@ class Game
   end
 
   def check_avatar_inventory
+   @ui.output @avatar.check_inventory
   end
 
   def check_room_inventory
-    if current_room.inventory.empty?
+    if current_room.inventory.loot.empty?
       " There's nothing you can take here."
     else
-    " You can see " + Utility.english_list(current_room.inventory) +
+    " You can see " + Utility.english_list(current_room.inventory.loot) +
     "\n" + "- "*20 + "\n" + "What's next? > "
     end
   end

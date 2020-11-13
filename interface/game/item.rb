@@ -1,4 +1,4 @@
-def class Item
+class Item
   attr_reader :name, :type
   
   def initialize(name:, type: "stackable")
@@ -6,8 +6,8 @@ def class Item
     @type = type # equip slot like "head" or just "stackable"
   end
 
-  def equippable?
-    @type !== "stackable"
+  def equipable?
+    @type != "stackable"
   end
 
 end

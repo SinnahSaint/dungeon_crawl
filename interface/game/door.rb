@@ -1,3 +1,4 @@
+require "./interface/game/location.rb"
 require_relative = '/map.rb'
 
 class Door

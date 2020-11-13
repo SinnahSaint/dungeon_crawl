@@ -8,14 +8,14 @@ class Jester < NoEnc
     case cmdstr
     when "tell joke"
       @blocking = false
-      avatar.inventory << "laughter" 
+      avatar.inventory.add_new_item(name: "laughter", type: "mood") 
       "Pleased with your wit, the jester sits to whittle a flute."
     when "use knife", "stab jester",  "kill jester", "knife jester"
       if avatar.has_item?("knife")
         @blocking = false
-        avatar.remove_item("laughter")
-        avatar.remove_item("hope")
-        avatar.remove_item("smile")
+        avatar.inventory.remove_item("laughter")
+        avatar.inventory.remove_item("hope")
+        avatar.inventory.remove_item("smile")
         "He was not expecting that. The battle is short."
       else
         "Whoops! No knife in inventory. "
