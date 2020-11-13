@@ -29,6 +29,81 @@ class UserInterface
     @game = GameNull.new(ui: self)
   end
 
+  def run
+    prompt
+    catch(:exit_app_loop) do
+      loop do
+        handle_command(user_input)
+        prompt
+      end
+    end
+  end
+
+  def handle_command(cmdstr)
+  
+    first, second, third, fourth = cmdstr.split(" ")  
+
+    replacements = {
+      'north' => 'n',
+      'east' => 'e',
+      'south' => 's',
+      'west' => 'w',
+      'up' => 'u',
+      'down' => 'd',
+      'i' => 'inventory',
+      'inv' => 'inventory',
+      '?' => 'help',
+      'exit'=> 'quit',
+    }
+    
+    first = replacements[first] || first
+    
+    output case first
+            when nil
+              missing_command
+            when "quit"
+              quit
+            when "!"
+              boss_emergency 
+            when "help"
+              help
+            when "new"
+              start_a_game
+            when "save"
+              save_the_game
+            when "load"
+              load_a_game(second)
+            when "debug"
+              @game.debug
+            when "debuggame"
+              PP.pp(@game.debug_game, "")
+            when "teleport"
+              @game.teleport(Location.new(y: second.to_i, x: third.to_i, back: fourth))
+            when "n","e","s","w","u","d"
+              @game.attempt_to_walk(first)
+            when "hint"
+              @game.hint
+            when "inventory"
+              @game.check_avatar_inventory
+            when "look"
+              @game.check_room_inventory
+            when "take"
+              @game.move_item(second, @game.current_room, @game.avatar, 
+                        on_success: "You #{first} the #{second}.",
+                        on_fail: "Whoops! There's no #{second} you can take with you here.")
+            when "drop"
+              @game.move_item(second, @game.avatar, @game.current_room,
+                        on_success: "You #{first} the #{second}.",
+                        on_fail: "Whoops! No #{second} in inventory.")
+            when "equip"
+              @game.equip(second)
+            when "unequip"
+              @game.unequip(second)
+            else
+              @game.check_with_encounter(cmdstr)
+            end
+  end
+
   def prompt
     if @game.is_a? Game
       output @game.prompt
@@ -37,20 +112,6 @@ class UserInterface
     end
   end
 
-  def run
-    catch(:exit_app_loop) do
-      prompt
-      run_loop
-    end
-  end
-
-  def run_loop
-    loop do
-      handle_command(user_input)
-      prompt
-    end
-  end
-    
   def user_input
     @input.gets.chomp.downcase
   end
@@ -141,68 +202,5 @@ class UserInterface
    output Utility.english_list(@game_loader.saves_available)
   end
 
-  def handle_command(cmdstr)
-  
-    first, second, third, fourth = cmdstr.split(" ")  
 
-    replacements = {
-      'north' => 'n',
-      'east' => 'e',
-      'south' => 's',
-      'west' => 'w',
-      'up' => 'u',
-      'down' => 'd',
-      'i' => 'inventory',
-      'inv' => 'inventory',
-      '?' => 'help',
-      'exit'=> 'quit',
-    }
-    
-    first = replacements[first] || first
-    
-    output case first
-            when nil
-              missing_command
-            when "quit"
-              quit
-            when "!"
-              boss_emergency 
-            when "help"
-              help
-            when "new"
-              start_a_game
-            when "save"
-              save_the_game
-            when "load"
-              @game_loader.load_saved_game(second)
-            when "debug"
-              @game.debug
-            when "debuggame"
-              PP.pp(@game.debug_game, "")
-            when "teleport"
-              @game.teleport(Location.new(y: second.to_i, x: third.to_i, back: fourth))
-            when "n","e","s","w","u","d"
-              @game.attempt_to_walk(first)
-            when "hint"
-              @game.hint
-            when "inventory"
-              @game.check_avatar_inventory
-            when "look"
-              @game.check_room_inventory
-            when "take"
-              @game.move_item(second, @game.current_room, @game.avatar, 
-                        on_success: "You #{first} the #{second}.",
-                        on_fail: "Whoops! There's no #{second} you can take with you here.")
-            when "drop"
-              @game.move_item(second, @game.avatar, @game.current_room,
-                        on_success: "You #{first} the #{second}.",
-                        on_fail: "Whoops! No #{second} in inventory.")
-            when "equip"
-              @game.equip(second)
-            when "unequip"
-              @game.unequip(second)
-            else
-              @game.check_with_encounter(cmdstr)
-            end
-  end
 end

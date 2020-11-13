@@ -17,13 +17,14 @@ RSpec.describe "RSpec" do
     "" => :missing_command,
     "new" => :start_a_game,
     "save" => :save_the_game,
+    "load" => :load_a_game,
     "quit" => :quit,
     'exit' => :quit,
     "!" => :boss_emergency,
     "help" => :help,
     '?' => :help,
   }.each do |command, method|
-    it "calls #{method} when told to handle '#{command}'" do
+    it "calls #{method} on UI when told to handle '#{command}'" do
       expect(subject).to receive(method).exactly(1).times
       subject.handle_command(command)
     end
@@ -87,13 +88,4 @@ RSpec.describe "RSpec" do
     end
   end
 
-
-  {
-    "load" => :load_saved_game,
-  }.each do |command, method|
-    it "calls #{method} on game loader when told to handle '#{command}'" do
-      expect(subject.game_loader).to receive(method).exactly(1).times
-      subject.handle_command(command)
-    end
-  end
 end
