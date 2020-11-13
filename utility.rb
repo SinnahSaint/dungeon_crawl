@@ -36,8 +36,6 @@ module Utility
     enc state: #{current_room.enc.state}
     #{"- " * 20}
     avatar inventory: #{avatar.inventory.join(", ")}
-    back direction: #{avatar.back}
-    avatar location: #{avatar.location.join(", ")}
     #{"- " * 20}
     #{"- " * 20}
     HERE
