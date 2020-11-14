@@ -8,7 +8,7 @@ RSpec.describe "Interface" do
 
   it { is_expected.to be_an_instance_of(UserInterface) }
 
-  it "it creates the correct collaborators" do
+  it "creates the correct collaborators" do
     expect(subject.game).to be_an_instance_of(GameNull)
     expect(subject.game_loader).to be_an_instance_of(GameLoader)
   end

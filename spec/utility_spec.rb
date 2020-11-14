@@ -82,7 +82,7 @@ RSpec.describe "Debug" do
     room description: A dusty room full of rubble. 
     room inventory: gemstone, stone
     room layout: east, south, west
-    room enc: EncounterStub
+    room enc: encounter
     enc blocking: false
     enc state: There's a huge pile of rocks. It kind of reminds you of the Alpine Mountains.
     #{"- " * 20}
