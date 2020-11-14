@@ -22,14 +22,14 @@ require 'interface/game/avatar.rb'
 
   def new_game
     load_game_from_file(random_map_path)
-    @ui.game.run
+    run_game
   end
 
   def load_saved_game(save_name)
     if saves_available.include?(save_name)
       load_game_from_file(build_save_path(save_name))
       @ui.output "Loaded #{save_name} sucessfully!"   
-      @ui.game.run
+      run_game
     else
       @ui.output "Invalid save name '#{save_name}'. Nothing happens."
       @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
@@ -53,6 +53,13 @@ require 'interface/game/avatar.rb'
     end
   end
 
+  def set_game(avatar:, map:)
+    @ui.game = Game.new(avatar: avatar, map: map, ui: @ui)
+  end
+
+  def run_game
+    @ui.game.run
+  end
 
   private 
 
@@ -65,7 +72,7 @@ require 'interface/game/avatar.rb'
       current_map = generate_map(save_hash[:map])
       avatar = generate_avatar(save_hash[:avatar])
                           
-      @ui.game = Game.new(avatar: avatar, map: current_map, ui: @ui)
+      set_game(avatar: avatar, map: current_map)
     end
   end
 
