@@ -8,7 +8,7 @@ require 'interface/game/avatar.rb'
 
  class GameLoader
 
-  def initialize(ui: nil)
+  def initialize(ui:)
     @ui = ui
   end
 
