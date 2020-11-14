@@ -1,5 +1,8 @@
 require "interface/game/inventory.rb"
 require "interface/game/door.rb"
+Dir["./interface/game/encounters/*.rb"].each do |file_name|
+  require file_name
+end
 
 class Room
   attr_reader :door_list, :enc, :room_inv, :room_desc
