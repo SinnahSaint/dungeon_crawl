@@ -5,6 +5,7 @@ require 'interface/game/location.rb'
 require 'interface/game/map.rb'
 require 'interface/game/room.rb'
 require 'interface/game/avatar.rb'
+require 'utility'
 
  class GameLoader
 
@@ -53,7 +54,7 @@ require 'interface/game/avatar.rb'
     end
   end
 
-  def set_game(avatar:, map:)
+  def create_game(avatar:, map:)
     @ui.game = Game.new(avatar: avatar, map: map, ui: @ui)
   end
 
@@ -61,8 +62,7 @@ require 'interface/game/avatar.rb'
     @ui.game.run
   end
 
-  private 
-
+ 
   def load_game_from_file(file_path)    
     return "No such file" unless File.exist? file_path
     
@@ -72,7 +72,7 @@ require 'interface/game/avatar.rb'
       current_map = generate_map(save_hash[:map])
       avatar = generate_avatar(save_hash[:avatar])
                           
-      set_game(avatar: avatar, map: current_map)
+      create_game(avatar: avatar, map: current_map)
     end
   end
 
