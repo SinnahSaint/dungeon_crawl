@@ -13,7 +13,7 @@ require 'utility'
     @ui = ui
   end
 
-  def save_dir
+  def save_game_dir
     './files/save_games'
   end
 
@@ -21,34 +21,46 @@ require 'utility'
     './files/new_games'
   end
 
-  def new_game
-    load_game_from_file(random_map_path)
+  def directory_chooser(dir)
+    if dir == "save"
+      save_game_dir
+    else
+      new_game_dir
+    end
+  end
+
+  def load_new_game
+    load_game_from_file(random_new_path)
     run_game
   end
 
   def load_saved_game(save_name)
-    if saves_available.include?(save_name)
-      load_game_from_file(build_save_path(save_name))
+    if files_available("save").include?(save_name)
+      load_game_from_file(build_file_path("save", save_name))
       @ui.output "Loaded #{save_name} sucessfully!"   
       run_game
     else
       @ui.output "Invalid save name '#{save_name}'. Nothing happens."
-      @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
+      @ui.output "Please choose among the available save files:\n#{Utility.english_list(files_available("save"))}" 
     end
   end
 
-  def saves_available
-    @saves_avail = []
-    yaml_save_files.each do |save_name|
-      @saves_avail << File.basename(save_name, ".yaml")
+  def files_available(dir)
+    @files_avail = []
+    yaml_files(dir).each do |file_name|
+      @files_avail << File.basename(file_name, ".yaml")
     end
-    @saves_avail
+    @files_avail
+  end
+
+  def yaml_files(dir)
+    Dir["#{directory_chooser(dir)}/*.yaml"]
   end
 
   def save_to_file(save_name)
-    FileUtils.mkdir_p(save_dir) unless File.directory?(save_dir)
+    FileUtils.mkdir_p(save_game_dir) unless File.directory?(save_game_dir)
   
-    save_path = build_save_path(save_name)
+    save_path = build_file_path("save", save_name)
     File.open(save_path, 'w') do |file|
       file.write(YAML.dump(save_state))
     end
@@ -62,7 +74,6 @@ require 'utility'
     @ui.game.run
   end
 
- 
   def load_game_from_file(file_path)    
     return "No such file" unless File.exist? file_path
     
@@ -117,26 +128,17 @@ require 'utility'
     @ui.game.to_h
   end
   
-  def yaml_map_files
-    Dir["#{new_game_dir}/*.yaml"]
-  end
-  
-  def random_map_path
-    @maps_avail = yaml_map_files.map(&:to_s)
-    # @maps_avail = yaml_map_files.map { |map_name| map_name.to_s }   ## same thing
+  def random_new_path
+    @maps_avail = yaml_files("new").map(&:to_s)
     
     @maps_avail.sample
   end
 
-  def yaml_save_files
-    Dir["#{save_dir}/*.yaml"]
-  end
-
-  def build_save_path(save_name)
-    if /\A[a-z0-9_\-]+\z/ =~ save_name
-      "#{save_dir}/#{save_name}.yaml"
+  def build_file_path(dir, file_name)
+    if /\A[a-z0-9_\-]+\z/ =~ file_name
+      "#{directory_chooser(dir)}/#{file_name}.yaml"
     else
-      @ui.output "Invalid save name '#{save_name}'. Nothing happens." 
+      @ui.output "Invalid file name '#{file_name}'. Nothing happens." 
     end
   end
 end

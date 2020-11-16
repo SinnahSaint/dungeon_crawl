@@ -167,7 +167,7 @@ class UserInterface
     if @game.is_a? Game
       "You can't start a game from inside a game."
     else
-      @game_loader.new_game
+      @game_loader.load_new_game
     end
   end
 
