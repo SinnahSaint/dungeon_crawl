@@ -7,7 +7,7 @@ RSpec.describe "Game Loader" do
   subject { game_loader }
 
   before do
-    allow(subject).to receive(:save_dir).and_return('spec/files')
+    allow(subject).to receive(:save_game_dir).and_return('spec/files')
     allow(subject).to receive(:new_game_dir) { 'spec/files' }
     # same thing with diff syntax
   end
@@ -49,14 +49,22 @@ RSpec.describe "Game Loader" do
   end
 
   context "when starting a new game" do
-    # it "chooses a random file from available options" do
-    #   # loop through 10000 times and make sure about 4500-5500 times each
-    # end
+    it "chooses a random file from available options" do
+      allow(subject).to receive(:run_game)
+      allow(subject).to receive(:load_game_from_file)
+      expect(subject).to receive(:random_new_path)
+      
+      # expect_any_instance_of(Array).to receive(:sample)  
+      # I found it but it's not best-practice and it doesn't work so... something else
+    end
 
     it "loads and runs a file" do
       expect(subject).to receive(:load_game_from_file)
       expect(subject).to receive(:run_game)
-      subject.new_game
+    end
+
+    after do
+      subject.load_new_game
     end
   end
 
@@ -67,7 +75,7 @@ RSpec.describe "Game Loader" do
     ]
     expected = ["primarytestfile", "secondarytestfile" ]
 
-    expect(subject.saves_available).to match_array(expected)
+    expect(subject.files_available("save")).to match_array(expected)
   end
 
 
@@ -79,9 +87,9 @@ RSpec.describe "Game Loader" do
   it "saves to file" do
     allow(game).to receive(:to_h).and_return savestate
 
-    expect(subject.saves_available).not_to include("gonnasavenow")
+    expect(subject.files_available("save")).not_to include("gonnasavenow")
     subject.save_to_file("gonnasavenow")
-    expect(subject.saves_available).to include("gonnasavenow")
+    expect(subject.files_available("save")).to include("gonnasavenow")
 
     info = {}
     file_path = 'spec/files/gonnasavenow.yaml'
