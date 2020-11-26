@@ -1,5 +1,5 @@
 class NoEnc
-    attr_reader :blocking
+  attr_reader :blocking
     
   def initialize(blocking: false)
     @blocking = blocking
