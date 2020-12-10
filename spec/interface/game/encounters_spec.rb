@@ -2,8 +2,7 @@ Dir["./interface/game/encounters/*.rb"].each do |file_name|
   require file_name
 end
 
-RSpec.describe "Encounter" do
-
+RSpec.describe "NoEnc" do
   context "when a default NoEnc is created" do
     subject { NoEnc.new }
 
@@ -25,57 +24,76 @@ RSpec.describe "Encounter" do
       expect(subject.state).to eq("")
     end
   end
+end
 
+RSpec.describe "Avalanche" do
   context " when an Avalanche is created" do
     subject { Avalanche.new }
 
-    it "returns false for blocking" do
-      expect(subject.blocking).to eq(false)
+    context "the default init" do
+      it "returns false for blocking" do
+        expect(subject.blocking).to eq(false)
+      end
+
+      it "returns false for unsupported command" do
+        expect(subject.handle_command("cmdstr", "avatar")).to eq(false)
+      end
+
+      it "returns the right string for unblocked state" do
+        no_block_string = "There's a huge pile of rocks. It kind of reminds you of the Alpine Mountains."
+    
+        expect(subject.state).to eq(no_block_string)
+      end
+
+      it "returns the right string for hint" do
+        expect(subject.hint).to be_a(String)
+        expect(subject.hint).to eq("If you're daring, a yodel might do something.")
+      end
     end
 
-    it "returns false for unsupported command" do
-      expect(subject.handle_command("cmdstr", "avatar")).to eq(false)
-    end
+    context "after the correct command is used" do
+      it "returns correct string & blocks for supported command" do
+        string = "Rocks fall; You almost die. That was too daring."
+        expect(subject.handle_command("yodel", "avatar")).to eq(string)
+        expect(subject.blocking).to eq(true)
+      end
 
-    it "returns correct string & blocks for supported command" do
-      string = "Rocks fall; You almost die. That was too daring."
-      expect(subject.handle_command("yodel", "avatar")).to eq(string)
-      expect(subject.blocking).to eq(true)
-    end
-
-    it "returns the right string for hint" do
-      expect(subject.hint).to be_a(String)
-      expect(subject.hint).to eq("If you're daring, a yodel might do something.")
-    end
-  
-    it "returns the right string for unblocked state" do
-      no_block_string = "There's a huge pile of rocks. It kind of reminds you of the Alpine Mountains."
-  
-      expect(subject.state).to eq(no_block_string)
-    end
-
-    it "returns the right string for blocked state" do
-      block_string = "The rocks have fallen and there is no path here."
-  
-      subject.handle_command("yodel", "avatar")
-      expect(subject.state).to eq(block_string)
+      it "returns the right string for blocked state" do
+        block_string = "The rocks have fallen and there is no path here."
+    
+        subject.handle_command("yodel", "avatar")
+        expect(subject.state).to eq(block_string)
+      end
     end
   end
+end
 
+RSpec.describe "Cow" do
   context "when a cow is created" do
     subject { Cow.new }
 
-    it "returns false for blocking" do
-      expect(subject.blocking).to eq(false)
+    context "the default init" do
+      it "returns false for blocking" do
+        expect(subject.blocking).to eq(false)
+      end
+
+      it "returns false for unsupported command" do
+        expect(subject.handle_command("cmdstr", "avatar")).to eq(false)
+      end
+
+      it "returns the right string for hint" do
+        expect(subject.hint).to be_a(String)
+        expect(subject.hint).to eq("Cows produce a LOT of milk each day.")
+      end
+    
+      it "state returns the right string for unmilked" do
+        unmilked_string = "There is a cow looking at you. She looks really uncomfortable."
+    
+        expect(subject.state).to eq(unmilked_string)
+      end
     end
 
-    it "returns false for unsupported command" do
-      expect(subject.handle_command("cmdstr", "avatar")).to eq(false)
-    end
-
-
-
-    context "and a player tries to milk the cow" do
+    context "when a player tries to milk the cow" do
       let(:avatar) { double("avatar", :inventory => double("inventory", :add_new_item => "added")) }
 
       it "returns correctly for first milk command" do
@@ -108,8 +126,7 @@ RSpec.describe "Encounter" do
       end
     end
 
-
-    context "and a player tries to kill the cow" do
+    context "when a player tries to kill the cow" do
       let(:avatar) { double( "avatar",{
                                         :has_item? => weapon,
                                         :inventory => double("inventory", :remove_item => "removed"),
@@ -118,7 +135,7 @@ RSpec.describe "Encounter" do
                             )
                     }
 
-      context "when you don't have a knife" do
+      context "and you don't have a knife" do
         let(:weapon) { false }
         it "returns correctly for kill command" do
           string = "Whoops! No knife in inventory. "
@@ -126,7 +143,7 @@ RSpec.describe "Encounter" do
         end
       end
 
-      context "when you do have a knife" do
+      context "and you do have a knife" do
         let(:weapon) { true }
         it "returns correctly for kill command" do
           string = "She sees you comming and kicks you into next week. You die bleeding out on the rug. Game Over!"
@@ -136,21 +153,10 @@ RSpec.describe "Encounter" do
       end
     end
 
-    it "returns the right string for hint" do
-      expect(subject.hint).to be_a(String)
-      expect(subject.hint).to eq("Cows produce a LOT of milk each day.")
-    end
-  
-    it "returns the right string for unmilked state" do
-      unmilked_string = "There is a cow looking at you. She looks really uncomfortable."
-  
-      expect(subject.state).to eq(unmilked_string)
-    end
-
-    context "after being milked" do
+    context "after being milked twice" do
       let(:avatar) { double("avatar", :inventory => double("inventory", :add_new_item => "added")) }
       
-      it "returns the right string for milked-out state" do
+      it "state returns the right string for milked-out" do
         milkedout_string = "The cow is happy."
   
         subject.handle_command("milk", avatar)
@@ -158,11 +164,6 @@ RSpec.describe "Encounter" do
         expect(subject.state).to eq(milkedout_string)
       end
     end
-
-
-
-
   end
-
-
 end
+
