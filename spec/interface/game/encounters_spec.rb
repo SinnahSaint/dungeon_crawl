@@ -167,3 +167,57 @@ RSpec.describe "Cow" do
   end
 end
 
+RSpec.describe "Fire" do
+  context "when a fire is created" do
+    subject { Fire.new }
+    context "the default init" do
+      it "returns true for blocking" do
+        expect(subject.blocking).to eq(true)
+      end
+
+      it "returns false for unsupported command" do
+        expect(subject.handle_command("cmdstr", "avatar")).to eq(false)
+      end
+
+      it "returns the right string for hint" do
+        hint_string = "Liquids are often used to put out fires."
+        expect(subject.hint).to be_a(String)
+        expect(subject.hint).to eq(hint_string)
+      end
+    
+      it "state returns the right string for blocking" do
+        blocking_string = "OMG the table's on fire!"
+    
+        expect(subject.state).to eq(blocking_string)
+      end
+    end
+
+    context "after the correct command is given" do
+      context "and the user does not have milk" do
+        let(:avatar) { double("avatar", :has_item? => false) }
+
+        it "returns the right strings for no milk" do
+          missing_string = "Whoops! No milk in inventory. "
+          state_string = "OMG the table's on fire!"
+      
+          expect(subject.handle_command("use milk", avatar)).to eq(missing_string)
+          expect(subject.state).to eq(state_string)
+        end
+      end
+
+      context "and the user does have milk" do
+        let(:avatar) { double("avatar", :has_item? => true, :inventory => double("inventory", :remove_item => true)) }
+        
+        it "returns the right strings for unblocked state" do
+          completed_string = "The fire dies down."
+          state_string = "The table is singed where it used to be on fire."
+      
+          expect(subject.handle_command("use milk", avatar)).to eq(completed_string)
+          expect(subject.state).to eq(state_string)
+        end
+      end
+    end
+
+  end
+end
+
