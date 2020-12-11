@@ -262,3 +262,58 @@ RSpec.describe "Ice" do
     end
   end
 end
+
+RSpec.describe "Jester" do
+  context "when a jester is created" do
+    subject { Jester.new }
+    
+    context "the default init" do
+      it "returns true for blocking" do
+        expect(subject.blocking).to eq(true)
+      end
+      
+      it "returns false for unsupported command" do
+        expect(subject.handle_command("cmdstr", "avatar")).to eq(false)
+      end
+      
+      it "returns the right string for hint" do
+        hint_string = "Just give him what he wants."
+        
+        expect(subject.hint).to be_a(String)
+        expect(subject.hint).to eq(hint_string)
+      end
+      
+      it "state returns the right string for blocking" do
+        state_string = "The jester peeks around the throne asking you to tell a joke."
+        
+        expect(subject.state).to eq(state_string)
+      end
+
+
+    end
+    
+    context "after a valid command is given" do
+      let(:inventory) { double("inventory", :add_new_item => true) }
+      let(:avatar) { double("avatar", :leave => "called leave", 
+                                      :inventory => inventory, 
+                            ) 
+                    }
+      let(:tell_joke) { subject.handle_command("tell joke", avatar) }
+
+      it "returns correctly for tell joke command" do
+        return_string = "Pleased with your wit, the jester sits to whittle a flute."
+        
+        expect(inventory).to receive(:add_new_item).with(name: "laughter", type: "mood")
+        expect(tell_joke).to eq(return_string)
+        expect(subject.blocking).to eq(false)
+      end
+
+      it "state returns the right string for unblocked" do
+        state_string = ""
+      
+        tell_joke
+        expect(subject.state).to eq(state_string)
+      end
+    end
+  end
+end
