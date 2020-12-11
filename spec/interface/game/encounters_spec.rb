@@ -18,7 +18,7 @@ RSpec.describe "NoEnc" do
       expect(subject.hint).to be_a(String)
       expect(subject.hint).to eq("No seriously. There's no encounter here.")
     end
-  
+
     it "returns the right string for state" do
       expect(subject.state).to be_a(String)
       expect(subject.state).to eq("")
@@ -41,7 +41,7 @@ RSpec.describe "Avalanche" do
 
       it "returns the right string for unblocked state" do
         no_block_string = "There's a huge pile of rocks. It kind of reminds you of the Alpine Mountains."
-    
+
         expect(subject.state).to eq(no_block_string)
       end
 
@@ -60,7 +60,7 @@ RSpec.describe "Avalanche" do
 
       it "returns the right string for blocked state" do
         block_string = "The rocks have fallen and there is no path here."
-    
+
         subject.handle_command("yodel", "avatar")
         expect(subject.state).to eq(block_string)
       end
@@ -85,10 +85,10 @@ RSpec.describe "Cow" do
         expect(subject.hint).to be_a(String)
         expect(subject.hint).to eq("Cows produce a LOT of milk each day.")
       end
-    
+
       it "state returns the right string for unmilked" do
         unmilked_string = "There is a cow looking at you. She looks really uncomfortable."
-    
+
         expect(subject.state).to eq(unmilked_string)
       end
     end
@@ -154,11 +154,11 @@ RSpec.describe "Cow" do
     end
 
     context "after being milked twice" do
-      let(:avatar) { double("avatar", :inventory => double("inventory", :add_new_item => "added")) }
-      
+      let(:avatar) {  double("avatar", :inventory => double("inventory", :add_new_item => "added"))  }
+
       it "state returns the right string for milked-out" do
         milkedout_string = "The cow is happy."
-  
+
         subject.handle_command("milk", avatar)
         subject.handle_command("milk", avatar)
         expect(subject.state).to eq(milkedout_string)
@@ -184,10 +184,10 @@ RSpec.describe "Fire" do
         expect(subject.hint).to be_a(String)
         expect(subject.hint).to eq(hint_string)
       end
-    
+
       it "state returns the right string for blocking" do
         blocking_string = "OMG the table's on fire!"
-    
+
         expect(subject.state).to eq(blocking_string)
       end
     end
@@ -199,7 +199,7 @@ RSpec.describe "Fire" do
         it "returns the right strings for no milk" do
           missing_string = "Whoops! No milk in inventory. "
           state_string = "OMG the table's on fire!"
-      
+
           expect(subject.handle_command("use milk", avatar)).to eq(missing_string)
           expect(subject.state).to eq(state_string)
         end
@@ -207,11 +207,11 @@ RSpec.describe "Fire" do
 
       context "and the user does have milk" do
         let(:avatar) { double("avatar", :has_item? => true, :inventory => double("inventory", :remove_item => true)) }
-        
+
         it "returns the right strings for unblocked state" do
           completed_string = "The fire dies down."
           state_string = "The table is singed where it used to be on fire."
-      
+
           expect(subject.handle_command("use milk", avatar)).to eq(completed_string)
           expect(subject.state).to eq(state_string)
         end
