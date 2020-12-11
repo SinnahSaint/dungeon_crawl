@@ -221,3 +221,42 @@ RSpec.describe "Fire" do
   end
 end
 
+RSpec.describe "Ice" do
+  
+  context "when a ice is created" do
+    subject { Ice.new }
+    
+    context "the default init" do
+      it "returns false for blocking" do
+        expect(subject.blocking).to eq(false)
+      end
+      
+      it "returns false for unsupported command" do
+        expect(subject.handle_command("cmdstr", "avatar")).to eq(false)
+      end
+      
+      it "returns the right string for hint" do
+        hint_string = "If you try to hurry, you might slip on ice."
+        
+        expect(subject.hint).to be_a(String)
+        expect(subject.hint).to eq(hint_string)
+      end
+      
+      it "state returns the right string" do
+        state_string = "The floor is super slippery in here."
+        
+        expect(subject.state).to eq(state_string)
+      end
+    end
+    
+    context "after a valid command is given" do
+      let(:avatar) { double("avatar",{ :leave => "called leave" }) }
+      
+      it "returns correctly for hurry command" do
+        dead_string = "You slip and fall cracking your head open. I told you it was slippery. Game over!"
+        expect(avatar).to receive(:leave).with(dead_string)
+        subject.handle_command("hurry", avatar)
+      end
+    end
+  end
+end
