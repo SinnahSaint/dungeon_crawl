@@ -288,8 +288,6 @@ RSpec.describe "Jester" do
         
         expect(subject.state).to eq(state_string)
       end
-
-
     end
     
     context "after a valid command is given" do
@@ -316,4 +314,37 @@ RSpec.describe "Jester" do
       end
     end
   end
+end
+
+RSpec.describe "Killer" do
+  context "when a killer is created" do
+    subject { Killer.new }
+
+    context "the default init" do
+      it "returns true for blocking" do
+        expect(subject.blocking).to eq(true)
+      end
+      
+      it "returns false for unsupported command" do
+        expect(subject.handle_command("cmdstr", "avatar")).to eq(false)
+      end
+      
+      it "returns the right string for hint" do
+        hint_string = "Friend or foe? That's up to you."
+        
+        expect(subject.hint).to be_a(String)
+        expect(subject.hint).to eq(hint_string)
+      end
+      
+      it "state returns the right string for blocking" do
+        state_string = "In the room you see a man in leather armour. His sword is at his side. This guy \ndoesn't look like the type who laughs easily. He looks at you and asks if you \nhave something for him.\n"
+        
+        expect(subject.state).to eq(state_string)
+      end
+    end
+  end
+  
+  context "" do
+  end
+  
 end
