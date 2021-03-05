@@ -319,6 +319,7 @@ end
 RSpec.describe "Killer" do
   context "when a killer is created" do
     subject { Killer.new }
+    missing_item_string = "Whoops! You don't seem to have the item to do that in your inventory. "
 
     context "the default init" do
       it "returns true for blocking" do
@@ -342,9 +343,137 @@ RSpec.describe "Killer" do
         expect(subject.state).to eq(state_string)
       end
     end
+
+    context "when entering the command"
+    # Every "give snark" is not implemented yet  
+
+      # this is all wrong. I need a semi fake avatar so I can call 
+      # the usual stuff on it and just swap values in first
+
+      # context "kill man" do
+      #   context "without a knife" do
+      #     user = { :has_weapon => false }
+
+      #     it "provides the missing item hint" do
+      #       expect(subject.handle_command("kill man", user)).to do
+      #         a bunch of stuff
+      #       end
+      #     end
+      #   end
+      #
+      #   context "with a knife" do
+      #     user = { :has_weapon => "knife" }
+
+      #     it "works" do
+      #       expect(subject.handle_command("kill man", user)).to do
+      #         a bunch of other stuff
+      #       end
+      #     end
+      #   end
+
+      #   context "but the killer was already dead" do
+      #     it "gives snark" do
+      #       expect(true).to eq(false)
+      #     end
+      #   end
+      # end
+
+      context "the player offers a penny" do
+        context "without the right item" do
+          it "fails" do
+            expect(true).to eq(false)
+          end
+        end
+        context "with the right item" do
+          it "works" do
+            expect(true).to eq(false)
+          end
+        end
+        # context "but the killer was already dead" do
+        #   it "gives snark" do
+        #     expect(true).to eq(false)
+        #   end
+        end
+      end
+
+      context "the player offers a gem" do
+        context "without the right item" do
+          it "fails" do
+            expect(true).to eq(false)
+          end
+        end
+        context "with the right item" do
+          it "works" do
+            expect(true).to eq(false)
+          end
+        end
+        # context "but the killer was already dead" do
+        #   it "gives snark" do
+        #     expect(true).to eq(false)
+        #   end
+        end
+      end
+
+      context "the player offers gold" do
+        context "without the right item" do
+          it "fails" do
+            expect(true).to eq(false)
+          end
+        end
+        context "with the right item" do
+          it "works" do
+            expect(true).to eq(false)
+          end
+        end
+        # context "but the killer was already dead" do
+        #   it "gives snark" do
+        #     expect(true).to eq(false)
+        #   end
+        end
+      end
+
+      context "the player offers milk" do
+        context "without the right item" do
+          it "fails" do
+            expect(true).to eq(false)
+          end
+        end
+        context "with the right item" do
+          it "works" do
+            expect(true).to eq(false)
+          end
+        end
+        # context "but the killer was already dead" do
+        #   it "gives snark" do
+        #     expect(true).to eq(false)
+        #   end
+        end
+      end
+
+      context "the player offers a hug" do
+        it "works" do
+          expect(true).to eq(false)
+        end
+        
+        # context "but the killer was already dead" do
+        #   it "gives snark" do
+        #     expect(true).to eq(false)
+        #   end
+        end
+      end
+
+      context "the player tells a joke" do
+        it "works" do
+          expect(true).to eq(false)
+        end
+
+        # context "but the killer was already dead" do
+        #   it "gives snark" do
+        #     expect(true).to eq(false)
+        #   end
+        end
+      end
   end
-  
-  context "" do
-  end
-  
+end
+
 end
