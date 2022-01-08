@@ -98,7 +98,7 @@ require_relative 'game/avatar.rb'
       text: text,
     )
     rescue => e
-    puts map_hash[:text]
+    puts text
     raise
   end
 
