@@ -3,7 +3,7 @@ require_relative = '/map.rb'
 
 class Door
   def initialize(destination:, description: nil )
-    @destination = Location.new(destination)
+    @destination = Location.new(**destination)
     @description = description || "You move to the next room."
   end
 

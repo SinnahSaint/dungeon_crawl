@@ -2,16 +2,16 @@ require "./interface/game/inventory.rb"
 require "./interface/game/door.rb"
 
 class Room
-  attr_reader :door_list, :enc, :room_inv, :room_desc
+  attr_reader :door_list, :enc, :inventory, :description
   
   def initialize(doors: nil, encounter: nil, inventory: nil, description: nil)
     @door_list = doors || {} 
     @enc = encounter || NoEnc.new
     inventory = inventory || {loot: [], equipment: {}}
-    @room_inv = Inventory.new({loot: inventory[:loot], 
-                                equipment: inventory[:equipment],
-                              })
-    @room_desc = description || ""
+    @inventory = Inventory.new(loot: inventory[:loot], 
+                               equipment: inventory[:equipment],
+                              )
+    @description = description || ""
   end
   
   def ==(other)

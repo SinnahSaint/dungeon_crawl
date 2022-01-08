@@ -2,9 +2,9 @@ class Avatar
   attr_reader :inventory
 
   def initialize(inv_hash)
-    @inventory = Inventory.new({:loot => inv_hash[:loot], 
-                                :equipment => inv_hash[:equipment],
-                                })
+    @inventory = Inventory.new(:loot => inv_hash[:loot], 
+                               :equipment => inv_hash[:equipment],
+                              )
   end
 
   def check_inventory

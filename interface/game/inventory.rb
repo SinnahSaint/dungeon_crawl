@@ -4,8 +4,9 @@ class Inventory
 
   attr_accessor :loot, :equipment
 
-  def initialize(loot:, equipment:)
+  def initialize(loot:, equipment: nil)
     @loot = loot || []
+    equipment ||= {}
     @equipment = {
       head: nil, 
       torso: nil, 

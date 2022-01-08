@@ -76,27 +76,27 @@ require_relative 'game/avatar.rb'
 
     current = start if current.nil?
         
-    Map.new({
+    Map.new(
       level: level.map do |row|
         row.map do |col|
           encounter = col[:encounter] || { :type => "NoEnc" }
           encounter_type = encounter[:type]
           encounter_params = encounter[:params] || {}
           Room.new(
-            encounter: Object.const_get(encounter_type).new(encounter_params), 
-            inventory: Inventory.new(loot: col[:inventory]),
+            encounter: Object.const_get(encounter_type).new(**encounter_params), 
+            inventory: { loot: col[:inventory] },
             description: col[:description],
             doors: col[:doors].transform_values do |door_hash|
-              Door.new(door_hash)
+              Door.new(**door_hash)
             end,
           )
         end
       end,
-      current_location: Location.new(current),
-      start: Location.new(start),
-      win:  Location.new(win),
+      current_location: Location.new(**current),
+      start: Location.new(**start),
+      win:  Location.new(**win),
       text: text,
-    })
+    )
     rescue => e
     puts map_hash[:text]
     raise
