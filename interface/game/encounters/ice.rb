@@ -1,3 +1,5 @@
+require_relative "./no_enc"
+
 class Ice < NoEnc
 
   def handle_command(cmdstr, avatar)

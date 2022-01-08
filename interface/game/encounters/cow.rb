@@ -1,3 +1,5 @@
+require_relative "./no_enc"
+
 class Cow < NoEnc
 
   def initialize(blocking:false, milked: false, has_milk: true)

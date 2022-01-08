@@ -1,3 +1,5 @@
+require_relative "./no_enc"
+
 class Avalanche < NoEnc
   
   def handle_command(cmdstr, avatar)

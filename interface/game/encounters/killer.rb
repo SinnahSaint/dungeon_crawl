@@ -1,3 +1,5 @@
+require_relative "./no_enc"
+
 class Killer < NoEnc
   
   def initialize(blocking: true, dead: false, friend: false)

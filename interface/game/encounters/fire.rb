@@ -1,3 +1,5 @@
+require_relative "./no_enc"
+
 class Fire < NoEnc
 
   def initialize(blocking: true)
