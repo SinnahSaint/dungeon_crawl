@@ -32,6 +32,7 @@ class Map
 
   def follow_door(door)
     @current_location = door.destination
+    ""
   end
 
   def to_h

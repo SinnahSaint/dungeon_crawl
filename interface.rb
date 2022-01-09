@@ -1,4 +1,5 @@
 require 'yaml'
+require 'byebug'
 
 require_relative 'monkey_patch_hash.rb'
 require_relative 'utility.rb'
@@ -145,12 +146,12 @@ class UserInterface
     first, second, third, fourth = cmdstr.split(" ")  
 
     replacements = {
-      'north' => 'N',
-      'east' => 'E',
-      'south' => 'S',
-      'west' => 'W',
-      'up' => 'U',
-      'down' => 'D',
+      'north' => 'n',
+      'east' => 'e',
+      'south' => 's',
+      'west' => 'w',
+      'up' => 'u',
+      'down' => 'd',
       'i' => 'inventory',
       'inv' => 'inventory',
       '?' => 'help',
@@ -180,7 +181,7 @@ class UserInterface
               PP.pp(@game.debug_game, "")
             when "teleport"
               @game.teleport(Location.new(y: second.to_i, x: third.to_i, back: fourth))
-            when "N","E","S","W","U","D"
+            when "n","e","s","w","u","d"
               @game.attempt_to_walk(first)
             when "hint"
               @game.hint

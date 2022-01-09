@@ -21,8 +21,8 @@ class RoomTest < Test::Unit::TestCase
   end
 
   def test_default_init
-    assert @default.door_list.instance_of?(Hash)
-    assert @default.door_list.empty?
+    assert @default.doors.instance_of?(Hash)
+    assert @default.doors.empty?
     assert @default.enc.instance_of?(NoEnc) 
     assert @default.room_inv.instance_of?(Inventory)
     assert @default.room_inv.equipment.instance_of?(Hash)
@@ -37,8 +37,8 @@ class RoomTest < Test::Unit::TestCase
   end
 
   def test_custom_init
-    assert @custom.door_list.instance_of?(Hash)
-    assert @custom.door_list[:N].instance_of?(Door)
+    assert @custom.doors.instance_of?(Hash)
+    assert @custom.doors[:N].instance_of?(Door)
 
     assert @custom.enc.instance_of?(Fire) 
     assert @custom.room_inv.instance_of?(Inventory)

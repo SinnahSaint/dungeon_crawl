@@ -84,11 +84,11 @@ require_relative 'game/avatar.rb'
           encounter_params = encounter[:params] || {}
           Room.new(
             encounter: Object.const_get(encounter_type).new(**encounter_params), 
-            inventory: { loot: col[:inventory] },
+            inventory: col[:inventory],
             description: col[:description],
             doors: col[:doors].transform_values do |door_hash|
               Door.new(**door_hash)
-            end,
+            end.transform_keys {|k| k.to_s.downcase } ,
           )
         end
       end,
@@ -118,7 +118,8 @@ require_relative 'game/avatar.rb'
     @maps_avail = yaml_map_files.map(&:to_s)
     # @maps_avail = yaml_map_files.map { |map_name| map_name.to_s }   ## same thing
     
-    @maps_avail.sample
+    # @maps_avail.sample
+    @maps_avail[1]
   end
 
   def yaml_save_files

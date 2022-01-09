@@ -36,6 +36,7 @@ class Game
   end
 
   def attempt_to_walk(direction)
+    byebug
     if @map.blocked?(direction)
       @ui.output "You'll have to deal with this first."
       return
@@ -62,8 +63,7 @@ class Game
     if current_room.inventory.loot.empty?
       " There's nothing you can take here."
     else
-    " You can see " + Utility.english_list(current_room.inventory.loot) +
-    "\n" + "- "*20 + "\n" + "What's next? > "
+      " You can see " + Utility.english_list(current_room.inventory.loot)
     end
   end
 
@@ -85,7 +85,15 @@ class Game
   end
 
   def prompt
-    @map.current_description + check_room_inventory
+    @map.current_description + 
+    check_room_inventory +
+## TODO ##
+    "\n" + "- "*20 + "\n" + 
+    "What's next? > "
+
+
+ 
+
   end
 
   def run
