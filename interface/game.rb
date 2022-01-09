@@ -48,7 +48,15 @@ class Game
     end
 
     @ui.output(door.description)
-    @map.follow_door(door)
+    
+    if @map.follow_door(door)
+      ""
+    else
+      @ui.output "You win! You got out with " + Utility.english_list(@avatar.inventory.loot) + "." +
+      "Try and see if you can get more things next time! Congrats and see you soon!" 
+      
+      throw(:exit_app_loop)
+    end
   end
 
   def hint

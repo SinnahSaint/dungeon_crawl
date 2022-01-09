@@ -44,7 +44,11 @@ class Map
 
   def follow_door(door)
     @current_location = door.destination
-    ""
+    if @current_location = @win
+     nil
+    else
+      ""
+    end
   end
 
   def to_h
