@@ -81,6 +81,7 @@ class Game
   end
 
   def check_with_encounter(cmdstr)
+    @map.current_room.enc.handle_command(cmdstr, @avatar)
   end
 
   def prompt
