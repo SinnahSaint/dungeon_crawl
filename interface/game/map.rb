@@ -4,7 +4,7 @@ Dir["./encounters/*.rb"].each do |file_name|
 end
 
 class Map
-  attr_reader :level, :start, :win, :text, :current_location
+  attr_reader :level, :start, :win, :text, :current_location, :options
 
   def initialize(level: nil, start: nil, win: nil, text: nil, current_location: nil)
     @level = level
@@ -19,11 +19,23 @@ class Map
   end
 
   def current_description
-    current_room.description
+    current_room.current_description
   end
 
   def blocked?(direction)
     current_room.blocked? && direction != @current_location.back
+  end
+
+  def options
+    words = {
+      "n" => "north",
+      "s" => "south",
+      "e" => "east",
+      "w" => "west",
+      "u" => "up",
+      "d" => "down",
+     }
+    current_room.doors.keys.map { |k| words[k] }
   end
 
   def get_door(direction)

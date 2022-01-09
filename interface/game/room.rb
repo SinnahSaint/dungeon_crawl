@@ -28,6 +28,10 @@ class Room
     @enc.blocking
   end
   
+  def current_description
+    @description + " " + @enc.state
+  end
+
   def remove_item(item)
     @inventory.delete(item)
   end
