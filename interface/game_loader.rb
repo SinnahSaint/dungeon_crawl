@@ -53,6 +53,13 @@ require_relative 'game/avatar.rb'
     end
   end
 
+  def build_save_path(save_name)
+    if /\A[a-z0-9_\-]+\z/ =~ save_name
+      "#{save_dir}/#{save_name}.yaml"
+    else
+      @ui.output "Invalid save name '#{save_name}'. Nothing happens." 
+    end
+  end
 
   private 
 
@@ -126,11 +133,4 @@ require_relative 'game/avatar.rb'
     Dir["#{save_dir}/*.yaml"]
   end
 
-  def build_save_path(save_name)
-    if /\A[a-z0-9_\-]+\z/ =~ save_name
-      "#{save_dir}/#{save_name}.yaml"
-    else
-      @ui.output "Invalid save name '#{save_name}'. Nothing happens." 
-    end
-  end
 end

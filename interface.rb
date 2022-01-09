@@ -78,8 +78,8 @@ class UserInterface
   def boss_emergency
     if @game.is_a? Game
       now = Time.now
-      save_path = @game_loader.build_save_path("boss_#{now.day}#{now.hour}")
-      @game_loader.save_to_file(save_path.to_s)
+      save_name = "boss_#{now.day}#{now.hour}"
+      @game_loader.save_to_file(save_name)
     end
     output Utility.text_block("boss_emergency")
     throw(:exit_app_loop)
@@ -90,7 +90,7 @@ class UserInterface
       output "Do you want to save first?"
        if user_input == "yes"
         output "Please type a save name for your file."
-        @game_loader.save_to_file(build_save_path(user_input))
+        @game_loader.save_to_file(user_input)
         output "Game saved."
        end
         @game = GameNull.new(ui: self)
@@ -126,12 +126,12 @@ class UserInterface
 
     output "Please choose a file name."
     save_name = user_input
-    if @game_loader.saves_avail.include? save_name
+    if @game_loader.saves_available.include? save_name
       output "That name is taken already."
       save_the_game
     else
-      @game_loader.save_to_file(@game_loader.build_save_path(save_name))
-      @game = Game_null(self)
+      @game_loader.save_to_file(save_name)
+      @game = GameNull.new(ui: self)
       output "Game saved."
     end
   end
