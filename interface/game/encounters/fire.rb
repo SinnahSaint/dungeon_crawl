@@ -26,7 +26,7 @@ class Fire < NoEnc
   
   def state
     if @blocking
-      "OMG the table's on fire!"
+      "OMG the table's on fire and it's spreading!"
     else
       "The table is singed where it used to be on fire."
     end

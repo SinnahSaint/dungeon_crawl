@@ -21,7 +21,8 @@ map:
         encounter: 
           type: Fire
         inventory:
-          - knife
+          loot:
+            - knife
         description: A kitchen with a nice table.
         doors:
           "E": { destination: { x: 1, y: 0, back: "W" } } 

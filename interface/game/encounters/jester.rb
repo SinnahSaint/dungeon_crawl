@@ -33,7 +33,7 @@ class Jester < NoEnc
   
   def state
     if @blocking == true
-      "The jester peeks around the throne asking you to tell a joke."
+      "The jester peeks around the furnature asking you to tell a joke."
     else
       ""
     end

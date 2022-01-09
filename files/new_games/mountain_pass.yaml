@@ -1,0 +1,86 @@
+avatar:
+  inventory: 
+    - lint
+    - knife
+    - hope
+map:
+  text: |
+    You've finally made it to the tunnel that will take you to the other side 
+    of the mountain. Taking a steadying breath, you step inside. . . . . .
+    -------------------------------------------------------------------------------
+      
+  start: { x: 0, y: 0, back: "" }
+  
+  win: { x: 3, y: 2 }
+  
+  current: ~
+
+  level: 
+    - 
+      - 
+        description: Yup, It's a cave. 
+        doors:
+          "E": { destination: { x: 1, y: 0, back: "W" } } 
+          "S": { destination: { x: 0, y: 1, back: "N" } }
+      - 
+        description: More cave.. wait, what's that?
+        inventory:
+          loot: 
+            - penny
+        doors:  
+          "E": { destination: { x: 2, y: 0, back: "W" }, description: "Smells like someone has a fire burning."}
+          "S": { destination: { x: 1, y: 1, back: "N" }, description: "Is that perfume I smell?"}
+          "W": { destination: { x: 0, y: 0, back: "E" } }
+      -
+        encounter: 
+          type: Fire
+        description: A lovely lounge with a chair and side table next to the fireplace.
+        doors:
+          "W": { destination: { x: 1, y: 0, back: "E" } } 
+          "S": { destination: { x: 2, y: 1, back: "N" } }
+    -
+      -
+        encounter: 
+          type: Avalanche
+        description: A dusty room full of rubble.
+        doors:  
+          "N": { destination: { x: 0, y: 0, back: "S" } } 
+          "S": { destination: { x: 0, y: 2, back: "N" } }
+      -
+        encounter: 
+          type: Cow
+        description: A glamorous bedroom fit for a queen.... wait, is that a cow on the chaise longue?
+        doors:  
+          "N": { destination: { x: 1, y: 0, back: "S" } }
+          "S": { destination: { x: 1, y: 2, back: "N" } }
+      -
+        encounter: 
+          type: Killer
+        description: 
+        doors:  
+          "N": { destination: { x: 2, y: 0, back: "S" }, description: "You can still smell the smoke."} }
+          "S": { destination: { x: 2, y: 2, back: "N" }, description: "You feel a cool breeze walking to the next room."}
+    -
+      -
+        description: A treasure trove!
+        inventory:
+          loot: 
+            - gold
+            - gemstone
+        doors:
+          "N": { destination: { x: 0, y: 1, back: "S" } }
+          "E": { destination: { x: 1, y: 2, back: "W" } }
+      -
+        encounter: 
+          type: Jester
+        description: 
+        doors:
+          "N": { destination: { x: 1, y: 1, back: "S" }, description: "Is that perfume I smell?" }
+          "W": { destination: { x: 0, y: 2, back: "E" } }
+      -
+        encounter: 
+          type: Ice
+        description: This room is really cold as the outdoor air whips inside. You're almost out!
+        doors:
+          "N": { destination: { x: 2, y: 1, back: "S" } } 
+          "E": { destination: { x: 3, y: 2, back: "W" }, description: "Stepping out of the tunnel makes you realize how dangerous that could have been." }
