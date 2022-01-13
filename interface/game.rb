@@ -70,7 +70,7 @@ class Game
     if current_room.inventory.loot.empty?
       " There's nothing you can take here."
     else
-      " You can see " + Utility.english_list(current_room.inventory.loot) + "."
+      " You can see " + Utility.english_list(current_room.inventory.list(current_room.inventory.loot)) + "."
     end
   end
 
