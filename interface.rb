@@ -52,7 +52,7 @@ class UserInterface
   end
     
   def user_input
-    @input.gets.chomp.downcase
+    @input.gets.strip.downcase
   end
   
   def output(message)
