@@ -185,7 +185,11 @@ class UserInterface
             when "n","e","s","w","u","d"
               @game.attempt_to_walk(first)
             when "hint"
-              @game.hint
+              if @game.is_a? Game
+                @game.hint
+              else
+                help
+              end
             when "inventory"
               @game.check_avatar_inventory
             when "look"

@@ -60,6 +60,7 @@ class Game
   end
 
   def hint
+    current_room.enc.hint
   end
 
   def check_avatar_inventory
@@ -68,7 +69,7 @@ class Game
 
   def check_room_inventory
     if current_room.inventory.loot.empty?
-      " There's nothing you can take here."
+      " There's nothing lying around for you to take here."
     else
       " You can see " + Utility.english_list(current_room.inventory.list(current_room.inventory.loot)) + "."
     end
