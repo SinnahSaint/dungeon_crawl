@@ -26,7 +26,9 @@ require_relative 'game/avatar.rb'
   end
 
   def load_saved_game(save_name)
-    if saves_available.include?(save_name)
+    if save_name.nil?
+      @ui.output "Please choose among the available save files:\n#{Utility.english_list(saves_available)}" 
+    elsif saves_available.include?(save_name)
       load_game_from_file(build_save_path(save_name))
       @ui.output "Loaded #{save_name} sucessfully!"   
       @ui.game.run
