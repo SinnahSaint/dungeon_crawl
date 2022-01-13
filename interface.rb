@@ -81,6 +81,7 @@ class UserInterface
       save_name = "boss_#{now.day}#{now.hour}"
       @game_loader.save_to_file(save_name)
     end
+    output Utility.text_block("goodbye")
     output Utility.text_block("boss_emergency")
     throw(:exit_app_loop)
   end

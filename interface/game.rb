@@ -101,6 +101,7 @@ class Game
   end
 
   def run
+    @ui.output Utility.text_block("intro")
     @map.text
   end
 
