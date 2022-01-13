@@ -126,7 +126,7 @@ require_relative 'game/avatar.rb'
     # @maps_avail = yaml_map_files.map { |map_name| map_name.to_s }   ## same thing
     
     # @maps_avail.sample
-    @maps_avail[1]
+    @maps_avail[2]
   end
 
   def yaml_save_files

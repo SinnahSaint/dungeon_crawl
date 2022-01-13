@@ -8,25 +8,25 @@ class Inventory
     @loot = loot || []
     equipment ||= {}
     @equipment = {
-      head: nil, 
-      torso: nil, 
-      feet: nil, 
-      weapon: nil, 
-      trinket: nil, 
-      mood: nil, 
-      }.merge(equipment)
+                  head: nil, 
+                  torso: nil, 
+                  feet: nil, 
+                  weapon: nil, 
+                  trinket: nil, 
+                  mood: nil, 
+                  }.merge(equipment)
   end
 
   def list(loot_or_equip)
     list = []
 
     if loot_or_equip == @loot
-      @loot.each do |item|
-        list << item.name
-      end
+      list = @loot
     else
       @equipment.values.each do |item|
-        list << item.name
+        unless item.nil? 
+          list << item.name 
+        end
       end
     end
 
@@ -42,12 +42,16 @@ class Inventory
   end
 
   def remove_item(item_name)
-    location = find_item_index_by_name(item_name)
+    location = @loot.find_index { |item| item == item_name }
     if location == nil
       return "No such item in inventory."
     else
       @loot.delete_at(location)
     end
+  end
+
+  def include?(item)
+    @loot.include?(item)
   end
 
   def current_weapon

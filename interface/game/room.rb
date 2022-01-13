@@ -33,7 +33,7 @@ class Room
   end
 
   def remove_item(item)
-    @inventory.delete(item)
+    @inventory.remove_item(item)
   end
   
   def replace_enc(new_enc)

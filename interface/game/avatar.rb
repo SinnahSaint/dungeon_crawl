@@ -20,10 +20,10 @@ class Avatar
     unless gear.empty?
       words3 = "you have #{Utility.english_list(gear)} equipped."
     else
-      words3 = "you do not have anything equiped."
+      words3 = "you do not have anything equipped."
     end
 
-    if words1 = "You're not carrying anything, " && words3 = "you do not have anything equiped."
+    if items.empty? && gear.empty?
       words2 = " and, "
     else
       words2 = " but, "

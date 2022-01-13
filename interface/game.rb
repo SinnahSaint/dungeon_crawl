@@ -75,7 +75,7 @@ class Game
     raise on_fail unless from.inventory.include?(item)
     
     from.remove_item(item)
-    to.inventory << item
+    to.inventory.loot << item
     
     on_success || "Moved #{item}"
   end
