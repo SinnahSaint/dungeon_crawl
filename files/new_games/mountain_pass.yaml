@@ -9,9 +9,9 @@ map:
     of the mountain. Taking a steadying breath, you step inside. . . . . .
     -------------------------------------------------------------------------------
       
-  start: { x: 0, y: 0, back: "" }
+  start: { y: 0, x: 0,  back: "" }
   
-  win: { x: 3, y: 2 }
+  win: { y: 2, x: 3 }
   
   current: ~
 
@@ -23,13 +23,13 @@ map:
           "E": { destination: { x: 1, y: 0, back: "W" } } 
           "S": { destination: { x: 0, y: 1, back: "N" } }
       - 
-        description: More cave... wait, what's that?
         inventory:
           loot: 
             - penny
+        description: More cave... wait, what's that?
         doors:  
-          "E": { destination: { x: 2, y: 0, back: "W" }, description: "Smells like someone has a fire burning."}
-          "S": { destination: { x: 1, y: 1, back: "N" }, description: "Is that perfume I smell?"}
+          "E": { destination: { x: 2, y: 0, back: "W" }, description: "Smells like someone has a fire burning." }
+          "S": { destination: { x: 1, y: 1, back: "N" }, description: "Is that perfume I smell?" }
           "W": { destination: { x: 0, y: 0, back: "E" } }
       -
         encounter: 
@@ -56,24 +56,24 @@ map:
       -
         encounter: 
           type: Killer
-        description: 
+        description: This room has another human in it! Who would have thought the mountain pass would be so populated.
         doors:  
-          "N": { destination: { x: 2, y: 0, back: "S" }, description: "You can still smell the smoke."} }
+          "N": { destination: { x: 2, y: 0, back: "S" }, description: "You can still smell the smoke."}
           "S": { destination: { x: 2, y: 2, back: "N" }, description: "You feel a cool breeze walking to the next room."}
     -
       -
-        description: A treasure trove!
         inventory:
           loot: 
             - gold
             - gemstone
+        description: A treasure trove!
         doors:
           "N": { destination: { x: 0, y: 1, back: "S" } }
           "E": { destination: { x: 1, y: 2, back: "W" } }
       -
         encounter: 
           type: Jester
-        description: 
+        description: A jester jingles glumly along.
         doors:
           "N": { destination: { x: 1, y: 1, back: "S" }, description: "Is that perfume I smell?" }
           "W": { destination: { x: 0, y: 2, back: "E" } }
