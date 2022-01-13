@@ -1,8 +1,9 @@
 avatar:
-  inventory: 
-    - lint
-    - knife
-    - hope
+  inventory:
+    loot: 
+      - lint
+      - knife
+      - hope
 map:
   text: |
     You've finally made it to the tunnel that will take you to the other side 

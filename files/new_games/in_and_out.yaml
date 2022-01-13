@@ -1,8 +1,9 @@
 avatar:
-  inventory: 
-    - lint
-    - penny
-    - hope
+  inventory:
+    loot: 
+      - lint
+      - penny
+      - hope
 map:
   text: |
     You've finally made it through the woods and to the hidden dungeon. 

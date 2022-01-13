@@ -5,7 +5,12 @@ class Inventory
   attr_accessor :loot, :equipment
 
   def initialize(loot:, equipment: nil)
-    @loot = loot || []
+    @loot = []
+  
+    loot.each do |name|
+      add_new_item(name:name)
+    end
+    
     equipment ||= {}
     @equipment = {
                   head: nil, 
@@ -21,7 +26,9 @@ class Inventory
     list = []
 
     if loot_or_equip == @loot
-      list = @loot
+      @loot.each do |item|
+        list << item.name
+      end
     else
       @equipment.values.each do |item|
         unless item.nil? 

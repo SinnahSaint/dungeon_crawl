@@ -1,6 +1,7 @@
 avatar:
-  inventory: 
-    - hope
+  inventory:
+    loot: 
+      - hope
 map:  
   text: |
     While taking a walk through the dark woods one night, something breaks 
