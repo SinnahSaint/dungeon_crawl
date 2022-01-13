@@ -46,7 +46,9 @@ class UserInterface
 
   def run_loop
     loop do
-      handle_command(user_input)
+      unless handle_command(user_input)
+        missing_command
+      end
       prompt
     end
   end
@@ -61,9 +63,9 @@ class UserInterface
   
   def missing_command
     if @game.is_a? Game
-      "Type in what you want to do. Try ? if you're stuck."
+      output("Type in what you want to do. Try ? if you're stuck.")
     else
-      "I don't understand. Try ? if you're stuck."
+      output("I don't understand. Try ? if you're stuck.")
     end
   end
 
@@ -176,10 +178,6 @@ class UserInterface
               save_the_game
             when "load"
               @game_loader.load_saved_game(second)
-            when "debug"
-              @game.debug
-            when "debuggame"
-              PP.pp(@game.debug_game, "")
             when "teleport"
               @game.teleport(Location.new(y: second.to_i, x: third.to_i, back: fourth))
             when "n","e","s","w","u","d"

@@ -12,10 +12,6 @@ module Utility
     end
   end
   
-  def debug_game(game)
-    game.to_h
-  end
-  
   def text_block(file_name)
     file = "./files/text_blocks/" + file_name + ".txt"
     
@@ -24,24 +20,5 @@ module Utility
     end
   end
   
-  def debug(current_room, avatar)
-    <<~HERE
-    #{"- " * 20}
-    #{"- " * 20}
-    room description: #{current_room.description}
-    room inventory: #{current_room.inventory.join(", ")}
-    room layout: #{current_room.lay.join(", ")}
-    room enc: #{current_room.enc.class}
-    enc blocking: #{current_room.enc.blocking}
-    enc state: #{current_room.enc.state}
-    #{"- " * 20}
-    avatar inventory: #{avatar.inventory.join(", ")}
-    back direction: #{avatar.back}
-    avatar location: #{avatar.location.join(", ")}
-    #{"- " * 20}
-    #{"- " * 20}
-    HERE
-  end
-  
-  module_function :english_list, :debug, :debug_game, :text_block
+  module_function :english_list, :text_block
 end

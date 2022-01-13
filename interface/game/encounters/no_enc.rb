@@ -13,7 +13,7 @@ class NoEnc
   end
   
   def handle_command(cmdstr, avatar)
-    false
+    nil
   end
   
   def hint

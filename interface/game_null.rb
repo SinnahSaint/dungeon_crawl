@@ -15,8 +15,8 @@ class GameNull
     {}
   end
 
-  def method_missing(*args)    
-    @ui.missing_command
+  def check_with_encounter(cmdstr)
+    nil
   end
   
 end

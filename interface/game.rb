@@ -23,12 +23,6 @@ class Game
     }
   end
 
-  def debug
-  end
-
-  def debug_game
-  end
-
   def teleport(location)
     door = Door.new(destination: location, description: "~ ~ BAMPF! ~ ~")
     @ui.output(door.description)
