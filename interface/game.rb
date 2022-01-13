@@ -80,10 +80,10 @@ class Game
 
   def move_item(item, from, to, on_success: nil, on_fail: nil)
     on_fail ||= "Missing item #{item}"
-    raise on_fail unless from.inventory.include?(item)
+    raise on_fail unless from.list(from.loot).include?(item)
     
-    from.remove_item(item)
-    to.inventory.loot << item
+    
+    to.loot << from.remove_item(item)
     
     on_success || "Moved #{item}"
   end

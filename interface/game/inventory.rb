@@ -49,11 +49,11 @@ class Inventory
   end
 
   def remove_item(item_name)
-    location = @loot.find_index { |item| item == item_name }
-    if location == nil
+    item = @loot.find { |item| item.name == item_name }
+    if item == nil
       return "No such item in inventory."
     else
-      @loot.delete_at(location)
+      @loot.delete(item)
     end
   end
 

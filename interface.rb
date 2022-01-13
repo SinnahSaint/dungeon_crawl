@@ -191,11 +191,11 @@ class UserInterface
             when "look"
               @game.check_room_inventory
             when "take"
-              @game.move_item(second, @game.current_room, @game.avatar, 
+              @game.move_item(second, @game.current_room.inventory, @game.avatar.inventory, 
                         on_success: "You #{first} the #{second}.",
                         on_fail: "Whoops! There's no #{second} you can take with you here.")
             when "drop"
-              @game.move_item(second, @game.avatar, @game.current_room,
+              @game.move_item(second, @game.avatar.inventory, @game.current_room.inventory,
                         on_success: "You #{first} the #{second}.",
                         on_fail: "Whoops! No #{second} in inventory.")
             when "equip"

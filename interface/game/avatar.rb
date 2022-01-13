@@ -23,9 +23,9 @@ class Avatar
     end
 
     if items.empty? && gear.empty?
-      words2 = " and, "
+      words2 = ", and "
     else
-      words2 = " but, "
+      words2 = ", but "
     end
 
     words1+words2+words3
