@@ -18,3 +18,5 @@ class ::Hash
 end
 
 # I think this should work ^_^ -- Meg
+
+# This is what made the encounter save/to_h work. Do not delete! #

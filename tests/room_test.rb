@@ -4,6 +4,9 @@ require './interface/game/room.rb'
 require "./interface/game/encounters/no_enc.rb"
 require "./interface/game/encounters/fire.rb"
 
+## It's highly unlikely any of the tests pass as 
+## they're referencing old code and I haven't updated them.
+
 class RoomTest < Test::Unit::TestCase
 
   def setup
