@@ -3,7 +3,11 @@ class Location
 
   def initialize(x:, y:, back: "")
     @x, @y = x, y
-    @back = back[0,1].downcase  # makes sure if someone typed "SOUTH" it gets saved as "s"
+    if back == ""
+      @back = back
+    else
+      @back = back[0].downcase  # makes sure if someone typed "SOUTH" it gets saved as "s"
+    end
   end
 
   def ==(other)

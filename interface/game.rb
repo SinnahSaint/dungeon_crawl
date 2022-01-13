@@ -50,9 +50,9 @@ class Game
     @ui.output(door.description)
     
     if @map.follow_door(door)
-      ""
+      "You step through the door."
     else
-      @ui.output "You win! You got out with " + Utility.english_list(@avatar.inventory.loot) + "." +
+      @ui.output "You win! You got out with " + Utility.english_list(@avatar.inventory.list(@avatar.inventory.loot)) + "." +
       "Try and see if you can get more things next time! Congrats and see you soon!" 
       
       throw(:exit_app_loop)

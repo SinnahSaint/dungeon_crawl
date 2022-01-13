@@ -44,10 +44,10 @@ class Map
 
   def follow_door(door)
     @current_location = door.destination
-    if @current_location = @win
+    if @current_location == @win
      nil
     else
-      ""
+      "You step through the door."
     end
   end
 
