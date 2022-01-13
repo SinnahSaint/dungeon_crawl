@@ -58,7 +58,7 @@ map:
           type: Killer
         description: This room has another human in it! Who would have thought the mountain pass would be so populated.
         doors:  
-          "N": { destination: { x: 2, y: 0, back: "S" }, description: "You can still smell the smoke."} }
+          "N": { destination: { x: 2, y: 0, back: "S" }, description: "You can still smell the smoke."}
           "S": { destination: { x: 2, y: 2, back: "N" }, description: "You feel a cool breeze walking to the next room."}
     -
       -
